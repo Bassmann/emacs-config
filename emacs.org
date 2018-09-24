@@ -2,7 +2,7 @@
 #+OPTIONS: html-postamble:nil html-preamble:t tex:t
 #+OPTIONS: toc:3 num:nil ^:nil creator:nil timestamp:nil d:t
 #+begin_src emacs-lisp
-;;; Time-stamp: "21.09.2018 10:27:12"
+;;; Time-stamp: "24.09.2018 09:45:35"
 #+end_src
 * Table of content                                                    :TOC_3:
 - [[#introduction][Introduction]]
@@ -334,19 +334,20 @@ window-switching
 #+end_src
 *** Calendar
     :LOGBOOK:
+    - Note taken on [2018-09-24 Mo 09:44] \\
+      Moved some config from =custom.el= here. calendar-week-start-day was missing.
     - Note taken on [2018-05-13 So 21:44] \\
       It seems =filter-visible-calendar-holidays= is replaced by =holiday-filter-visible-calendar=
     - Note taken on [2014-10-18 Sa 21:37] \\
       variable names change for holiday: all need to start with 'holiday' now
     :END:
     I prefer German names and local holidays
- '()
- '(
 
     #+begin_src emacs-lisp
       (setq calendar-date-style 'european
             calendar-latitude [48 9 north]
             calendar-longitude [11 34 east]
+            calendar-week-start-day 1
             calendar-time-display-form
             '(24-hours ":" minutes
                        (if time-zone " (")
