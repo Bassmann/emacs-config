@@ -76,6 +76,7 @@
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
  '(require-final-newline t)
+ '(safe-local-variable-values (quote ((org-hugo-auto-export-on-save . t))))
  '(save-interprogram-paste-before-kill t)
  '(scroll-bar-mode nil)
  '(scroll-step 1)

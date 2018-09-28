@@ -2,7 +2,7 @@
 #+OPTIONS: html-postamble:nil html-preamble:t tex:t
 #+OPTIONS: toc:3 num:nil ^:nil creator:nil timestamp:nil d:t
   #+begin_src emacs-lisp
-;;; Time-stamp: "27.09.2018 12:31:53"
+;;; Time-stamp: "28.09.2018 18:23:16"
   #+end_src
 * Table of content                                                    :TOC_3:
 - [[#introduction][Introduction]]
@@ -1153,10 +1153,11 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
 #+BEGIN_SRC emacs-lisp
   (use-package ox-hugo
     :demand t
-    :after ox)
+    :after ox
+    :config (require 'ox-hugo-auto-export))
 #+END_SRC
 ***** Org-cliplink
-Easily insert links form the clipboard in org-mode files
+      Easily insert links form the clipboard in org-mode files
       #+BEGIN_SRC emacs-lisp
       (use-package org-cliplink
       :bind ("C-c p" . org-cliplink))
