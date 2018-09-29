@@ -2,7 +2,7 @@
 #+OPTIONS: html-postamble:nil html-preamble:t tex:t
 #+OPTIONS: toc:3 num:nil ^:nil creator:nil timestamp:nil d:t
   #+begin_src emacs-lisp
-;;; Time-stamp: "29.09.2018 17:55:45"
+;;; Time-stamp: "29.09.2018 18:12:41"
   #+end_src
 * Table of content                                                    :TOC_3:
 - [[#introduction][Introduction]]
@@ -227,7 +227,6 @@ come from.
     #+BEGIN_SRC emacs-lisp
       (use-package poet-theme
         :demand t
-        :disabled
         :config
             (set-face-attribute 'default nil :family "monofur" :height 110)
             (set-face-attribute 'fixed-pitch nil :family "monofur")
@@ -240,6 +239,7 @@ come from.
     #+BEGIN_SRC emacs-lisp
       (use-package doom
         :demand t
+        :disabled
         :config
         (load-theme 'doom-nova t)
         ;(doom-themes-org-config)
@@ -1344,7 +1344,8 @@ Settings to make org buffers look nicer
 Everyone recommends magit so I'll try it. It requires a little tweaking to work with SSH
 at least on Windows see https://github.com/magit/magit/wiki/Pushing-with-Magit-from-Windows.
 #+BEGIN_SRC emacs-lisp
-  (use-package magit)
+  (use-package magit
+    :bind (("C-x g" . magit-status)))
   (use-package ssh-agency)
   (cond ((eq system-type 'windows-nt)
          (setenv "SSH_ASKPASS" "git-gui--askpass")))
