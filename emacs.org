@@ -2,7 +2,7 @@
 #+OPTIONS: html-postamble:nil html-preamble:t tex:t
 #+OPTIONS: toc:3 num:nil ^:nil creator:nil timestamp:nil d:t
   #+begin_src emacs-lisp
-;;; Time-stamp: "27.09.2018 12:31:53"
+;;; Time-stamp: "29.09.2018 17:46:59"
   #+end_src
 * Table of content                                                    :TOC_3:
 - [[#introduction][Introduction]]
@@ -38,7 +38,6 @@
     - [[#msb-mode][msb-Mode]]
     - [[#no-blinking-cursor][No blinking cursor]]
     - [[#no-toolbar-and-no-scrollbar][No toolbar and no scrollbar]]
-    - [[#rainbow-mode][Rainbow mode]]
     - [[#recentf][Recentf]]
     - [[#saveplace][Saveplace]]
     - [[#smooth-scrolling][Smooth scrolling]]
@@ -56,8 +55,10 @@
 - [[#programming][Programming]]
     - [[#js2-mode][JS2 Mode]]
     - [[#less-css][LESS-CSS]]
+    - [[#magit][Magit]]
     - [[#php-mode][PHP Mode]]
     - [[#plantuml][Plantuml]]
+    - [[#rainbow-delimiters-mode][Rainbow delimiters mode]]
     - [[#web-mode][Web Mode]]
 - [[#some-useful-functions-and-advice][Some useful functions and advice]]
     - [[#advices-for-kill-ring-save-and-kill-region][Advices for =kill-ring-save= and =kill-region=]]
@@ -666,18 +667,6 @@ This enhances the style of Emacs IMHO.
     (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
     (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
     #+end_src
-*** Rainbow mode
-:LOGBOOK:
-    - Note taken on [2018-05-13 So 21:13] \\
-      Added from http://www.star.bris.ac.uk/bjm/emacs.html
-    :END:
-    Can be useful to check brackets etc.
-    - rainbow-mode - colourise colours in the buffer
-    - rainbow-delimiters - show matching brackets etc
-    #+begin_src emacs-lisp
-    (use-package rainbow-mode)
-    (use-package rainbow-delimiters)
-    #+end_src
 *** Recentf
     :LOGBOOK:
     - Note taken on [2018-08-09 Do 22:58] \\
@@ -898,7 +887,7 @@ There are a bunch of markdown files I use regularly. So a fitting mode is approp
     - Note taken on [2013-08-18 So 18:32] \\
       Notes can be added in the LOGBOOK drawer with C-c C-z
     :END:
-      Finally ;-)
+      Finally ;-)-
 ***** General settings
 :LOGBOOK:
 - Note taken on [2018-07-18 Mi 07:03] \\
@@ -1104,8 +1093,8 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
     (when org-inline-image-overlays
     (org-redisplay-inline-images)))
 
-    (add-hook 'org-babel-after-execute-hook 'shk-fix-inline-images)
-  #+END_SRC
+      (add-hook 'org-babel-after-execute-hook 'shk-fix-inline-images)
+      #+END_SRC
 ***** Org-Export
 :LOGBOOK:
 - Note taken on [2018-09-27 Do 11:34] \\
@@ -1153,10 +1142,11 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
 #+BEGIN_SRC emacs-lisp
   (use-package ox-hugo
     :demand t
-    :after ox)
+    :after ox
+    :config (require 'ox-hugo-auto-export))
 #+END_SRC
 ***** Org-cliplink
-Easily insert links form the clipboard in org-mode files
+      Easily insert links form the clipboard in org-mode files
       #+BEGIN_SRC emacs-lisp
       (use-package org-cliplink
       :bind ("C-c p" . org-cliplink))
@@ -1347,6 +1337,18 @@ Settings to make org buffers look nicer
     #+begin_src emacs-lisp
     ;(require 'less-css-mode)
     #+end_src
+*** Magit
+:PROPERTIES:
+:CREATED:  [2018-09-29 Sa 17:40]
+:END:
+Everyone recommends magit so I'll try it. It requires a little tweaking to work with SSH
+at least on Windows see https://github.com/magit/magit/wiki/Pushing-with-Magit-from-Windows.
+#+BEGIN_SRC emacs-lisp
+  (use-package magit)
+  (use-package ssh-agency)
+  (cond ((eq system-type 'windows-nt)
+         (setenv "SSH_ASKPASS" "git-gui--askpass")))
+    #+END_SRC
 *** PHP Mode
     #+begin_src emacs-lisp
       (use-package php-mode
@@ -1362,6 +1364,22 @@ Settings to make org buffers look nicer
     (use-package plantuml-mode
     :config (setq plantuml-output-type "png")
     :mode ("\\.puml\\'" . plantuml-mode))
+    #+end_src
+*** Rainbow delimiters mode
+:LOGBOOK:
+- Note taken on [2018-09-28 Fr 18:55] \\
+  rainbow-mode itself doesn't work and ins't useful for me. I removed it
+- Note taken on [2018-09-28 Fr 18:42] \\
+  rainbow-delimiters need to be activated for prog-modes
+- Note taken on [2018-05-13 So 21:13] \\
+  Added from http://www.star.bris.ac.uk/bjm/emacs.html
+:END:
+    Can be useful to check brackets etc.
+    #+begin_src emacs-lisp
+      (use-package rainbow-mode)
+      (use-package rainbow-delimiters
+        :init
+        (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
     #+end_src
 *** Web Mode
     =web-mode.el= is an autonomous emacs major-mode for editing web templates:
