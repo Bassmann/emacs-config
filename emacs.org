@@ -2,7 +2,7 @@
 #+OPTIONS: html-postamble:nil html-preamble:t tex:t
 #+OPTIONS: toc:3 num:nil ^:nil creator:nil timestamp:nil d:t
   #+begin_src emacs-lisp
-;;; Time-stamp: "29.09.2018 18:12:41"
+;;; Time-stamp: "30.09.2018 21:49:17"
   #+end_src
 * Table of content                                                    :TOC_3:
 - [[#introduction][Introduction]]
@@ -549,34 +549,34 @@ it seems to work. At least on ArchLabs it also requires the =s= package so I'll 
 Yet another completion tool. From
 https://www.reddit.com/r/emacs/comments/910pga/tip_how_to_use_ivy_and_its_utilities_in_your/
 #+BEGIN_SRC emacs-lisp
-    (use-package counsel
-      :after ivy
-      :config (counsel-mode))
+  (use-package counsel
+    :after ivy
+    :demand t
+    :config (counsel-mode)
+    :bind ("\C-x\C-r" . counsel-recentf))
 
-    (use-package ivy
-      :diminish
-      :bind (("C-c C-r" . ivy-resume)
-             ("C-x B" . ivy-switch-buffer-other-window))
-      :config
-      (setq ivy-count-format "(%d/%d) "
-            ivy-display-style 'fancy
-            ivy-use-virtual-buffers t
-            ivy-virtual-abbreviate 'full)
-      (ivy-mode))
+  (use-package ivy
+    :diminish
+    :bind (("C-c C-r" . ivy-resume)
+           ("C-x B" . ivy-switch-buffer-other-window))
+    :config
+    (setq ivy-count-format "(%d/%d) "
+          ivy-display-style 'fancy
+          ivy-use-virtual-buffers t
+          ivy-virtual-abbreviate 'full)
+    (ivy-mode))
 
-    (use-package ivy-rich
-      :after ivy
-      :config
-      (setq ivy-virtual-abbreviate 'full
-            ivy-rich-switch-buffer-align-virtual-buffer t
-            ivy-rich-path-style 'abbrev)
-      (ivy-set-display-transformer 'ivy-switch-buffer
-                                   'ivy-rich-switch-buffer-transformer))
+  (use-package ivy-rich
+    :after ivy
+    :demand t
+    :config
+    (setq ivy-rich-path-style 'abbrev)
+    (ivy-rich-mode 1))
 
-    (use-package swiper
-      :after ivy
-      :bind (("C-s" . swiper)
-             ("C-r" . swiper)))
+  (use-package swiper
+    :after ivy
+    :bind (("C-s" . swiper)
+           ("C-r" . swiper)))
 #+END_SRC
 *** Keyboard settings
     :LOGBOOK:
@@ -1377,7 +1377,6 @@ at least on Windows see https://github.com/magit/magit/wiki/Pushing-with-Magit-f
 :END:
     Can be useful to check brackets etc.
     #+begin_src emacs-lisp
-      (use-package rainbow-mode)
       (use-package rainbow-delimiters
         :init
         (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
@@ -1410,15 +1409,19 @@ at least on Windows see https://github.com/magit/magit/wiki/Pushing-with-Magit-f
     #+end_src
 
 *** Use Ido to open recent files
+:LOGBOOK:
+- Note taken on [2018-09-30 So 20:45] \\
+  I'll try ivy/counsel instead for now. The keybinding is set via use-package for counsel
+:END:
     #+begin_src emacs-lisp
-    (defun ido-recentf-open ()
-      "Use `ido-completing-read' to \\[find-file] a recent file"
-      (interactive)
-      (if (find-file (ido-completing-read "Find recent file: " recentf-list))
-          (message "Opening file...")
-        (message "Aborting")))
+      (defun ido-recentf-open ()
+        "Use `ido-completing-read' to \\[find-file] a recent file"
+        (interactive)
+        (if (find-file (ido-completing-read "Find recent file: " recentf-list))
+            (message "Opening file...")
+          (message "Aborting")))
 
-    (global-set-key "\C-x\C-r" 'ido-recentf-open)
+ ;    (global-set-key "\C-x\C-r" 'ido-recentf-open)
     #+end_src
 
 *** Don't ask if a buffer visits a running process during killing emacs. =remq= removes the relevant function
