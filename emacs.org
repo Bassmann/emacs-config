@@ -2,7 +2,7 @@
 #+OPTIONS: html-postamble:nil html-preamble:t tex:t
 #+OPTIONS: toc:3 num:nil ^:nil creator:nil timestamp:nil d:t
   #+begin_src emacs-lisp
-;;; Time-stamp: "30.09.2018 21:49:17"
+;;; Time-stamp: "01.10.2018 20:55:59"
   #+end_src
 * Table of content                                                    :TOC_3:
 - [[#introduction][Introduction]]
@@ -50,6 +50,7 @@
     - [[#delete-trailing-whitespace-before-saving][delete-trailing-whitespace before saving]]
     - [[#hippie-expand][Hippie-expand]]
     - [[#markdown-mode][Markdown mode]]
+    - [[#olivetti-mode][Olivetti mode]]
     - [[#orgmode][Orgmode]]
     - [[#todo-txt][Todo-txt]]
 - [[#programming][Programming]]
@@ -874,6 +875,14 @@ There are a bunch of markdown files I use regularly. So a fitting mode is approp
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
 #+END_SRC
+*** Olivetti mode
+:PROPERTIES:
+:CREATED:  [2018-10-01 Mo 20:45]
+:END:
+Olivetti provides a nice distraction-free environment.
+#+BEGIN_SRC emacs-lisp
+  (use-package olivetti)
+#+END_SRC
 *** Orgmode
     :LOGBOOK:
     - Note taken on [2018-07-10 Di 07:54] \\
@@ -1346,8 +1355,8 @@ at least on Windows see https://github.com/magit/magit/wiki/Pushing-with-Magit-f
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :bind (("C-x g" . magit-status)))
-  (use-package ssh-agency)
   (cond ((eq system-type 'windows-nt)
+         (use-package ssh-agency)
          (setenv "SSH_ASKPASS" "git-gui--askpass")))
     #+END_SRC
 *** PHP Mode
