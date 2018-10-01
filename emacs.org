@@ -2,7 +2,7 @@
 #+OPTIONS: html-postamble:nil html-preamble:t tex:t
 #+OPTIONS: toc:3 num:nil ^:nil creator:nil timestamp:nil d:t
   #+begin_src emacs-lisp
-;;; Time-stamp: "01.10.2018 20:55:59"
+;;; Time-stamp: "01.10.2018 21:21:20"
   #+end_src
 * Table of content                                                    :TOC_3:
 - [[#introduction][Introduction]]
@@ -471,6 +471,18 @@ Bind backspace to visit higher level directory:
 (define-key dired-mode-map (kbd "<backspace>") 'diredp-up-directory-reuse-dir-buffer)
 #+END_SRC
 
+From http://pragmaticemacs.com/emacs/tree-style-directory-views-in-dired-with-dired-subtree/
+
+The dired-subtree package (part of the magnificent dired hacks) improves on this by allowing you to expand subdirectories in place, like a tree structure. To install the package, use the following code:
+#+BEGIN_SRC emacs-lisp
+  (use-package dired-subtree
+    :config
+    (bind-keys :map dired-mode-map
+               ("i" . dired-subtree-insert)
+               (";" . dired-subtree-remove)))
+#+END_SRC
+
+This sets up the keybinds so that in dired, hitting i on a subdirectory expands it in place with an indented listing. You can expand sub-subdirectories in the same way, and so on. Hitting ; inside an expanded subdirectory collapses it.
 *** Delete duplicate entries of the history of the minibuffer
 :LOGBOOK:
 - Note taken on [2018-07-19 Do 18:37] \\
@@ -528,6 +540,8 @@ it seems to work. At least on ArchLabs it also requires the =s= package so I'll 
     #+end_src
 *** Ido-mode
     :LOGBOOK:
+    - Note taken on [2018-10-01 Mo 21:20] \\
+      Disabled I use ivy instead
     - Note taken on [2018-05-18 Fr 21:47] \\
       Added ido-enable-flex-matching t
     - Note taken on [2018-05-08 Tue 20:47] \\
@@ -536,12 +550,13 @@ it seems to work. At least on ArchLabs it also requires the =s= package so I'll 
     Ido mode is very cool for buffer management. This uses =use-package= rather than
     =custom.el=.
     #+begin_src emacs-lisp
-    (use-package ido
-    :config
-    (setq ido-create-new-buffer (quote always)
-    ido-enable-flex-matching t)
-    (ido-mode (quote buffers))
-    :ensure nil)
+      (use-package ido
+      :config
+      :disabled t
+      (setq ido-create-new-buffer (quote always)
+      ido-enable-flex-matching t)
+      (ido-mode (quote buffers))
+      :ensure nil)
     #+end_src
 *** Ivy
 :PROPERTIES:
