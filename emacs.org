@@ -2,7 +2,7 @@
 #+OPTIONS: html-postamble:nil html-preamble:t tex:t
 #+OPTIONS: toc:3 num:nil ^:nil creator:nil timestamp:nil d:t
   #+begin_src emacs-lisp
-;;; Time-stamp: "29.09.2018 18:12:41"
+;;; Time-stamp: "03.10.2018 12:28:36"
   #+end_src
 * Table of content                                                    :TOC_3:
 - [[#introduction][Introduction]]
@@ -50,6 +50,7 @@
     - [[#delete-trailing-whitespace-before-saving][delete-trailing-whitespace before saving]]
     - [[#hippie-expand][Hippie-expand]]
     - [[#markdown-mode][Markdown mode]]
+    - [[#olivetti-mode][Olivetti mode]]
     - [[#orgmode][Orgmode]]
     - [[#todo-txt][Todo-txt]]
 - [[#programming][Programming]]
@@ -315,8 +316,7 @@ appt-display-interval 5)
 
 [2013-05-12 So 16:50] The following code is borrowed from prelude
 (http://github.com/bbatsov/prelude) to automatically save files on buffer or
-window-switching
-#+begin_src emacs-lisp
+window-switching. It doesn't work reliably and I'll use now the builtin config below.
   (defun martin/auto-save-command ()
     "Save the current buffer on buffer or window-switching."
     (when (and buffer-file-name
@@ -332,7 +332,13 @@ window-switching
     (defadvice other-window (before other-window-now activate)
     "Invoke `martin/auto-save-command' before `other-window'."
     (martin/auto-save-command))
-#+end_src
+
+Emacs 26.1 has builtin auto-save. I'll use that now with auto-saving once a minute rather
+than the default 5 seconds.
+#+BEGIN_SRC emacs-lisp
+(setq auto-save-visited-interval 60)
+(auto-save-visited-mode 1)
+#+END_SRC
 *** Calendar
     :LOGBOOK:
     - Note taken on [2018-05-13 So 21:44] \\
@@ -470,6 +476,18 @@ Bind backspace to visit higher level directory:
 (define-key dired-mode-map (kbd "<backspace>") 'diredp-up-directory-reuse-dir-buffer)
 #+END_SRC
 
+From http://pragmaticemacs.com/emacs/tree-style-directory-views-in-dired-with-dired-subtree/
+
+The dired-subtree package (part of the magnificent dired hacks) improves on this by allowing you to expand subdirectories in place, like a tree structure. To install the package, use the following code:
+#+BEGIN_SRC emacs-lisp
+  (use-package dired-subtree
+    :config
+    (bind-keys :map dired-mode-map
+               ("i" . dired-subtree-insert)
+               (";" . dired-subtree-remove)))
+#+END_SRC
+
+This sets up the keybinds so that in dired, hitting i on a subdirectory expands it in place with an indented listing. You can expand sub-subdirectories in the same way, and so on. Hitting ; inside an expanded subdirectory collapses it.
 *** Delete duplicate entries of the history of the minibuffer
 :LOGBOOK:
 - Note taken on [2018-07-19 Do 18:37] \\
@@ -527,6 +545,8 @@ it seems to work. At least on ArchLabs it also requires the =s= package so I'll 
     #+end_src
 *** Ido-mode
     :LOGBOOK:
+    - Note taken on [2018-10-01 Mo 21:20] \\
+      Disabled I use ivy instead
     - Note taken on [2018-05-18 Fr 21:47] \\
       Added ido-enable-flex-matching t
     - Note taken on [2018-05-08 Tue 20:47] \\
@@ -535,12 +555,13 @@ it seems to work. At least on ArchLabs it also requires the =s= package so I'll 
     Ido mode is very cool for buffer management. This uses =use-package= rather than
     =custom.el=.
     #+begin_src emacs-lisp
-    (use-package ido
-    :config
-    (setq ido-create-new-buffer (quote always)
-    ido-enable-flex-matching t)
-    (ido-mode (quote buffers))
-    :ensure nil)
+      (use-package ido
+      :config
+      :disabled t
+      (setq ido-create-new-buffer (quote always)
+      ido-enable-flex-matching t)
+      (ido-mode (quote buffers))
+      :ensure nil)
     #+end_src
 *** Ivy
 :PROPERTIES:
@@ -549,34 +570,34 @@ it seems to work. At least on ArchLabs it also requires the =s= package so I'll 
 Yet another completion tool. From
 https://www.reddit.com/r/emacs/comments/910pga/tip_how_to_use_ivy_and_its_utilities_in_your/
 #+BEGIN_SRC emacs-lisp
-    (use-package counsel
-      :after ivy
-      :config (counsel-mode))
+  (use-package counsel
+    :after ivy
+    :demand t
+    :config (counsel-mode)
+    :bind ("\C-x\C-r" . counsel-recentf))
 
-    (use-package ivy
-      :diminish
-      :bind (("C-c C-r" . ivy-resume)
-             ("C-x B" . ivy-switch-buffer-other-window))
-      :config
-      (setq ivy-count-format "(%d/%d) "
-            ivy-display-style 'fancy
-            ivy-use-virtual-buffers t
-            ivy-virtual-abbreviate 'full)
-      (ivy-mode))
+  (use-package ivy
+    :diminish
+    :bind (("C-c C-r" . ivy-resume)
+           ("C-x B" . ivy-switch-buffer-other-window))
+    :config
+    (setq ivy-count-format "(%d/%d) "
+          ivy-display-style 'fancy
+          ivy-use-virtual-buffers t
+          ivy-virtual-abbreviate 'full)
+    (ivy-mode))
 
-    (use-package ivy-rich
-      :after ivy
-      :config
-      (setq ivy-virtual-abbreviate 'full
-            ivy-rich-switch-buffer-align-virtual-buffer t
-            ivy-rich-path-style 'abbrev)
-      (ivy-set-display-transformer 'ivy-switch-buffer
-                                   'ivy-rich-switch-buffer-transformer))
+  (use-package ivy-rich
+    :after ivy
+    :demand t
+    :config
+    (setq ivy-rich-path-style 'abbrev)
+    (ivy-rich-mode 1))
 
-    (use-package swiper
-      :after ivy
-      :bind (("C-s" . swiper)
-             ("C-r" . swiper)))
+  (use-package swiper
+    :after ivy
+    :bind (("C-s" . swiper)
+           ("C-r" . swiper)))
 #+END_SRC
 *** Keyboard settings
     :LOGBOOK:
@@ -874,6 +895,14 @@ There are a bunch of markdown files I use regularly. So a fitting mode is approp
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
 #+END_SRC
+*** Olivetti mode
+:PROPERTIES:
+:CREATED:  [2018-10-01 Mo 20:45]
+:END:
+Olivetti provides a nice distraction-free environment.
+#+BEGIN_SRC emacs-lisp
+  (use-package olivetti)
+#+END_SRC
 *** Orgmode
     :LOGBOOK:
     - Note taken on [2018-07-10 Di 07:54] \\
@@ -898,7 +927,7 @@ There are a bunch of markdown files I use regularly. So a fitting mode is approp
       :END:
 - Where my Org files are stored
   #+BEGIN_SRC emacs-lisp
-    (setq org-directory (concat cloud-dir "Documents/org"))
+    (setq org-directory (concat cloud-dir "org"))
   #+END_SRC
 - Archiving into a datetree
   #+BEGIN_SRC emacs-lisp
@@ -1346,8 +1375,8 @@ at least on Windows see https://github.com/magit/magit/wiki/Pushing-with-Magit-f
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :bind (("C-x g" . magit-status)))
-  (use-package ssh-agency)
   (cond ((eq system-type 'windows-nt)
+         (use-package ssh-agency)
          (setenv "SSH_ASKPASS" "git-gui--askpass")))
     #+END_SRC
 *** PHP Mode
@@ -1377,7 +1406,6 @@ at least on Windows see https://github.com/magit/magit/wiki/Pushing-with-Magit-f
 :END:
     Can be useful to check brackets etc.
     #+begin_src emacs-lisp
-      (use-package rainbow-mode)
       (use-package rainbow-delimiters
         :init
         (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
@@ -1410,15 +1438,19 @@ at least on Windows see https://github.com/magit/magit/wiki/Pushing-with-Magit-f
     #+end_src
 
 *** Use Ido to open recent files
+:LOGBOOK:
+- Note taken on [2018-09-30 So 20:45] \\
+  I'll try ivy/counsel instead for now. The keybinding is set via use-package for counsel
+:END:
     #+begin_src emacs-lisp
-    (defun ido-recentf-open ()
-      "Use `ido-completing-read' to \\[find-file] a recent file"
-      (interactive)
-      (if (find-file (ido-completing-read "Find recent file: " recentf-list))
-          (message "Opening file...")
-        (message "Aborting")))
+      (defun ido-recentf-open ()
+        "Use `ido-completing-read' to \\[find-file] a recent file"
+        (interactive)
+        (if (find-file (ido-completing-read "Find recent file: " recentf-list))
+            (message "Opening file...")
+          (message "Aborting")))
 
-    (global-set-key "\C-x\C-r" 'ido-recentf-open)
+ ;    (global-set-key "\C-x\C-r" 'ido-recentf-open)
     #+end_src
 
 *** Don't ask if a buffer visits a running process during killing emacs. =remq= removes the relevant function
