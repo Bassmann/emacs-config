@@ -2,7 +2,7 @@
 #+OPTIONS: html-postamble:nil html-preamble:t tex:t
 #+OPTIONS: toc:3 num:nil ^:nil creator:nil timestamp:nil d:t
   #+begin_src emacs-lisp
-;;; Time-stamp: "01.10.2018 21:21:20"
+;;; Time-stamp: "06.10.2018 21:54:34"
   #+end_src
 * Table of content                                                    :TOC_3:
 - [[#introduction][Introduction]]
@@ -101,8 +101,7 @@ come from.
     This file contains data that is eithersensitive so I don't want to share it and also
     everything system-dependent. Check the existence of such a file before loading so as
     not to cause errors.
-
-    #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
 (let
 ((local-file (expand-file-name "local.el" user-emacs-directory)))
 (when (file-exists-p local-file)
@@ -111,13 +110,13 @@ come from.
 *** Move customizations into their own file
     Customizations go to a dedicated file. Check the existence of such a file before loading so as
     not to cause errors on a vanilla emacs installation.
-    #+begin_src emacs-lisp
+   #+begin_src emacs-lisp
     (let
       ((customization-file (expand-file-name "custom.el" user-emacs-directory)))
     (when (file-exists-p customization-file)
       (setq custom-file customization-file)
       (load custom-file 'noerror)))
-    #+end_src
+   #+end_src
 *** Set the default font and frame config
     :LOGBOOK:
     - Note taken on [2018-08-21 Di 08:50] \\
@@ -316,8 +315,7 @@ appt-display-interval 5)
 
 [2013-05-12 So 16:50] The following code is borrowed from prelude
 (http://github.com/bbatsov/prelude) to automatically save files on buffer or
-window-switching
-#+begin_src emacs-lisp
+window-switching. It doesn't work reliably and I'll use now the builtin config below.
   (defun martin/auto-save-command ()
     "Save the current buffer on buffer or window-switching."
     (when (and buffer-file-name
@@ -333,7 +331,13 @@ window-switching
     (defadvice other-window (before other-window-now activate)
     "Invoke `martin/auto-save-command' before `other-window'."
     (martin/auto-save-command))
-#+end_src
+
+Emacs 26.1 has builtin auto-save. I'll use that now with auto-saving once a minute rather
+than the default 5 seconds.
+#+BEGIN_SRC emacs-lisp
+(setq auto-save-visited-interval 60)
+(auto-save-visited-mode 1)
+#+END_SRC
 *** Calendar
     :LOGBOOK:
     - Note taken on [2018-05-13 So 21:44] \\
@@ -922,7 +926,7 @@ Olivetti provides a nice distraction-free environment.
       :END:
 - Where my Org files are stored
   #+BEGIN_SRC emacs-lisp
-    (setq org-directory (concat cloud-dir "Documents/org"))
+    (setq org-directory (concat cloud-dir "org"))
   #+END_SRC
 - Archiving into a datetree
   #+BEGIN_SRC emacs-lisp
@@ -1258,6 +1262,18 @@ Settings to make org buffers look nicer
                             '(("^ *\\([+]\\) "
                                (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "◦"))))))
    #+END_SRC
+- Prettify src blocks
+  Inspired by a comment in [[https://www.reddit.com/r/emacs/comments/9lpupc/i_use_markdown_rather_than_orgmode_for_my_notes/][i use markdown rather than org-mode for my notes : emacs]] I
+  looked at the now builtin mode =prettify-symbols-mode=.. The configuration follows the
+  example given in [[http://endlessparentheses.com/new-in-emacs-25-1-have-prettify-symbols-mode-reveal-the-symbol-at-point.html][New in Emacs 25.1: Have prettify-symbols-mode reveal the symbol at point · En...]].
+  #+BEGIN_SRC emacs-lisp
+    (setq-default prettify-symbols-alist '(("#+BEGIN_SRC" . "†")
+                                           ("#+END_SRC" . "‡")
+                                           ("#+begin_src" . "†")
+                                           ("#+end_src" . "‡")))
+    (setq prettify-symbols-unprettify-at-point 'right-edge)
+    (add-hook 'org-mode-hook 'prettify-symbols-mode)
+  #+END_SRC
 - Some font setting for fixed-pitch
   #+BEGIN_SRC emacs-lisp
     (custom-theme-set-faces
@@ -1309,8 +1325,8 @@ Settings to make org buffers look nicer
     #+begin_src emacs-lisp
       (use-package todotxt-mode
         :demand t
-        :config (setq todotxt-default-file (expand-file-name (concat cloud-dir "Documents/Todo/todo.txt"))
-                      todotxt-default-archive-file (expand-file-name (concat cloud-dir "Documents/Todo/done.txt")))
+        :config (setq todotxt-default-file (expand-file-name (concat cloud-dir "Todo/todo.txt"))
+                      todotxt-default-archive-file (expand-file-name (concat cloud-dir "Todo/done.txt")))
         :bind ("C-c t" . todotxt-add-todo)
         ("C-c o" . todotxt-open-file))
     #+end_src
