@@ -2,7 +2,11 @@
 #+OPTIONS: html-postamble:nil html-preamble:t tex:t
 #+OPTIONS: toc:3 num:nil ^:nil creator:nil timestamp:nil d:t
   #+begin_src emacs-lisp
-;;; Time-stamp: "06.10.2018 21:58:51"
+<<<<<<< HEAD
+;;; Time-stamp: "09.10.2018 22:12:27"
+=======
+;;; Time-stamp: "06.10.2018 21:54:34"
+>>>>>>> 2b52cb2fe558f6fb1952c681ad571c3ddee223b5
   #+end_src
 * Table of content                                                    :TOC_3:
 - [[#introduction][Introduction]]
@@ -28,6 +32,7 @@
     - [[#dimish][Dimish]]
     - [[#dired][Dired]]
     - [[#delete-duplicate-entries-of-the-history-of-the-minibuffer][Delete duplicate entries of the history of the minibuffer]]
+    - [[#emacs-server][Emacs Server]]
     - [[#filetagsel][filetags.el]]
     - [[#golden-ratio-scrolling][Golden ratio scrolling]]
     - [[#highlight-the-current-line][Highlight the current line]]
@@ -438,15 +443,16 @@ than the default 5 seconds.
     :END:
     Diminish minor modes from mode line to save space
     #+begin_src emacs-lisp
-    (use-package diminish
-    :ensure t
-    :demand t
-    :diminish abbrev-mode
-    :diminish auto-fill-function
-    :diminish eldoc-mode
-    :diminish visual-line-mode
-    :diminish undo-tree-mode
-    :diminish company-mode)
+      (use-package diminish
+      :ensure t
+      :demand t
+      :diminish abbrev-mode
+      :diminish auto-fill-function
+      :diminish eldoc-mode
+      :diminish counsel-mode
+      :diminish visual-line-mode
+      :diminish undo-tree-mode
+      :diminish company-mode)
     #+end_src
 *** Dired
     I want dired a bit less verbose
@@ -500,6 +506,11 @@ http://www.gnu.org/software/emacs/manual/html_node/elisp/Minibuffer-History.html
 (setq history-delete-duplicates t)
 #+END_SRC
 
+*** Emacs Server
+Useful to reuse the already running instance
+#+BEGIN_SRC emacs-lisp
+(server-start)
+#+END_SRC
 *** filetags.el
 :LOGBOOK:
 - Note taken on [2018-07-20 Fr 08:47] \\
@@ -1058,30 +1069,51 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
         =local.el=
       :END:
       #+BEGIN_SRC emacs-lisp
-         (setq  org-capture-templates
-         (quote
-         (("j" "Journal" entry
-         (file+olp+datetree "Journal.org")
-         "* %U %?
-         %i")
-        ("i" "Ideen" entry
-         (file+headline "Ideen.org" "Neue Ideen")
-         "* %^{Title}
-         %i")
-        ("l" "Cliplink capture task" entry (file "Inbox.org")
-         "* %(org-cliplink-capture)" :empty-lines 1)
-        ("w" "Woche" entry
-         (file "woche.org")
-         "* %^{Woche}
-         %[~/.emacs.d/config/org/.woche.txt]")
-        ("r" "Daily Review" entry
-         (file+olp+datetree "Journal.org")
-         "* %U Daily Review
-         %[~/.emacs.d/config/org/.daily_review.txt]")
-        ("p" "Project Planning" entry
-         (file+headline "planning.org" "Projekte")
-         "* %^{Beschreibung}
-         %[~/.emacs.d/config/org/.planning.txt]"))))
+        (setq  org-capture-templates
+               (quote
+                (("m" "Meeting" entry
+                  (file+olp+datetree "Journal.org")
+                  "* %U - %^{Meeting}  :TIME:
+                        ,*** Participants
+                        ,*** Topics
+                        ,*** Todos" :clock-in t :clock-keep t)
+                 ("j" "Journal" entry
+                  (file+olp+datetree "Journal.org")
+                  "* %U %?
+                         %i")
+                 ("i" "Ideen" entry
+                  (file+headline "Ideen.org" "Neue Ideen")
+                  "* %^{Title}
+                         %i")
+                 ("t" "Neue Tasks" entry
+                  (file+headline "tasks.org" "Inbox:")
+                  "* TODO %^{Task}
+                         %i" :immediate-finish t)
+                 ("l" "Log Time" entry
+                  (file+olp+datetree "Journal.org")
+                  "* %U - %^{Activity}  :TIME:" :immediate-finish t :clock-in t :clock-keep t)
+                 ("o" "Outcomes for today" entry
+                  (file+olp+datetree "Journal.org")
+                  "* %U 3 Outcomes for today [%]  :ZIELE:
+        %[~/.emacs.d/data/org/.woche.txt]")
+                 ("w" "Outcomes for the week" entry
+                  (file+olp+datetree "Journal.org")
+                  "* %U 3 Outcomes for the week   :ZIELE:
+        %[~/.emacs.d/data/org/.woche.txt]")
+                 ("r" "Weekly Review" entry
+                  (file+olp+datetree "review.org")
+                  "* Weekly Review  :PERSOENLICH:
+        %[~/.emacs.d/data/org/.weeklyreview.txt]")
+                 ("c" "Cliplink capture task" entry (file "Inbox.org")
+                  "* %(org-cliplink-capture)" :empty-lines 1)
+                 ("r" "Daily Review" entry
+                  (file+olp+datetree "Journal.org")
+                  "* %U Daily Review
+                         %[~/.emacs.d/config/org/.daily_review.txt]")
+                 ("p" "Project Planning" entry
+                  (file+headline "planning.org" "Projekte")
+                  "* %^{Beschreibung}
+                         %[~/.emacs.d/config/org/.planning.txt]"))))
       #+END_SRC
 ***** Org-Babel
 :LOGBOOK:
@@ -1222,10 +1254,11 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
 Settings to make org buffers look nicer
 - Odd levels, hiding stars and no emphasis markers displayed
   #+BEGIN_SRC emacs-lisp
-       (setq org-hide-emphasis-markers t
-             org-fontify-done-headline t
-             org-hide-leading-stars t
-             org-odd-levels-only t)
+    (setq org-hide-emphasis-markers t
+          org-fontify-done-headline t
+          org-hide-leading-stars t
+          org-pretty-entities t
+          org-odd-levels-only t)
   #+END_SRC
 - Automatically change list bullets
   #+begin_src emacs-lisp
