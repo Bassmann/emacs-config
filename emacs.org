@@ -2,11 +2,7 @@
 #+OPTIONS: html-postamble:nil html-preamble:t tex:t
 #+OPTIONS: toc:3 num:nil ^:nil creator:nil timestamp:nil d:t
   #+begin_src emacs-lisp
-<<<<<<< HEAD
-;;; Time-stamp: "09.10.2018 22:12:27"
-=======
-;;; Time-stamp: "06.10.2018 21:54:34"
->>>>>>> 2b52cb2fe558f6fb1952c681ad571c3ddee223b5
+;;; Time-stamp: "10.10.2018 21:48:49"
   #+end_src
 * Table of content                                                    :TOC_3:
 - [[#introduction][Introduction]]
