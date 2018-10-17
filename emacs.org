@@ -1069,9 +1069,7 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
                 (("m" "Meeting" entry
                   (file+olp+datetree "Journal.org")
                   "* %U - %^{Meeting}  :TIME:
-                        ,*** Participants
-                        ,*** Topics
-                        ,*** Todos" :clock-in t :clock-keep t)
+%[~/.emacs.d/config/org/meeting.txt]" :clock-in t :clock-keep t)
                  ("j" "Journal" entry
                   (file+olp+datetree "Journal.org")
                   "* %U %?
@@ -1089,25 +1087,25 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
                  ("o" "Outcomes for today" entry
                   (file+olp+datetree "Journal.org")
                   "* %U 3 Outcomes for today [%]  :ZIELE:
-        %[~/.emacs.d/data/org/.woche.txt]")
+%[~/.emacs.d/config/org/.woche.txt]")
                  ("w" "Outcomes for the week" entry
                   (file+olp+datetree "Journal.org")
                   "* %U 3 Outcomes for the week   :ZIELE:
-        %[~/.emacs.d/data/org/.woche.txt]")
+%[~/.emacs.d/config/org/.woche.txt]")
                  ("r" "Weekly Review" entry
                   (file+olp+datetree "review.org")
                   "* Weekly Review  :PERSOENLICH:
-        %[~/.emacs.d/data/org/.weeklyreview.txt]")
+%[~/.emacs.d/config/org/.weeklyreview.txt]")
                  ("c" "Cliplink capture task" entry (file "Inbox.org")
                   "* %(org-cliplink-capture)" :empty-lines 1)
-                 ("r" "Daily Review" entry
+                 ("d" "Daily Review" entry
                   (file+olp+datetree "Journal.org")
                   "* %U Daily Review
-                         %[~/.emacs.d/config/org/.daily_review.txt]")
+%[~/.emacs.d/config/org/.daily_review.txt]")
                  ("p" "Project Planning" entry
                   (file+headline "planning.org" "Projekte")
                   "* %^{Beschreibung}
-                         %[~/.emacs.d/config/org/.planning.txt]"))))
+%[~/.emacs.d/config/org/.planning.txt]"))))
       #+END_SRC
 ***** Org-Babel
 :LOGBOOK:
@@ -1124,7 +1122,7 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
   have only the diagram in the output you need to set =:exports results= in the src
   block.
   #+begin_src emacs-lisp
-    (setq org-plantuml-jar-path (concat (expand-file-name no-littering-var-directory) "org/plantuml.jar"))
+    (setq org-plantuml-jar-path (concat (expand-file-name no-littering-etc-directory) "org/plantuml.jar"))
     (add-to-list
      'org-src-lang-modes '("plantuml" . plantuml))
     (org-babel-do-load-languages

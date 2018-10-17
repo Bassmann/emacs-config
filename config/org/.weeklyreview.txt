@@ -1,0 +1,61 @@
+***  Loose Papers [/]                                                 :OFFICE:
+  Gather all scraps of paper, business cards, receipts, and miscellaneous paper. Put into your
+  in-basket to process.
+  - [ ] Clock in to do review (C-c C-x C-i)
+  - [ ] Empty out backpack. Put relevant items into intray.
+  - [ ] Remove loose stuff from desk.
+  - [ ] Empty wallet of receipts and paper.
+  - [ ] Empty the "to-read" binder.
+  - [ ] Purge physical intray.
+  - [ ] Empty email inbox creating NAs as required
+
+***  Process Your Notes [/]                                           :ALWAYS:
+  Review any journal/notes types of entries, meeting notes, and miscellaneous notes scribbled on
+  notebook paper. Decide and enter action items, projects, waiting-fors, etc., as appropriate.
+  - [ ] Review my moleskine and enter NA accordingly
+  - [ ] Review my Journal file  (C-x r b Journal)
+  - [ ] Review my notes file in Outlook
+  - [ ] Process telephone mailbox
+***  Empty Your Head [/]                                              :ALWAYS:
+  Put in writing (in appropriate categories) any new projects, action
+  items, waiting-fors, someday/maybes, etc., not yet captured.
+  - [ ] Set a timer for 5 minutes and do brainstorming or mind-mapping
+
+***  Review Action Lists [/]                                          :ALWAYS:
+  - [ ] Mark off completed actions. Review for reminders of further action
+    steps to record.
+  - [ ] Review each action for: physical action with a defined result, enough information and context
+	to act on it, related to a project in the projects list?
+
+***  Review Waiting-For List [/]                                      :ALWAYS:
+  Record appropriate actions for any needed follow-up. Check off received ones.
+  - [ ] Review TODO items in Waiting State  C-c a T W <tab>
+
+***  Review Project Lists [/]                                         :ALWAYS:
+  Evaluate status of projects, goals and outcomes, one by one, ensuring at least one current action
+  item on each. Browse through work-in-progress support material to trigger new actions,
+  completions, waiting-fors, etc.
+  - [ ] Review Project List
+
+***  Review Previous Calendar Data [/]                                :ALWAYS:
+  Review past calendar in detail for remaining action items, reference data, etc., and transfer into
+  the active system.
+  - [ ] Review appointments for last week
+
+***  Review Upcoming Calendar [/]                                     :ALWAYS:
+  Review upcoming calendar events-long and short term. Capture actions triggered.
+  - [ ] Review upcoming two weeks
+  - [ ] Review all appointments if they are really necessary
+  - [ ] Block free time to think and work
+  - [ ] Align all calendars into CGI and import into diary
+
+***  Review Any Relevant Checklists [/]                               :ALWAYS:
+  Use as a trigger for any new actions.
+  - [ ] Review my Someday/Maybe list. Review for any projects that may now have become active, and
+    transfer to projects list. Delete items no longer of interest.
+  - [ ] Review my resolutions for last week
+
+***  Reflection [/]                                                   :ALWAYS:
+  - [ ] What do I want to tackle next week?
+  - [ ] what was good/bad this week
+  - [ ] Write a short summary of the week
