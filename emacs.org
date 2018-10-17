@@ -924,12 +924,9 @@ Olivetti provides a nice distraction-free environment.
       Finally ;-)-
 ***** General settings
 :LOGBOOK:
-- Note taken on [2018-07-18 Mi 07:03] \\
-  Added a line to demote "-" into "+" and added =org-list-allow-alphabetical= to be able to
-  use a) etc. for unordered lists
-      - Note taken on [2018-05-04 Fr 10:39] \\
-        Ideas from Bernt Hansen http://doc.norang.ca/org-mode.html
-      :END:
+- Note taken on [2018-05-04 Fr 10:39] \\
+  Ideas from Bernt Hansen http://doc.norang.ca/org-mode.html
+:END:
 - Where my Org files are stored
   #+BEGIN_SRC emacs-lisp
     (setq org-directory (concat cloud-dir "org"))
@@ -1013,7 +1010,7 @@ Olivetti provides a nice distraction-free environment.
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
+(global-set-key "\C-cb" 'org-switchb)
 #+end_src
 ***** Adding =imenu= support
 :LOGBOOK:
@@ -1058,7 +1055,7 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
 ***** Capture templates
       :LOGBOOK:
       - Note taken on [2018-09-27 Do 11:38] \\
-        Separate the caprute templates
+        Separate the capture templates
       - Note taken on [2018-05-20 So 21:47] \\
         I moved several settings form =custom.el= here to use the variables from
         =local.el=
