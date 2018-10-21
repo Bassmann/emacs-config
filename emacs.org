@@ -1,4 +1,5 @@
-﻿#+TITLE: Martins Emacs Start
+﻿
+#+TITLE: Martins Emacs Start
 #+OPTIONS: html-postamble:nil html-preamble:t tex:t
 #+OPTIONS: toc:3 num:nil ^:nil creator:nil timestamp:nil d:t
 * Table of content                                                    :TOC_3:
@@ -898,7 +899,7 @@ There are a bunch of markdown files I use regularly. So a fitting mode is approp
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
+  :init (setq markdown-command "pandoc --from markdown -t html5 --standalone")
 #+END_SRC
 *** Olivetti mode
 :PROPERTIES:
