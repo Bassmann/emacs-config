@@ -1,5 +1,4 @@
-﻿
-#+TITLE: Martins Emacs Start
+﻿#+TITLE: Martins Emacs Start
 #+OPTIONS: html-postamble:nil html-preamble:t tex:t
 #+OPTIONS: toc:3 num:nil ^:nil creator:nil timestamp:nil d:t
 * Table of content                                                    :TOC_3:
@@ -899,7 +898,7 @@ There are a bunch of markdown files I use regularly. So a fitting mode is approp
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "pandoc --from markdown -t html5 --standalone")
+  :init (setq markdown-command "pandoc --from markdown -t html5 --standalone"))
 #+END_SRC
 *** Olivetti mode
 :PROPERTIES:
@@ -1301,9 +1300,9 @@ Settings to make org buffers look nicer
   example given in [[http://endlessparentheses.com/new-in-emacs-25-1-have-prettify-symbols-mode-reveal-the-symbol-at-point.html][New in Emacs 25.1: Have prettify-symbols-mode reveal the symbol at point · En...]].
   #+BEGIN_SRC emacs-lisp
     (setq-default prettify-symbols-alist '(("#+BEGIN_SRC" . "†")
-                                           ("#+END_SRC" . "‡")
+                                           ("#+END_SRC" . "†")
                                            ("#+begin_src" . "†")
-                                           ("#+end_src" . "‡")))
+                                           ("#+end_src" . "†")))
     (setq prettify-symbols-unprettify-at-point 'right-edge)
     (add-hook 'org-mode-hook 'prettify-symbols-mode)
   #+END_SRC
