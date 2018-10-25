@@ -65,6 +65,8 @@
     - [[#use-ido-to-open-recent-files][Use Ido to open recent files]]
     - [[#dont-ask-if-a-buffer-visits-a-running-process-during-killing-emacs-remq-removes-the-relevant-function][Don't ask if a buffer visits a running process during killing emacs. =remq= removes the relevant function]]
     - [[#insert-date][Insert date]]
+    - [[#unsplit-line][Unsplit-line]]
+    - [[#toggle-between-horizontal-and-vertical-window-spli][Toggle between horizontal and vertical window spli]]
 
 * Introduction
   :PROPERTIES:
@@ -997,6 +999,21 @@ Olivetti provides a nice distraction-free environment.
                 (variable-pitch-mode 1)
                 visual-line-mode))
   #+END_SRC
+- Update cookies when killing lines (from [[http://whattheemacsd.com/setup-org.el-01.html][What the .emacs.d!?]])
+#+BEGIN_SRC emacs-lisp
+(defun myorg-update-parent-cookie ()
+  (when (equal major-mode 'org-mode)
+    (save-excursion
+      (ignore-errors
+        (org-back-to-heading)
+        (org-update-parent-todo-statistics)))))
+
+(defadvice org-kill-line (after fix-cookies activate)
+  (myorg-update-parent-cookie))
+
+(defadvice kill-whole-line (after fix-cookies activate)
+  (myorg-update-parent-cookie))
+#+END_SRC
 ***** Add a created property to new entries
       :PROPERTIES:
       :CREATED:  [2018-07-09 Mo 23:26]
@@ -1545,3 +1562,45 @@ at least on Windows see https://github.com/magit/magit/wiki/Pushing-with-Magit-f
 
     (global-set-key (kbd "C-c d") 'insert-date)
     #+end_src
+*** Unsplit-line
+:PROPERTIES:
+:CREATED:  [2018-10-25 Do 21:17]
+:END:
+Useful function to join lines from [[http://whattheemacsd.com/key-bindings.el-03.html][What the .emacs.d!?]]
+#+BEGIN_SRC emacs-lisp
+(global-set-key (kbd "M-j")
+                (lambda ()
+                  (interactive)
+                  (join-line -1)))
+#+END_SRC
+*** Toggle between horizontal and vertical window spli
+:PROPERTIES:
+:CREATED:  [2018-10-25 Do 21:19]
+:END:
+Also from [[http://whattheemacsd.com/buffer-defuns.el-03.html][What the .emacs.d!?]]
+#+BEGIN_SRC emacs-lisp
+(defun toggle-window-split ()
+  (interactive)
+  (if (= (count-windows) 2)
+      (let* ((this-win-buffer (window-buffer))
+             (next-win-buffer (window-buffer (next-window)))
+             (this-win-edges (window-edges (selected-window)))
+             (next-win-edges (window-edges (next-window)))
+             (this-win-2nd (not (and (<= (car this-win-edges)
+                                         (car next-win-edges))
+                                     (<= (cadr this-win-edges)
+                                         (cadr next-win-edges)))))
+             (splitter
+              (if (= (car this-win-edges)
+                     (car (window-edges (next-window))))
+                  'split-window-horizontally
+                'split-window-vertically)))
+        (delete-other-windows)
+        (let ((first-win (selected-window)))
+          (funcall splitter)
+          (if this-win-2nd (other-window 1))
+          (set-window-buffer (selected-window) this-win-buffer)
+          (set-window-buffer (next-window) next-win-buffer)
+          (select-window first-win)
+          (if this-win-2nd (other-window 1))))))
+#+END_SRC
