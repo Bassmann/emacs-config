@@ -32,6 +32,7 @@
     - [[#ido-mode][Ido-mode]]
     - [[#ivy][Ivy]]
     - [[#keyboard-settings][Keyboard settings]]
+    - [[#minimal][Minimal]]
     - [[#mode-icons---show-icons-instead-of-mode-names][mode-icons - Show icons instead of mode names]]
     - [[#msb-mode][msb-Mode]]
     - [[#no-blinking-cursor][No blinking cursor]]
@@ -648,6 +649,13 @@ https://www.reddit.com/r/emacs/comments/910pga/tip_how_to_use_ivy_and_its_utilit
       #+begin_src emacs-lisp
       (fset 'yes-or-no-p 'y-or-n-p)
       #+end_src
+*** Minimal
+Replace the mode-line by a single small line. Useful for distraction-free writing
+#+BEGIN_SRC emacs-lisp
+(use-package minimal
+  :load-path "lisp/minimal"
+  :demand t)
+#+END_SRC
 *** mode-icons - Show icons instead of mode names
 
 https://github.com/ryuslash/mode-icons
@@ -1345,6 +1353,18 @@ Settings to make org buffers look nicer
             (goto-char (point-min))
             (kill-ring-save (point-min) (point-max))))))
     #+end_src
+***** Org Outline numbering
+Display an outline numbering as overlays on Org mode headlines. The numbering matches how
+it would appear when exporting the org file.
+#+BEGIN_SRC emacs-lisp
+  (use-package org-outline-numbering
+    :ensure t
+    :after org
+    :hook (org-mode . org-outline-numbering-mode))
+#+END_SRC
+:PROPERTIES:
+:CREATED:  [2018-10-25 Do 20:36]
+:END:
 *** Todo-txt
     :LOGBOOK:
     - Note taken on [2018-06-04 Mo 22:16] \\
