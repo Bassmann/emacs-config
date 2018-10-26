@@ -1241,10 +1241,11 @@ that
 :END:
       I started again to use clocking in Org-mode. Here are the related settings
       #+BEGIN_SRC emacs-lisp
-  (setq org-clock-persistence-insinuate t
-        org-clock-persist t
-        org-clock-in-resume t
-        org-clock-mode-line-total 'current)
+        (setq org-clock-persist t
+              org-clock-in-resume t
+              org-clock-mode-line-total 'current
+              org-agenda-clockreport-parameter-plist '(:link t :maxlevel 3))
+        (org-clock-persistence-insinuate)
       #+END_SRC
 ***** Additional link type for TAGS
       :LOGBOOK:
