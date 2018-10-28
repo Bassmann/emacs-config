@@ -465,8 +465,6 @@ Config =dired= with =use-package=
   (use-package dired
     :ensure nil
     :custom (dired-dwim-target t "guess a target directory")
-    :config
-    (bind-keys :map dired-mode-map (kbd "<backspace>"). diredp-up-directory-reuse-dir-buffer)
     :hook
     (dired-mode . dired-hide-details-mode))
 #+END_SRC
