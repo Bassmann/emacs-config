@@ -32,8 +32,10 @@
     - [[#ido-mode][Ido-mode]]
     - [[#ivy][Ivy]]
     - [[#keyboard-settings][Keyboard settings]]
+    - [[#menu-bar][Menu bar]]
     - [[#minimal][Minimal]]
     - [[#mode-icons---show-icons-instead-of-mode-names][mode-icons - Show icons instead of mode names]]
+    - [[#modernized-package-menu][Modernized Package Menu]]
     - [[#msb-mode][msb-Mode]]
     - [[#no-blinking-cursor][No blinking cursor]]
     - [[#no-toolbar-and-no-scrollbar][No toolbar and no scrollbar]]
@@ -453,30 +455,43 @@ than the default 5 seconds.
       :diminish company-mode)
     #+end_src
 *** Dired
-    I want dired a bit less verbose
-    #+begin_src emacs-lisp
-    (use-package dired-details
-    :load-path "lisp/"
-    :init (setq-default dired-details-hidden-string "--- ")
-    :demand t)
-    (dired-details-install)
-    #+end_src
-
-From [[http://emacsrocks.com/e16.html][Emacsrocks #16]]: two window file management. From the documentation:
-#+BEGIN_QUOTE
-If non-nil, Dired tries to guess a default target directory.
-This means: if there is a Dired buffer displayed in the next
-window, use its current directory, instead of this Dired buffer’s
-current directory.
-#+END_QUOTE
-
+:LOGBOOK:
+- Note taken on [2018-10-28 So 12:13] \\
+  There is a new way to hide details in =dired=. Seems to be enough instead of dired-details
+  so I removed it. Also added some other goodies.
+:END:
+Config =dired= with =use-package=
 #+BEGIN_SRC emacs-lisp
-(setq dired-dwim-target t)
+  (use-package dired
+    :ensure nil
+    :custom (dired-dwim-target t "guess a target directory")
+    :config
+    (bind-keys :map dired-mode-map (kbd "<backspace>"). diredp-up-directory-reuse-dir-buffer)
+    :hook
+    (dired-mode . dired-hide-details-mode))
 #+END_SRC
 
-Bind backspace to visit higher level directory:
-#+BEGIN_SRC
-(define-key dired-mode-map (kbd "<backspace>") 'diredp-up-directory-reuse-dir-buffer)
+This provides a sidebar with a dired buffer for the current directory
+#+BEGIN_SRC emacs-lisp
+  (use-package dired-toggle
+    :defer t)
+#+END_SRC
+
+Usually I'm not interested in dotfiles
+#+BEGIN_SRC emacs-lisp
+  (use-package dired-hide-dotfiles
+    :bind
+    (:map dired-mode-map
+          ("." . dired-hide-dotfiles-mode))
+    :hook
+    (dired-mode . dired-hide-dotfiles-mode))
+#+END_SRC
+
+And I like more colors
+#+BEGIN_SRC emacs-lisp
+  (use-package diredfl
+    :hook
+    (dired-mode . diredfl-mode))
 #+END_SRC
 
 From http://pragmaticemacs.com/emacs/tree-style-directory-views-in-dired-with-dired-subtree/
@@ -490,7 +505,9 @@ The dired-subtree package (part of the magnificent dired hacks) improves on this
                (";" . dired-subtree-remove)))
 #+END_SRC
 
-This sets up the keybinds so that in dired, hitting i on a subdirectory expands it in place with an indented listing. You can expand sub-subdirectories in the same way, and so on. Hitting ; inside an expanded subdirectory collapses it.
+This sets up the keybinds so that in dired, hitting i on a subdirectory expands it in
+place with an indented listing. You can expand sub-subdirectories in the same way, and so
+on. Hitting ; inside an expanded subdirectory collapses it.
 *** Delete duplicate entries of the history of the minibuffer
 :LOGBOOK:
 - Note taken on [2018-07-19 Do 18:37] \\
@@ -651,6 +668,24 @@ https://www.reddit.com/r/emacs/comments/910pga/tip_how_to_use_ivy_and_its_utilit
       #+begin_src emacs-lisp
       (fset 'yes-or-no-p 'y-or-n-p)
       #+end_src
+*** Menu bar
+:PROPERTIES:
+:CREATED:  [2018-10-28 So 11:47]
+:END:
+:LOGBOOK:
+- Note taken on [2018-10-28 So 11:49] \\
+  Cool idea from [[https://github.com/a13/emacs.d][GitHub - a13/emacs.d]]
+:END:
+Most of the time I don't  need the menu bar but it's useful to quickly get to it
+#+BEGIN_SRC emacs-lisp
+  (use-package menu-bar
+    :ensure nil
+    :config
+    (menu-bar-mode -1)
+    :bind
+    ([S-f10] . menu-bar-mode))
+#+END_SRC
+
 *** Minimal
 Replace the mode-line by a single small line. Useful for distraction-free writing
 #+BEGIN_SRC emacs-lisp
@@ -673,7 +708,18 @@ This enhances the style of Emacs IMHO.
   (mode-icons-mode)
 )
 #+END_SRC
+*** Modernized Package Menu
+:PROPERTIES:
+:CREATED:  [2018-10-28 So 11:38]
+:END:
+Improves the package menu via [[https://github.com/a13/emacs.d][GitHub - a13/emacs.d]]
 
+#+BEGIN_SRC emacs-lisp
+  (use-package paradox
+    :defer 1
+    :config
+    (paradox-enable))
+#+END_SRC
 *** msb-Mode
     :LOGBOOK:
     - Note taken on [2018-05-07 Mon 21:59] \\
