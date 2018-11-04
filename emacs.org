@@ -54,6 +54,7 @@
     - [[#olivetti-mode][Olivetti mode]]
     - [[#orgmode][Orgmode]]
     - [[#todo-txt][Todo-txt]]
+    - [[#visual-fill][Visual-fill]]
 - [[#programming][Programming]]
     - [[#js2-mode][JS2 Mode]]
     - [[#less-css][LESS-CSS]]
@@ -1036,10 +1037,11 @@ Olivetti provides a nice distraction-free environment.
   #+BEGIN_SRC emacs-lisp
   (setq org-mobile-use-encryption t)
   #+END_SRC
-- I like =visual-pitch-mode= and =visual-line-mode= for org files
+- I like =visual-pitch-mode, =visual-fill and =visual-line-mode= for org files
   #+BEGIN_SRC emacs-lisp
     (add-hook 'org-mode-hook
               (lambda ()
+                (visual-fill-mode 1)
                 (variable-pitch-mode 1)
                 visual-line-mode))
   #+END_SRC
@@ -1472,6 +1474,18 @@ it would appear when exporting the org file.
     C-c C-f d       todotxt-filter-by-status
     C-c C-f p       todotxt-filter-by-project
     C-c C-f t       todotxt-filter-by-tag
+*** Visual-fill
+:PROPERTIES:
+:CREATED:  [2018-11-04 So 17:16]
+:END:
+Combined with the normal line-wrapping this performs a kind of "auto refill" which can be
+more or less sophisticated depending on the line-wrapping used.
+
+I use it with org-mode.
+#+BEGIN_SRC emacs-lisp
+(use-package visual-fill
+  :demand t)
+#+END_SRC
 * Programming
 *** JS2 Mode
     :LOGBOOK:
