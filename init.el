@@ -19,13 +19,10 @@
 
 ;; Set repositories
 (require 'package)
-(setq-default
- load-prefer-newer t
- package-enable-at-startup nil)
+(setq-default load-prefer-newer t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 ;; I want orgmode before melpa or gnu
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
-(package-initialize)
 
 ;; Install dependencies
 (unless (and (package-installed-p 'delight)
