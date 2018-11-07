@@ -24,6 +24,7 @@
 ;; I want orgmode before melpa or gnu
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
 
+(when (version< emacs-version "27.0") (package-initialize))
 ;; Install dependencies
 (unless (and (package-installed-p 'delight)
 	           (package-installed-p 'bind-key)
