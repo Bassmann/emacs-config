@@ -1421,10 +1421,10 @@ Settings to make org buffers look nicer
 Display an outline numbering as overlays on Org mode headlines. The numbering matches how
 it would appear when exporting the org file.
 #+BEGIN_SRC emacs-lisp
-  (use-package org-outline-numbering
-    :ensure t
+  (use-package org-num
+    :load-path "lisp/"
     :after org
-    :hook (org-mode . org-outline-numbering-mode))
+    :hook (org-mode . org-num-mode))
 #+END_SRC
 :PROPERTIES:
 :CREATED:  [2018-10-25 Do 20:36]
