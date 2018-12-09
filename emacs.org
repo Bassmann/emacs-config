@@ -44,6 +44,7 @@
     - [[#smooth-scrolling][Smooth scrolling]]
     - [[#uniquify][Uniquify]]
     - [[#visualise-whitespace][Visualise whitespace]]
+    - [[#which-key][Which-key]]
 - [[#editing-related-items][Editing related items]]
     - [[#abbrevs][Abbrevs]]
     - [[#company][Company]]
@@ -594,12 +595,6 @@ it seems to work. At least on ArchLabs it also requires the =s= package so I'll 
 Yet another completion tool. From
 https://www.reddit.com/r/emacs/comments/910pga/tip_how_to_use_ivy_and_its_utilities_in_your/
 #+BEGIN_SRC emacs-lisp
-  (use-package counsel
-    :after ivy
-    :demand t
-    :config (counsel-mode)
-    :bind ("\C-x\C-r" . counsel-recentf))
-
   (use-package ivy
     :diminish
     :bind (("C-c C-r" . ivy-resume)
@@ -611,9 +606,13 @@ https://www.reddit.com/r/emacs/comments/910pga/tip_how_to_use_ivy_and_its_utilit
           ivy-virtual-abbreviate 'full)
     (ivy-mode))
 
+  (use-package counsel
+    :after ivy
+    :config (counsel-mode)
+    :bind ("\C-x\C-r" . counsel-recentf))
+
   (use-package ivy-rich
     :after ivy
-    :demand t
     :config
     (setq ivy-rich-path-style 'abbrev)
     (ivy-rich-mode 1))
@@ -818,6 +817,15 @@ An idea from https://blog.d46.us/advanced-emacs-startup/ to reduce emacs startup
     (use-package whitespace
     :diminish whitespace-mode)
     #+end_src
+*** Which-key
+:PROPERTIES:
+:CREATED:  [2018-12-09 So 22:41]
+:END:
+=which-key= provides visual hints for keybindings
+#+BEGIN_SRC emacs-lisp
+(use-package which-key
+:config (which-key-mode))
+#+END_SRC
 * Editing related items
 *** Abbrevs
     I use abbrevs mainly to correct common spelling errors
@@ -1418,6 +1426,13 @@ Settings to make org buffers look nicer
             (kill-ring-save (point-min) (point-max))))))
     #+end_src
 ***** Org Outline numbering
+:PROPERTIES:
+:CREATED:  [2018-10-25 Do 20:36]
+:END:
+:LOGBOOK:
+- Note taken on [2018-12-02 So 19:59] \\
+  =org-num= seems more reliable and will be part of org-mode in the future
+:END:
 Display an outline numbering as overlays on Org mode headlines. The numbering matches how
 it would appear when exporting the org file.
 #+BEGIN_SRC emacs-lisp
@@ -1426,9 +1441,6 @@ it would appear when exporting the org file.
     :after org
     :hook (org-mode . org-num-mode))
 #+END_SRC
-:PROPERTIES:
-:CREATED:  [2018-10-25 Do 20:36]
-:END:
 *** Todo-txt
     :LOGBOOK:
     - Note taken on [2018-06-04 Mo 22:16] \\
