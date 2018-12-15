@@ -36,11 +36,14 @@
 (setq-default
  use-package-always-defer t
  use-package-always-ensure t
- use-package-compute-statistics t)
+ use-package-compute-statistics t
+ use-package-verbose t)
 
 ;; Use latest Org and pin
 (use-package org
   :ensure org-plus-contrib
+  :custom
+  (org-export-backends '(ascii html md))
   :pin org)
 
 ;; no-littering is useful to de-clutter my /.emacs.d directory

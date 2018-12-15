@@ -20,10 +20,12 @@
     - [[#auto-revert][Auto-revert]]
     - [[#auto-save][Auto-save]]
     - [[#calendar][Calendar]]
+    - [[#custom][Custom]]
     - [[#dashboard][Dashboard]]
     - [[#date2name][date2name]]
     - [[#dimish][Dimish]]
     - [[#dired][Dired]]
+    - [[#display][Display]]
     - [[#delete-duplicate-entries-of-the-history-of-the-minibuffer][Delete duplicate entries of the history of the minibuffer]]
     - [[#emacs-server][Emacs Server]]
     - [[#filetagsel][filetags.el]]
@@ -42,6 +44,7 @@
     - [[#recentf][Recentf]]
     - [[#saveplace][Saveplace]]
     - [[#smooth-scrolling][Smooth scrolling]]
+    - [[#time][Time]]
     - [[#uniquify][Uniquify]]
     - [[#visualise-whitespace][Visualise whitespace]]
     - [[#which-key][Which-key]]
@@ -137,8 +140,12 @@ come from.
     #+begin_src emacs-lisp
       (setq default-frame-alist
             '(
+              (fringe-mode (quote (1 . 1)) nil (fringe))
+              (fringes-outside-margins nil t)
               (right-fringe . 0)
               (left-fringe)
+              (left-fringe-width nil)
+              (frame-resize-pixelwise t)
               (border-color . "black")
               (menu-bar-lines . 1)))
 
@@ -402,6 +409,62 @@ than the default 5 seconds.
             (append holiday-general-holidays holiday-local-holidays holiday-other-holidays
                     holiday-christian-holidays holiday-solar-holidays))
     #+end_src
+*** Custom
+:PROPERTIES:
+:CREATED:  [2018-12-15 Sa 18:32]
+:END:
+Some settings from custom
+#+BEGIN_SRC emacs-lisp
+  (use-package system-packages
+    :custom
+    (system-packages-noconfirm t))
+
+  (use-package use-package-ensure-system-package)
+
+  (use-package emacs
+    :ensure nil
+    :custom
+    (ad-redefinition-action 'accept)
+    (blink-cursor-mode nil)
+    (byte-compile-warnings
+     (quote
+      (redefine callargs free-vars unresolved obsolete noruntime interactive-only)))
+    (column-number-mode t)(compilation-message-face (quote default))
+    (confirm-nonexistent-file-or-buffer nil)
+    (debug-on-quit nil)
+    (delete-by-moving-to-trash t)
+    (delete-selection-mode t)
+    (display-line-numbers-type nil)
+    (echo-keystrokes 0.5)
+    (electric-pair-mode t)
+    (fast-but-imprecise-scrolling t)
+    (fill-column 90)
+    (global-font-lock-mode t nil (font-lock))
+    (indent-region-mode t)
+    (indent-tabs-mode nil "Spaces!")
+    (indicate-empty-lines t)
+    (inhibit-startup-screen t "Don't show splash screen")
+    (initial-buffer-choice t)
+    (initial-scratch-message nil)
+    (kill-whole-line t)
+    (line-spacing 0.2)
+    (linum-format " %6d ")
+    (mouse-drag-copy-region t)
+    (require-final-newline t)
+    (save-interprogram-paste-before-kill t)
+    (sentence-end-double-space nil)
+    (show-paren-mode t)
+    (size-indication-mode t)
+    (special-display-buffer-names (quote ("*Completions*")))
+    (tab-width 2)
+    (use-dialog-box nil "Disable dialog boxes")
+    (visible-bell t))
+
+  (use-package custom
+    :ensure nil
+    :custom
+    (custom-safe-themes t "Treat all themes as safe"))
+#+END_SRC
 *** Dashboard
     :LOGBOOK:
     - Note taken on [2018-05-19 Sa 18:22] \\
@@ -508,6 +571,16 @@ The dired-subtree package (part of the magnificent dired hacks) improves on this
 This sets up the keybinds so that in dired, hitting i on a subdirectory expands it in
 place with an indented listing. You can expand sub-subdirectories in the same way, and so
 on. Hitting ; inside an expanded subdirectory collapses it.
+*** Display
+:PROPERTIES:
+:CREATED:  [2018-12-15 Sa 18:06]
+:END:
+Display related settings
+#+BEGIN_SRC emacs-lisp
+  (setq global-display-line-numbers-mode t
+        global-hl-line-sticky-flag t
+        global-visual-line-mode t)
+#+END_SRC
 *** Delete duplicate entries of the history of the minibuffer
 :LOGBOOK:
 - Note taken on [2018-07-19 Do 18:37] \\
@@ -796,6 +869,32 @@ An idea from https://blog.d46.us/advanced-emacs-startup/ to reduce emacs startup
            scroll-conservatively 10000
            scroll-preserve-screen-position 1)
    #+end_src
+*** Time
+:PROPERTIES:
+:CREATED:  [2018-12-15 Sa 18:31]
+:END:
+Settings for the time in the mode line
+#+BEGIN_SRC emacs-lisp
+  (use-package time
+    :defer t
+    :ensure nil
+    :custom
+    (display-time-default-load-average nil)
+    (display-time-24hr-format t)
+    (display-time-day-and-date t)
+    (display-time-interval 30)
+    (display-time-string-forms
+     (quote
+      ((if display-time-day-and-date
+           (format "%s %s. %s " dayname day monthname)
+         "")
+       (format "%s:%s%s"
+               (if display-time-24hr-format 24-hours 12-hours)
+               minutes
+               (if display-time-24hr-format "" am-pm)))))
+    :config
+    (display-time-mode t))
+#+END_SRC
 *** Uniquify
     Emacs's standard method for making buffer names unique adds <2>, <3>, etc. to the end
     of (all but one of) the buffers. =uniquify= replaces that behavior, for buffers
@@ -969,7 +1068,11 @@ There are a bunch of markdown files I use regularly. So a fitting mode is approp
 :END:
 Olivetti provides a nice distraction-free environment.
 #+BEGIN_SRC emacs-lisp
-  (use-package olivetti)
+  (use-package olivetti
+    :custom
+    (olivetti-body-width 0.8)
+    (olivetti-hide-mode-line t)
+    )
 #+END_SRC
 *** Orgmode
     :LOGBOOK:
@@ -1067,6 +1170,10 @@ Olivetti provides a nice distraction-free environment.
 
 (defadvice kill-whole-line (after fix-cookies activate)
   (myorg-update-parent-cookie))
+#+END_SRC
+- Always load these modules
+#+BEGIN_SRC emacs-lisp
+(setq org-modules '(org-habit org-info org-expiry))
 #+END_SRC
 ***** Add a created property to new entries
       :PROPERTIES:
@@ -1271,6 +1378,8 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
   (use-package ox-hugo
     :demand t
     :after ox
+    :custom
+    (safe-local-variable-values (quote ((org-hugo-auto-export-on-save . t))))
     :config (require 'ox-hugo-auto-export))
 #+END_SRC
 =ox-hugo= requires  specific export properties for each entry. This structure template adds
@@ -1358,15 +1467,16 @@ Settings to make org buffers look nicer
    #+end_src
 - Nice looking bullets
   #+begin_src emacs-lisp
-      (use-package org-bullets
-      :hook (org-mode . (lambda () (org-bullets-mode 1))))
+    (use-package org-bullets
+      :custom
+      (org-bullets-bullet-list '("◉" "○" "✸" "✿" "✜" "☯" "◆" "▶"))
+      (org-ellipsis "⤵")
+      :hook (org-mode . org-bullets-mode))
   #+end_src
 - Some Unicode tricks
   From https://zzamboni.org/post/beautifying-org-mode-in-emacs/
   #+BEGIN_SRC emacs-lisp
-    (setq org-ellipsis "⤵")
     (setq org-hide-emphasis-markers t)
-
     (font-lock-add-keywords 'org-mode
                             '(("^ *\\([-]\\) "
                                (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
@@ -1525,7 +1635,10 @@ Everyone recommends magit so I'll try it. It requires a little tweaking to work 
 at least on Windows see https://github.com/magit/magit/wiki/Pushing-with-Magit-from-Windows.
 #+BEGIN_SRC emacs-lisp
   (use-package magit
-    :bind (("C-x g" . magit-status)))
+    :bind (("C-x g" . magit-status))
+    :config
+    (setq magit-diff-use-overlays nil))
+
   (cond ((eq system-type 'windows-nt)
          (use-package ssh-agency)
          (setenv "SSH_ASKPASS" "git-gui--askpass")))
