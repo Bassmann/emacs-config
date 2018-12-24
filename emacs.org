@@ -9,7 +9,6 @@
     - [[#set-the-default-font-and-frame-config][Set the default font and frame config]]
     - [[#maximize-by-default][Maximize by default]]
     - [[#garbage-collect-on-focus-out-emacs-should-feel-snappier][Garbage-collect on focus-out, Emacs /should/ feel snappier.]]
-    - [[#write-timestamps][Write timestamps]]
     - [[#set-coding-system][Set coding system]]
     - [[#theme][Theme]]
     - [[#backup][Backup]]
@@ -157,6 +156,9 @@ come from.
                                                                        ("%b - Dir:  " default-directory)))))))
       (set-fontset-font "fontset-default" nil
                         (font-spec :size 20 :name "Symbola"))
+
+      (cond ((eq system-type 'windows-nt)
+             (setq inhibit-compacting-font-caches t)))
     #+end_src
 *** Maximize by default
     #+begin_src emacs-lisp
@@ -169,19 +171,6 @@ come from.
     :END:
     #+begin_src emacs-lisp
     (add-hook 'focus-out-hook #'garbage-collect)
-    #+end_src
-*** Write timestamps
-    :LOGBOOK:
-    - Note taken on [2013-08-18 So 18:25] \\
-      Added
-    :END:
-    Timestamps are only written if the pattern is found within the first 8 lines.
-    Therefore I added code before the introduction.
-    This creates issues with git commits from different machines. So iremoved the line
-    above. The git log shows me the change times anyway.
-
-    #+begin_src emacs-lisp
-    (add-hook 'before-save-hook 'time-stamp)
     #+end_src
 *** Set coding system
     I use utf8-encoding everywhere
@@ -418,8 +407,6 @@ Some settings from custom
   (use-package system-packages
     :custom
     (system-packages-noconfirm t))
-
-  (use-package use-package-ensure-system-package)
 
   (use-package emacs
     :ensure nil
@@ -681,6 +668,7 @@ https://www.reddit.com/r/emacs/comments/910pga/tip_how_to_use_ivy_and_its_utilit
 
   (use-package counsel
     :after ivy
+    :ensure t
     :config (counsel-mode)
     :bind ("\C-x\C-r" . counsel-recentf))
 
@@ -692,6 +680,7 @@ https://www.reddit.com/r/emacs/comments/910pga/tip_how_to_use_ivy_and_its_utilit
 
   (use-package swiper
     :after ivy
+    :ensure t
     :bind (("C-s" . swiper)
            ("C-r" . swiper)))
 #+END_SRC
@@ -922,8 +911,8 @@ Settings for the time in the mode line
 :END:
 =which-key= provides visual hints for keybindings
 #+BEGIN_SRC emacs-lisp
-(use-package which-key
-:config (which-key-mode))
+(use-package which-key)
+(which-key-mode)
 #+END_SRC
 * Editing related items
 *** Abbrevs
@@ -1615,9 +1604,11 @@ I use it with org-mode.
       Added for Javascript editing
     :END:
     According to Emacswiki =JS2-mode= is an improvement over js.
-    #+begin_src emacs-lisp
-    (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-    #+end_src
+  #+begin_src emacs-lisp
+    (use-package js2-mode
+    :config (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+    )
+  #+end_src
 *** LESS-CSS
     :LOGBOOK:
     - Note taken on [2018-02-26 Mo 22:51] \\
