@@ -1088,7 +1088,7 @@ Olivetti provides a nice distraction-free environment.
   #+END_SRC
 - Archiving into a datetree
   #+BEGIN_SRC emacs-lisp
-    (setq  org-archive-location "archive.org::datetree/* Finished Task from %s")
+    (setq  org-archive-location "archive.org::datetree/*** %S [/]")
   #+END_SRC
 - Deadlines and due dates are a fact or life
   By default I want to see deadlines in the agenda 30 days before the due date. The
