@@ -29,6 +29,7 @@
     - [[#emacs-server][Emacs Server]]
     - [[#filetagsel][filetags.el]]
     - [[#golden-ratio-scrolling][Golden ratio scrolling]]
+    - [[#helpful][Helpful]]
     - [[#highlight-the-current-line][Highlight the current line]]
     - [[#ido-mode][Ido-mode]]
     - [[#ivy][Ivy]]
@@ -135,7 +136,8 @@ come from.
     :END:
     I like to see the full path of the buffer and no right fringe. The default fontset
     settings shall ensure that all unicode can be displayed. It's mainly there for the eye
-    candy later.
+ candy later. Finally inhibiting font cache compacting /should/ improve performance on
+    Windows.
     #+begin_src emacs-lisp
       (setq default-frame-alist
             '(
@@ -402,7 +404,7 @@ than the default 5 seconds.
 :PROPERTIES:
 :CREATED:  [2018-12-15 Sa 18:32]
 :END:
-Some settings from custom
+I prefer setting things in this file rather than = custom.el=.
 #+BEGIN_SRC emacs-lisp
   (use-package system-packages
     :custom
@@ -618,6 +620,18 @@ it seems to work. At least on ArchLabs it also requires the =s= package so I'll 
               ([remap scroll-up-command] . golden-ratio-scroll-screen-up)))
     #+END_SRC
 
+*** Helpful
+:PROPERTIES:
+:CREATED:  [2018-12-17 Mo 10:21]
+:END:
+Helpful is a useful replacement for the standard help buffer see [[https://github.com/Wilfred/helpful][GitHub - Wilfred/helpful: A better Emacs *help* buffer]]
+#+BEGIN_SRC emacs-lisp
+  (use-package helpful
+    :bind (
+           ("C-h f" . helpful-callable)
+           ("C-h v" . helpful-variable)
+           ("C-h k" . helpful-key)))
+#+END_SRC
 *** Highlight the current line
     :LOGBOOK:
     - Note taken on [2013-07-13 Sa 20:13] \\
@@ -1079,6 +1093,8 @@ Olivetti provides a nice distraction-free environment.
       Finally ;-)-
 ***** General settings
 :LOGBOOK:
+- Note taken on [2018-12-27 Do 13:56] \\
+  Saving into a datetree with sufficient number of * produces a proper datetree. I added also the cookie counter to get an overview how many taks I closed on a given day per file.
 - Note taken on [2018-05-04 Fr 10:39] \\
   Ideas from Bernt Hansen http://doc.norang.ca/org-mode.html
 :END:
@@ -1262,7 +1278,7 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
 %[~/.emacs.d/config/org/.woche.txt]")
                  ("w" "Outcomes for the week" entry
                   (file+olp+datetree "Journal.org")
-                  "* %U 3 Outcomes for the week   :ZIELE:
+                  "* %U 3 Outcomes for the week [%]   :ZIELE:
 %[~/.emacs.d/config/org/.woche.txt]")
                  ("r" "Weekly Review" entry
                   (file+olp+datetree "review.org")
@@ -1458,7 +1474,7 @@ Settings to make org buffers look nicer
   #+begin_src emacs-lisp
     (use-package org-bullets
       :custom
-      (org-bullets-bullet-list '("◉" "○" "✸" "✿" "✜" "☯" "◆" "▶"))
+      (org-bullets-bullet-list '("◉" "☯" "○" "☯" "✸" "☯" "✿" "☯" "✜" "☯" "◆" "☯" "▶"))
       (org-ellipsis "⤵")
       :hook (org-mode . org-bullets-mode))
   #+end_src
