@@ -55,7 +55,7 @@
     - [[#delete-trailing-whitespace-before-saving][delete-trailing-whitespace before saving]]
     - [[#hippie-expand][Hippie-expand]]
     - [[#markdown-mode][Markdown mode]]
-    - [[#olivetti-mode][Olivetti mode]]
+    - [[#nov][Nov]]
     - [[#orgmode][Orgmode]]
     - [[#todo-txt][Todo-txt]]
 - [[#programming][Programming]]
@@ -1064,7 +1064,18 @@ There are a bunch of markdown files I use regularly. So a fitting mode is approp
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "pandoc --from markdown -t html5 --standalone"))
 #+END_SRC
-*** Olivetti mode
+*** Nov
+:PROPERTIES:
+:CREATED:  [2019-01-01 Di 18:27]
+:END:
+=nov= is a mode to read epub files in Emacs. It looks nice so I'll try that.
+ #+begin_src emacs-lisp
+   (use-package nov
+     :config
+     (setq nov-text-width 100))
+
+   (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+ #+end_src*** Olivetti mode
 :PROPERTIES:
 :CREATED:  [2018-10-01 Mo 20:45]
 :END:
