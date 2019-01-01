@@ -1519,29 +1519,6 @@ Settings to make org buffers look nicer
      '(org-tag                   ((t (:inherit (shadow fixed-pitch) :weight bold))))
      '(org-verbatim              ((t (:inherit (shadow fixed-pitch))))))
    #+END_SRC
-***** Prepare meeting notes out of a ORG buffer
-    :LOGBOOK:
-    - Note taken on [2018-05-15 Di 19:14] \\
-      This is a cool idea from Bernt Hansen
-    :END:
-    The following functions prepares a version of a meeting notes region to be sent via
-    email.
-    #+begin_src emacs-lisp
-    (defun bh/prepare-meeting-notes ()
-      "Prepare meeting notes for email
-       Take selected region and convert tabs to spaces, mark TODOs with leading >>>, and copy to kill ring for pasting"
-      (interactive)
-      (let (prefix)
-        (save-excursion
-          (save-restriction
-            (narrow-to-region (region-beginning) (region-end))
-            (untabify (point-min) (point-max))
-            (goto-char (point-min))
-            (while (re-search-forward "^\\( *-\\\) \\(TODO\\|DONE\\): " (point-max) t)
-              (replace-match (concat (make-string (length (match-string 1)) ?>) " " (match-string 2) ": ")))
-            (goto-char (point-min))
-            (kill-ring-save (point-min) (point-max))))))
-    #+end_src
 ***** Org Outline numbering
 :PROPERTIES:
 :CREATED:  [2018-10-25 Do 20:36]
