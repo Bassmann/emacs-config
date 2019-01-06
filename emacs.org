@@ -56,6 +56,7 @@
     - [[#hippie-expand][Hippie-expand]]
     - [[#markdown-mode][Markdown mode]]
     - [[#nov][Nov]]
+    - [[#olivetti-mode][Olivetti mode]]
     - [[#orgmode][Orgmode]]
     - [[#todo-txt][Todo-txt]]
 - [[#programming][Programming]]
@@ -72,7 +73,7 @@
     - [[#dont-ask-if-a-buffer-visits-a-running-process-during-killing-emacs-remq-removes-the-relevant-function][Don't ask if a buffer visits a running process during killing emacs. =remq= removes the relevant function]]
     - [[#insert-date][Insert date]]
     - [[#unsplit-line][Unsplit-line]]
-    - [[#toggle-between-horizontal-and-vertical-window-spli][Toggle between horizontal and vertical window spli]]
+    - [[#toggle-between-horizontal-and-vertical-window-split][Toggle between horizontal and vertical window split]]
 
 * Introduction
   :PROPERTIES:
@@ -559,6 +560,14 @@ The dired-subtree package (part of the magnificent dired hacks) improves on this
 This sets up the keybinds so that in dired, hitting i on a subdirectory expands it in
 place with an indented listing. You can expand sub-subdirectories in the same way, and so
 on. Hitting ; inside an expanded subdirectory collapses it.
+
+I like icons in th dired buffer from =treemacs=
+#+BEGIN_SRC emacs-lisp
+(use-package treemacs-icons-dired
+  :after treemacs dired
+  :ensure t
+  :config (treemacs-icons-dired-mode))
+#+END_SRC
 *** Display
 :PROPERTIES:
 :CREATED:  [2018-12-15 Sa 18:06]
@@ -1002,19 +1011,20 @@ Settings for the time in the mode line
     parsed from the first line of the file while also generating readable filenames for
     new files based on the filter string. That also gets added as a title into the file.
     #+begin_src emacs-lisp
-    (use-package deft
-    :init
-    (setq deft-directory (concat cloud-dir "Notes"))
-    :config
-    (setq deft-default-extension "md"
-    deft-use-filename-as-title nil
-    deft-use-filter-string-for-filename t
-    deft-auto-save-interval 0
-    deft-file-naming-rules
-      '((noslash . "-")
-        (nospace . "-")
-        (case-fn . downcase)))
-    :bind ("C-c d" . deft))
+      (use-package deft
+      :init
+      (setq deft-directory (concat cloud-dir "Notes"))
+      :config
+      (setq deft-default-extension "md"
+      deft-use-filename-as-title nil
+      deft-use-filter-string-for-filename t
+      deft-auto-save-interval 0
+      deft-org-mode-title-prefix t
+      deft-file-naming-rules
+        '((noslash . "-")
+          (nospace . "-")
+          (case-fn . capitalize)))
+      :bind ("C-x C-d" . deft-find-file))
     #+end_src
 *** delete-trailing-whitespace before saving
 :LOGBOOK:
@@ -1075,7 +1085,8 @@ There are a bunch of markdown files I use regularly. So a fitting mode is approp
      (setq nov-text-width 100))
 
    (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
- #+end_src*** Olivetti mode
+ #+end_src
+*** Olivetti mode
 :PROPERTIES:
 :CREATED:  [2018-10-01 Mo 20:45]
 :END:
@@ -1731,7 +1742,7 @@ Useful function to join lines from [[http://whattheemacsd.com/key-bindings.el-03
                   (interactive)
                   (join-line -1)))
 #+END_SRC
-*** Toggle between horizontal and vertical window spli
+*** Toggle between horizontal and vertical window split
 :PROPERTIES:
 :CREATED:  [2018-10-25 Do 21:19]
 :END:
