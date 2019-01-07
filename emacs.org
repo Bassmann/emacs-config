@@ -1012,19 +1012,19 @@ Settings for the time in the mode line
     new files based on the filter string. That also gets added as a title into the file.
     #+begin_src emacs-lisp
       (use-package deft
-      :init
-      (setq deft-directory (concat cloud-dir "Notes"))
-      :config
-      (setq deft-default-extension "md"
-      deft-use-filename-as-title nil
-      deft-use-filter-string-for-filename t
-      deft-auto-save-interval 0
-      deft-org-mode-title-prefix t
-      deft-file-naming-rules
-        '((noslash . "-")
-          (nospace . "-")
-          (case-fn . capitalize)))
-      :bind ("C-x C-d" . deft-find-file))
+        :init
+        (setq deft-directory (concat cloud-dir "Notes"))
+        :config
+        (setq deft-default-extension "md"
+        deft-use-filename-as-title nil
+        deft-use-filter-string-for-filename t
+        deft-auto-save-interval 0
+        deft-org-mode-title-prefix t
+        deft-file-naming-rules
+          '((noslash . "-")
+            (nospace . "-")
+            (case-fn . capitalize)))
+        :bind ("C-x C-d" . deft-find-file))
     #+end_src
 *** delete-trailing-whitespace before saving
 :LOGBOOK:
@@ -1167,18 +1167,17 @@ Olivetti provides a nice distraction-free environment.
   #+END_SRC
 - Quickly insert a block of elisp:
   #+BEGIN_SRC emacs-lisp
-;    (add-to-list 'org-structure-template-alist
-;                 '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
+    (add-to-list 'org-structure-template-alist
+                 '("el" . "src emacs-lisp"))
   #+END_SRC
 - Use MobileOrg with encryption
   #+BEGIN_SRC emacs-lisp
   (setq org-mobile-use-encryption t)
   #+END_SRC
-- I like =visual-pitch-mode, =visual-fill and =visual-line-mode= for org files
+- I like =visual-pitch-mode and =visual-line-mode= for org files
   #+BEGIN_SRC emacs-lisp
     (add-hook 'org-mode-hook
               (lambda ()
- ;               (visual-fill-mode 1)
                 (variable-pitch-mode 1)
                 visual-line-mode))
   #+END_SRC
@@ -1407,8 +1406,7 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
     :demand t
     :after ox
     :custom
-    (safe-local-variable-values (quote ((org-hugo-auto-export-on-save . t))))
-    :config (require 'ox-hugo-auto-export))
+    (safe-local-variable-values (quote ((org-hugo-auto-export-on-save . t)))))
 #+END_SRC
 ***** Org-cliplink
       Easily insert links form the clipboard in org-mode files
