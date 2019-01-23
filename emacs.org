@@ -232,6 +232,7 @@ come from.
     #+BEGIN_SRC emacs-lisp
       (use-package poet-theme
         :demand t
+        :disabled
         :config
             (set-face-attribute 'default nil :family "monofur" :height 110)
             (set-face-attribute 'fixed-pitch nil :family "monofur")
@@ -244,7 +245,6 @@ come from.
     #+BEGIN_SRC emacs-lisp
       (use-package doom
         :demand t
-        :disabled
         :config
         (load-theme 'doom-nova t)
         ;(doom-themes-org-config)
@@ -594,7 +594,7 @@ http://www.gnu.org/software/emacs/manual/html_node/elisp/Minibuffer-History.html
 *** Emacs Server
 Useful to reuse the already running instance
 #+BEGIN_SRC emacs-lisp
-(server-start)
+(if (not (server-running-p)) (server-start))
 #+END_SRC
 *** filetags.el
 :LOGBOOK:
