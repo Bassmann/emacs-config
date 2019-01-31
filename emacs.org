@@ -594,7 +594,9 @@ http://www.gnu.org/software/emacs/manual/html_node/elisp/Minibuffer-History.html
 *** Emacs Server
 Useful to reuse the already running instance
 #+BEGIN_SRC emacs-lisp
-(if (not (server-running-p)) (server-start))
+(unless (and (fboundp 'server-running-p)
+             (server-running-p))
+  (server-start))
 #+END_SRC
 *** filetags.el
 :LOGBOOK:
@@ -1026,6 +1028,20 @@ Settings for the time in the mode line
             (case-fn . capitalize)))
         :bind ("C-x C-d" . deft-find-file))
     #+end_src
+    I like the idea of [[https://efls.github.io/zetteldeft/][Zetteldeft]]
+    #+begin_src emacs-lisp
+      (use-package zetteldeft
+        :load-path "lisp/zetteldeft/"
+        :after deft)
+    #+end_src
+    Links are highlighted both in org-mode and markdown-mode
+#+begin_src emacs-lisp
+      (font-lock-add-keywords 'org-mode
+                              `((,(concat zd-link-indicator zd-id-regex) . font-lock-warning-face)))
+
+      (font-lock-add-keywords 'markdown-mode
+                              `((,(concat zd-link-indicator zd-id-regex) . font-lock-warning-face)))
+#+end_src
 *** delete-trailing-whitespace before saving
 :LOGBOOK:
 - Note taken on [2018-07-19 Do 18:39] \\
@@ -1422,6 +1438,7 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
       #+BEGIN_SRC emacs-lisp
         (setq org-clock-persist t
               org-clock-in-resume t
+              org-clock-report-include-clocking-task t
               org-clock-mode-line-total 'current
               org-agenda-clockreport-parameter-plist '(:link t :maxlevel 3))
         (org-clock-persistence-insinuate)
