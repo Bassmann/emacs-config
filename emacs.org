@@ -1014,34 +1014,20 @@ Settings for the time in the mode line
     new files based on the filter string. That also gets added as a title into the file.
     #+begin_src emacs-lisp
       (use-package deft
-        :init
-        (setq deft-directory (concat cloud-dir "Notes"))
-        :config
-        (setq deft-default-extension "md"
-        deft-use-filename-as-title nil
-        deft-use-filter-string-for-filename t
-        deft-auto-save-interval 0
-        deft-org-mode-title-prefix t
-        deft-file-naming-rules
-          '((noslash . "-")
-            (nospace . "-")
-            (case-fn . capitalize)))
-        :bind ("C-x C-d" . deft-find-file))
+      :init
+      (setq deft-directory (concat cloud-dir "Notes"))
+      :config
+      (setq deft-default-extension "md"
+      deft-use-filename-as-title nil
+      deft-use-filter-string-for-filename t
+      deft-auto-save-interval 0
+      deft-org-mode-title-prefix t
+      deft-file-naming-rules
+        '((noslash . "-")
+          (nospace . "-")
+          (case-fn . capitalize)))
+      :bind ("C-x C-d" . deft-find-file))
     #+end_src
-    I like the idea of [[https://efls.github.io/zetteldeft/][Zetteldeft]]
-    #+begin_src emacs-lisp
-      (use-package zetteldeft
-        :load-path "lisp/zetteldeft/"
-        :after deft)
-    #+end_src
-    Links are highlighted both in org-mode and markdown-mode
-#+begin_src emacs-lisp
-      (font-lock-add-keywords 'org-mode
-                              `((,(concat zd-link-indicator zd-id-regex) . font-lock-warning-face)))
-
-      (font-lock-add-keywords 'markdown-mode
-                              `((,(concat zd-link-indicator zd-id-regex) . font-lock-warning-face)))
-#+end_src
 *** delete-trailing-whitespace before saving
 :LOGBOOK:
 - Note taken on [2018-07-19 Do 18:39] \\
