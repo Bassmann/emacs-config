@@ -36,6 +36,7 @@
     - [[#keyboard-settings][Keyboard settings]]
     - [[#menu-bar][Menu bar]]
     - [[#minimal][Minimal]]
+    - [[#minions][Minions]]
     - [[#mode-icons---show-icons-instead-of-mode-names][mode-icons - Show icons instead of mode names]]
     - [[#modernized-package-menu][Modernized Package Menu]]
     - [[#msb-mode][msb-Mode]]
@@ -649,8 +650,8 @@ Helpful is a useful replacement for the standard help buffer see [[https://githu
     :END:
     Set a custom face, so we can recognize it from the normal (selection) marking
     #+begin_src emacs-lisp
-    (global-hl-line-mode 1)
-    (setq hl-line-face 'hl-line)
+      (global-hl-line-mode 1)
+      (setq hl-line-face 'hl-line)
     #+end_src
 *** Ido-mode
     :LOGBOOK:
@@ -665,12 +666,12 @@ Helpful is a useful replacement for the standard help buffer see [[https://githu
     =custom.el=.
     #+begin_src emacs-lisp
       (use-package ido
-      :config
-      :disabled t
-      (setq ido-create-new-buffer (quote always)
-      ido-enable-flex-matching t)
-      (ido-mode (quote buffers))
-      :ensure nil)
+        :config
+        :disabled t
+        (setq ido-create-new-buffer (quote always)
+              ido-enable-flex-matching t)
+        (ido-mode (quote buffers))
+        :ensure nil)
     #+end_src
 *** Ivy
 :PROPERTIES:
@@ -773,10 +774,24 @@ Most of the time I don't  need the menu bar but it's useful to quickly get to it
 *** Minimal
 Replace the mode-line by a single small line. Useful for distraction-free writing
 #+BEGIN_SRC emacs-lisp
-(use-package minimal
-  :load-path "lisp/minimal"
-  :demand t)
+  (use-package minimal
+    :load-path "lisp/minimal"
+    :demand t)
 #+END_SRC
+*** Minions
+:PROPERTIES:
+:CREATED:  [2019-02-10 So 17:35]
+:END:
+Another package to reduce clutter in the mode-line from [[https://github.com/tarsius/minions][GitHub - tarsius/minions: A minor-mode menu for the mode line
+ #+begin_src emacs-lisp
+   (use-package minions
+     :demand t
+     :config (minions-mode t))
+ #+end_src
+
+ #+RESULTS:
+
+]]
 *** mode-icons - Show icons instead of mode names
 
 https://github.com/ryuslash/mode-icons
@@ -1014,19 +1029,19 @@ Settings for the time in the mode line
     new files based on the filter string. That also gets added as a title into the file.
     #+begin_src emacs-lisp
       (use-package deft
-      :init
-      (setq deft-directory (concat cloud-dir "Notes"))
-      :config
-      (setq deft-default-extension "md"
-      deft-use-filename-as-title nil
-      deft-use-filter-string-for-filename t
-      deft-auto-save-interval 0
-      deft-org-mode-title-prefix t
-      deft-file-naming-rules
-        '((noslash . "-")
-          (nospace . "-")
-          (case-fn . capitalize)))
-      :bind ("C-x C-d" . deft-find-file))
+        :init
+        (setq deft-directory (concat cloud-dir "Notes"))
+        :config
+        (setq deft-default-extension "md"
+        deft-use-filename-as-title nil
+        deft-use-filter-string-for-filename t
+        deft-auto-save-interval 0
+        deft-org-mode-title-prefix t
+        deft-file-naming-rules
+          '((noslash . "-")
+            (nospace . "-")
+            (case-fn . capitalize)))
+        :bind ("C-x C-d" . deft-find-file))
     #+end_src
 *** delete-trailing-whitespace before saving
 :LOGBOOK:
@@ -1137,7 +1152,7 @@ Olivetti provides a nice distraction-free environment.
   #+end_src
 - Speed commands
   #+BEGIN_SRC emacs-lisp
-      (setq  org-fast-tag-selection-single-key t
+      (setq  org-fast-tag-selection-single-key 'expert
              org-special-ctrl-a/e t
              org-special-ctrl-k t
              org-use-speed-commands t)
