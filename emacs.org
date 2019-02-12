@@ -39,6 +39,7 @@
     - [[#minions][Minions]]
     - [[#mode-icons---show-icons-instead-of-mode-names][mode-icons - Show icons instead of mode names]]
     - [[#modernized-package-menu][Modernized Package Menu]]
+    - [[#moody][Moody]]
     - [[#msb-mode][msb-Mode]]
     - [[#no-blinking-cursor][No blinking cursor]]
     - [[#no-toolbar-and-no-scrollbar][No toolbar and no scrollbar]]
@@ -246,11 +247,21 @@ come from.
     #+BEGIN_SRC emacs-lisp
       (use-package doom
         :demand t
+        :disabled
         :config
         (load-theme 'doom-nova t)
         ;(doom-themes-org-config)
         (doom-themes-visual-bell-config))
     #+END_SRC
+    Let's try =material= for a while
+    #+begin_src emacs-lisp
+      (use-package material-theme
+        :demand t
+        :config
+        (load-theme 'material t))
+    #+end_src
+
+
 *** Backup
     :LOGBOOK:
     - Note taken on [2018-04-29 So 20:40] \\
@@ -782,16 +793,12 @@ Replace the mode-line by a single small line. Useful for distraction-free writin
 :PROPERTIES:
 :CREATED:  [2019-02-10 So 17:35]
 :END:
-Another package to reduce clutter in the mode-line from [[https://github.com/tarsius/minions][GitHub - tarsius/minions: A minor-mode menu for the mode line
+Another package to reduce clutter in the mode-line from [[https://github.com/tarsius/minions][GitHub - tarsius/minions: A minor-mode menu for the mode line]]
  #+begin_src emacs-lisp
    (use-package minions
      :demand t
      :config (minions-mode t))
  #+end_src
-
- #+RESULTS:
-
-]]
 *** mode-icons - Show icons instead of mode names
 
 https://github.com/ryuslash/mode-icons
@@ -819,6 +826,19 @@ Improves the package menu via [[https://github.com/a13/emacs.d][GitHub - a13/ema
     :config
     (paradox-enable))
 #+END_SRC
+*** Moody
+:PROPERTIES:
+:CREATED:  [2019-02-10 So 17:48]
+:END:
+Some eye candy for the modelina from [[https://github.com/tarsius/moody][GitHub - tarsius/moody: Tabs and ribbons for the mode-line]]
+#+begin_src emacs-lisp
+(use-package moody
+  :demand t
+  :config
+  (setq x-underline-at-descent-line t)
+  (moody-replace-mode-line-buffer-identification)
+  (moody-replace-vc-mode))
+#+end_src
 *** msb-Mode
     :LOGBOOK:
     - Note taken on [2018-05-07 Mon 21:59] \\
