@@ -1283,7 +1283,7 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
       I use a GTD type agenda with all todo keywords and a project list
       The settings for =org-todo-keywords=, =org-stuck-projects= and
       =org-agenda-custom-commands=  are in =local.el= since they are both sensitive and
-      system-dependent
+      system-dependent.
    #+begin_src emacs-lisp
      (setq org-agenda-files (concat org-directory "/agenda.txt")
            org-agenda-start-on-weekday nil
@@ -1298,7 +1298,13 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
              (tags . "  %-12:c")
              (search . "  %-12:c"))
            org-agenda-remove-tags t
-           org-agenda-show-inherited-tags nil)
+           org-agenda-show-inherited-tags nil
+           org-agenda-time-grid
+           (quote
+            ((daily today remove-match)
+             (800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800)
+             "......" "----------------")))
+
    #+end_src
 ***** Capture templates
       :LOGBOOK:
