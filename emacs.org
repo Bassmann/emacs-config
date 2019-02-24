@@ -26,6 +26,7 @@
     - [[#dired][Dired]]
     - [[#display][Display]]
     - [[#delete-duplicate-entries-of-the-history-of-the-minibuffer][Delete duplicate entries of the history of the minibuffer]]
+    - [[#disk-usage][Disk usage]]
     - [[#emacs-server][Emacs Server]]
     - [[#filetagsel][filetags.el]]
     - [[#golden-ratio-scrolling][Golden ratio scrolling]]
@@ -560,7 +561,9 @@ And I like more colors
 
 From http://pragmaticemacs.com/emacs/tree-style-directory-views-in-dired-with-dired-subtree/
 
-The dired-subtree package (part of the magnificent dired hacks) improves on this by allowing you to expand subdirectories in place, like a tree structure. To install the package, use the following code:
+The dired-subtree package (part of the magnificent dired hacks) improves on this by
+allowing you to expand subdirectories in place, like a tree structure. To install the
+package, use the following code:
 #+BEGIN_SRC emacs-lisp
   (use-package dired-subtree
     :config
@@ -602,7 +605,15 @@ http://www.gnu.org/software/emacs/manual/html_node/elisp/Minibuffer-History.html
 #+BEGIN_SRC emacs-lisp
 (setq history-delete-duplicates t)
 #+END_SRC
-
+*** Disk usage
+:PROPERTIES:
+:CREATED:  [2019-02-24 So 10:52]
+:END:
+A nice package to show the disk usage
+#+begin_src emacs-lisp
+(use-package disk-usage
+  :ensure t)
+#+end_src
 *** Emacs Server
 Useful to reuse the already running instance
 #+BEGIN_SRC emacs-lisp
