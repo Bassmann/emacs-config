@@ -20,9 +20,19 @@
 ;; Set repositories
 (require 'package)
 (setq-default load-prefer-newer t)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 ;; I want orgmode before melpa or gnu
-(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
+;(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
+(setq package-archives
+      '(("ORG" . "https://orgmode.org/elpa/")
+        ("GNU ELPA"     . "https://elpa.gnu.org/packages/")
+        ("MELPA Stable" . "https://stable.melpa.org/packages/")
+        ("MELPA"        . "https://melpa.org/packages/"))
+      package-archive-priorities
+      '(("ORG" . 15)
+        ("MELPA Stable" . 10)
+        ("GNU ELPA"     . 5)
+        ("MELPA"        . 0)))
 
 (when (version< emacs-version "27.0") (package-initialize))
 ;; Install dependencies
@@ -44,7 +54,7 @@
   :ensure org-plus-contrib
   :custom
   (org-export-backends '(ascii html md))
-  :pin org)
+  :pin ORG)
 
 ;; no-littering is useful to de-clutter my /.emacs.d directory
 (setq no-littering-etc-directory
