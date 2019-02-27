@@ -261,8 +261,6 @@ come from.
         :config
         (load-theme 'material t))
     #+end_src
-
-
 *** Backup
     :LOGBOOK:
     - Note taken on [2018-04-29 So 20:40] \\

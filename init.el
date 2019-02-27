@@ -62,9 +62,7 @@
 (setq no-littering-var-directory
       (expand-file-name "data/" user-emacs-directory))
 
-(use-package no-littering
-  :load-path "lisp/no-littering")
-
+(use-package no-littering)
 (require 'no-littering)
 
 ;; load up all literate org-mode files in user-emacs-directory
