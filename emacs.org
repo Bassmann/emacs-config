@@ -61,6 +61,7 @@
     - [[#nov][Nov]]
     - [[#olivetti-mode][Olivetti mode]]
     - [[#orgmode][Orgmode]]
+    - [[#powerthesaurus][Powerthesaurus]]
     - [[#todo-txt][Todo-txt]]
 - [[#programming][Programming]]
     - [[#js2-mode][JS2 Mode]]
@@ -139,7 +140,7 @@ come from.
     :END:
     I like to see the full path of the buffer and no right fringe. The default fontset
     settings shall ensure that all unicode can be displayed. It's mainly there for the eye
- candy later. Finally inhibiting font cache compacting /should/ improve performance on
+    candy later. Finally inhibiting font cache compacting /should/ improve performance on
     Windows.
     #+begin_src emacs-lisp
       (setq default-frame-alist
@@ -1445,8 +1446,9 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
             (?H "as html5." org-pandoc-export-as-html5)))
     (use-package ox-pandoc
       :after org
-      :config (add-to-list 'org-pandoc-options '(toc . t))
-      :demand t)
+;      :config (add-to-list 'org-pandoc-options '(toc . t))
+      :demand t
+      :pin MELPA)
   #+end_src
   - I use ascii export a lot but want wider text
     #+begin_src emacs-lisp
@@ -1597,6 +1599,14 @@ it would appear when exporting the org file.
     :after org
     :hook (org-mode . org-num-mode))
 #+END_SRC
+*** Powerthesaurus
+:PROPERTIES:
+:CREATED:  [2019-02-27 Mi 21:47]
+:END:
+This might be cool for writing texts
+#+begin_src emacs-lisp
+(use-package powerthesaurus)
+#+end_src
 *** Todo-txt
     :LOGBOOK:
     - Note taken on [2018-06-04 Mo 22:16] \\
