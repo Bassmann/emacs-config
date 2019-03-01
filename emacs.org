@@ -15,6 +15,7 @@
 - [[#general-configuration][General configuration]]
     - [[#ace-windows][ACE-Windows]]
     - [[#aliases][Aliases]]
+    - [[#all-the-icons][All the icons]]
     - [[#appointments][Appointments]]
     - [[#auto-revert][Auto-revert]]
     - [[#auto-save][Auto-save]]
@@ -152,7 +153,8 @@ come from.
               (left-fringe-width nil)
               (frame-resize-pixelwise t)
               (border-color . "black")
-              (menu-bar-lines . 1)))
+              (menu-bar-lines . 1))
+		inhibit-compacting-font-caches t)
 
       (setq-default frame-title-format
                     (list '((buffer-file-name " %f"
@@ -299,6 +301,15 @@ come from.
     #+begin_src emacs-lisp
     (defalias 'qrr 'query-replace-regexp)
     #+end_src
+*** All the icons
+:PROPERTIES:
+:CREATED:  [2019-02-25 Mon 09:17]
+:END:
+Show icons in buffers
+#+begin_src emacs-lisp
+(use-package all-the-icons)
+(use-package all-the-icons-ivy)
+#+end_src
 *** Appointments
 I start to use the appointment system as well, so I need to activate it. I don't want to
 be reminded more then twice before the appointment itself. I also want the diary entries
@@ -1247,6 +1258,10 @@ Olivetti provides a nice distraction-free environment.
 #+BEGIN_SRC emacs-lisp
 (setq org-modules '(org-habit org-info org-expiry))
 #+END_SRC
+- Count todo statistics across subtrees
+ #+begin_src emacs-lisp
+   (setq org-hierarchical-todo-statistics nil)
+ #+end_src
 ***** Add a created property to new entries
       :PROPERTIES:
       :CREATED:  [2018-07-09 Mo 23:26]

@@ -21,7 +21,7 @@
  '(org-column-title ((t (:background "gray" :underline t :weight bold))))
  '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
  '(org-document-title ((t (:inherit default :weight bold :height 2.0 :underline nil))))
- '(org-headline-done ((t (:foreground "dim gray" :strike-through t))))
+ '(org-headline-done ((t (:inherit variable-pitch :foreground "white" :strike-through t))))
  '(org-level-1 ((t (:inherit variable-pitch :box nil :weight bold :height 1.3))))
  '(org-level-2 ((t (:inherit variable-pitch :box nil :height 1.2))))
  '(org-level-3 ((t (:inherit variable-pitch :weight bold :height 1.25))))
