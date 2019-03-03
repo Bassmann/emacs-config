@@ -307,18 +307,21 @@ come from.
 :END:
 Show icons in buffers
 #+begin_src emacs-lisp
-  (use-package all-the-icons
-    :demand t
-    :hook
-    (dired-mode . all-the-icons-dired-mode))
-  (use-package all-the-icons-ivy
-    :ensure t
-    :demand t
-    :config
-    (setq all-the-icons-ivy-file-commands
-        '(counsel-find-file counsel-file-jump counsel-recentf counsel-projectile-find-file counsel-projectile-find-dir))
-    (all-the-icons-ivy-setup)
-  )
+    (use-package all-the-icons
+      :demand t)
+
+    (use-package all-the-icons-dired
+      :demand t
+      :hook (dired-mode . all-the-icons-dired-mode))
+
+    (use-package all-the-icons-ivy
+      :ensure t
+      :demand t
+      :config
+      (setq all-the-icons-ivy-file-commands
+            '(counsel-find-file counsel-file-jump counsel-recentf counsel-projectile-find-file counsel-projectile-find-dir))
+      (all-the-icons-ivy-setup)
+      )
 #+end_src
 *** Appointments
 I start to use the appointment system as well, so I need to activate it. I don't want to
