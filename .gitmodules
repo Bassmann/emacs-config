@@ -7,3 +7,6 @@
 [submodule "lisp/minimal"]
 	path = lisp/minimal
 	url = https://github.com/dandavison/minimal.git
+[submodule "lisp/awesome-tab"]
+	path = lisp/awesome-tab
+	url = https://github.com/manateelazycat/awesome-tab.git

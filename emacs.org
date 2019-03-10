@@ -19,6 +19,7 @@
     - [[#appointments][Appointments]]
     - [[#auto-revert][Auto-revert]]
     - [[#auto-save][Auto-save]]
+    - [[#awesome-tabs][Awesome Tabs]]
     - [[#calendar][Calendar]]
     - [[#custom][Custom]]
     - [[#dashboard][Dashboard]]
@@ -333,7 +334,6 @@ sorted.
 appt-display-interval 5)
 (add-hook 'diary-list-entries-hook 'diary-sort-entries t)
 #+END_SRC
-[2018-05-28 Mo 18:04]
 *** Auto-revert
       No messages for =auto-revert=
       #+begin_src emacs-lisp
@@ -379,6 +379,19 @@ than the default 5 seconds.
 (setq auto-save-visited-interval 60)
 (auto-save-visited-mode 1)
 #+END_SRC
+*** Awesome Tabs
+:PROPERTIES:
+:CREATED:  [2019-03-10 So 16:25]
+:END:
+Let's try tabs again
+#+begin_src emacs-lisp
+  (use-package awesome-tab
+    :load-path "lisp/awesome-tab"
+    :demand t
+    :config
+    (setq awesome-tab-style "rounded")
+    (awesome-tab-mode t))
+#+end_src
 *** Calendar
     :LOGBOOK:
     - Note taken on [2018-05-13 So 21:44] \\
