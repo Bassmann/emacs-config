@@ -1624,6 +1624,21 @@ Settings to make org buffers look nicer
      '(org-tag                   ((t (:inherit (shadow fixed-pitch) :weight bold))))
      '(org-verbatim              ((t (:inherit (shadow fixed-pitch))))))
    #+END_SRC
+- Use pretty-tags
+#+begin_src emacs-lisp
+(use-package org-pretty-tags
+  :config
+   (setq org-pretty-tags-global-mode t
+         org-pretty-tags-surrogate-strings
+         (quote
+          (("imp" . "☆")
+           ("idea" . "💡")
+           ("blog" . "✍")
+           ("Blog" . "✍")
+           ("music" . "♬")
+           ("security" . "🔥"))))
+)
+#+end_src
 ***** Org Outline numbering
 :PROPERTIES:
 :CREATED:  [2018-10-25 Do 20:36]
