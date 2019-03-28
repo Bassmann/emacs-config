@@ -71,6 +71,7 @@
     - [[#magit][Magit]]
     - [[#php-mode][PHP Mode]]
     - [[#plantuml][Plantuml]]
+    - [[#powershell][Powershell]]
     - [[#rainbow-delimiters-mode][Rainbow delimiters mode]]
     - [[#web-mode][Web Mode]]
 - [[#some-useful-functions-and-advice][Some useful functions and advice]]
@@ -1096,19 +1097,19 @@ Settings for the time in the mode line
     new files based on the filter string. That also gets added as a title into the file.
     #+begin_src emacs-lisp
       (use-package deft
-        :init
-        (setq deft-directory (concat cloud-dir "Notes"))
-        :config
-        (setq deft-default-extension "md"
-        deft-use-filename-as-title nil
-        deft-use-filter-string-for-filename t
-        deft-auto-save-interval 0
-        deft-org-mode-title-prefix t
-        deft-file-naming-rules
-          '((noslash . "-")
-            (nospace . "-")
-            (case-fn . capitalize)))
-        :bind ("C-x C-d" . deft-find-file))
+      :init
+      (setq deft-directory (concat cloud-dir "org"))
+      :config
+      (setq deft-default-extension "org"
+      deft-use-filename-as-title nil
+      deft-use-filter-string-for-filename t
+      deft-auto-save-interval 0
+      deft-org-mode-title-prefix t
+      deft-file-naming-rules
+        '((noslash . "-")
+          (nospace . "-")
+          (case-fn . capitalize)))
+      :bind ("C-x C-d" . deft-find-file))
     #+end_src
 *** delete-trailing-whitespace before saving
 :LOGBOOK:
@@ -1288,6 +1289,10 @@ Olivetti provides a nice distraction-free environment.
  #+begin_src emacs-lisp
    (setq org-hierarchical-todo-statistics nil)
  #+end_src
+- I want duration in hours/minutes rather than days
+#+begin_src emacs-lisp
+ (setq org-duration-format '((special . h:mm)))
+#+end_src
 ***** Add a created property to new entries
       :PROPERTIES:
       :CREATED:  [2018-07-09 Mo 23:26]
@@ -1371,11 +1376,11 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
                 (("m" "Meeting" entry
                   (file+olp+datetree "Journal.org")
                   "* %U - %^{Meeting}  :TIME:
-%[~/.emacs.d/config/org/meeting.txt]" :clock-in t :clock-keep t)
+%[~/.emacs.d/config/org/meeting.txt]" :clock-in t :clock-keep t :tree-type week)
                  ("j" "Journal" entry
                   (file+olp+datetree "Journal.org")
                   "* %U %?
-                         %i")
+                         %i" :tree-type week)
                  ("i" "Ideen" entry (file "Inbox.org")
                   "* %^{Title}
                          %i")
@@ -1385,15 +1390,15 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
                          %i" :immediate-finish t)
                  ("l" "Log Time" entry
                   (file+olp+datetree "Journal.org")
-                  "* %U - %^{Activity}  :TIME:" :immediate-finish t :clock-in t :clock-keep t)
+                  "* %U - %^{Activity}  :TIME:" :immediate-finish t :clock-in t :clock-keep t :tree-type week)
                  ("o" "Outcomes for today" entry
                   (file+olp+datetree "Journal.org")
                   "* %U 3 Outcomes for today [%]  :ZIELE:
-%[~/.emacs.d/config/org/.woche.txt]")
+%[~/.emacs.d/config/org/.woche.txt]" :tree-type week)
                  ("w" "Outcomes for the week" entry
                   (file+olp+datetree "Journal.org")
                   "* %U 3 Outcomes for the week [%]   :ZIELE:
-%[~/.emacs.d/config/org/.woche.txt]")
+%[~/.emacs.d/config/org/.woche.txt]" :tree-type week)
                  ("r" "Weekly Review" entry
                   (file+olp+datetree "review.org")
                   "* Weekly Review  :PERSOENLICH:
@@ -1403,7 +1408,7 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
                  ("d" "Daily Review" entry
                   (file+olp+datetree "Journal.org")
                   "* %U Daily Review
-%[~/.emacs.d/config/org/.daily_review.txt]")
+%[~/.emacs.d/config/org/.daily_review.txt]" :tree-type week)
                  ("p" "Project Planning" entry
                   (file+headline "planning.org" "Projekte")
                   "* %^{Beschreibung}
@@ -1761,6 +1766,16 @@ at least on Windows see https://github.com/magit/magit/wiki/Pushing-with-Magit-f
     :config (setq plantuml-output-type "png")
     :mode ("\\.puml\\'" . plantuml-mode))
     #+end_src
+*** Powershell
+:PROPERTIES:
+:CREATED:  [2019-03-19 Tue 09:06]
+:END:
+I startedto do some powerhsell scripting again. The combined file is nice but the new
+version exists only on MELPA. Hence the pin.
+ #+begin_src emacs-lisp
+   (use-package powershell
+     :pin "MELPA")
+ #+end_src
 *** Rainbow delimiters mode
 :LOGBOOK:
 - Note taken on [2018-09-28 Fr 18:55] \\
