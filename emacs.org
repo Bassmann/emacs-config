@@ -407,6 +407,7 @@ Let's try tabs again
             calendar-week-start-day 1
             calendar-latitude [48 9 north]
             calendar-longitude [11 34 east]
+            calendar-mark-holidays-flag t
             calendar-time-display-form
             '(24-hours ":" minutes
                        (if time-zone " (")
@@ -450,6 +451,31 @@ Let's try tabs again
             (append holiday-general-holidays holiday-local-holidays holiday-other-holidays
                     holiday-christian-holidays holiday-solar-holidays))
     #+end_src
+    Better views of calendar from [[https://github.com/seagle0128/.emacs.d][GitHub - seagle0128/.emacs.d: Centaur Emacs - A Fancy and Fast Emacs Configur...]]
+#+begin_src emacs-lisp
+(use-package calfw
+  :commands cfw:open-calendar-buffer
+  :bind ("<C-f12>" . open-calendar)
+  :init
+  (use-package calfw-org
+    :commands (cfw:open-org-calendar cfw:org-create-source))
+
+  (use-package calfw-ical
+    :commands (cfw:open-ical-calendar cfw:ical-create-source))
+
+  (defun open-calendar ()
+    "Open calendar."
+    (interactive)
+    (unless (ignore-errors
+              (cfw:open-calendar-buffer
+               :contents-sources
+               (list
+                (when org-agenda-files
+                  (cfw:org-create-source "YellowGreen"))
+                (when (bound-and-true-p centaur-ical)
+                  (cfw:ical-create-source "gcal" centaur-ical "IndianRed")))))
+      (cfw:open-calendar-buffer))))
+#+end_src
 *** Custom
 :PROPERTIES:
 :CREATED:  [2018-12-15 Sa 18:32]
@@ -872,6 +898,7 @@ Improves the package menu via [[https://github.com/a13/emacs.d][GitHub - a13/ema
   (use-package paradox
     :defer 1
     :config
+    (setq  paradox-automatically-star nil)
     (paradox-enable))
 #+END_SRC
 *** Moody
@@ -932,11 +959,11 @@ An idea from https://blog.d46.us/advanced-emacs-startup/ to reduce emacs startup
         recentf-menu-open-all-flag t
         ;; disable recentf-cleanup on Emacs start, because it can cause
         ;; problems with remote files
-        recentf-auto-cleanup 'never)
-  (add-to-list 'recentf-exclude  '("/\\.emacs\\.d/elpa/"))
+        recentf-cleanup-auto 'never)
+  (add-to-list 'recentf-exclude  (expand-file-name package-user-dir))
   (add-to-list 'recentf-exclude no-littering-var-directory)
   (add-to-list 'recentf-exclude no-littering-etc-directory)
-  (recentf-mode +1))
+  :hook (after-init . recentf-mode))
 #+end_src
 *** Saveplace
     :LOGBOOK:
@@ -1631,18 +1658,29 @@ Settings to make org buffers look nicer
    #+END_SRC
 - Use pretty-tags
 #+begin_src emacs-lisp
-(use-package org-pretty-tags
-  :config
-   (setq org-pretty-tags-global-mode t
-         org-pretty-tags-surrogate-strings
-         (quote
-          (("imp" . "☆")
-           ("idea" . "💡")
-           ("blog" . "✍")
-           ("Blog" . "✍")
-           ("music" . "♬")
-           ("security" . "🔥"))))
-)
+  (use-package org-pretty-tags
+    :demand t
+    :config
+     (setq org-pretty-tags-global-mode t
+           org-pretty-tags-surrogate-strings
+           (quote
+            (("imp" . "☆")
+             ("idea" . "💡")
+             ("blog" . "✍")
+             ("Blog" . "✍")
+             ("music" . "♬")
+             ("security" . "🔥")))))
+#+end_src
+- Use Fancy priorities
+#+begin_src emacs-lisp
+  (use-package org-fancy-priorities
+    :diminish
+    :demand t
+    :defines org-fancy-priorities-list
+    :hook (org-mode . org-fancy-priorities-mode)
+    :config
+    (unless (char-displayable-p ?❗)
+      (setq org-fancy-priorities-list '("HIGH" "MID" "LOW" "OPTIONAL"))))
 #+end_src
 ***** Org Outline numbering
 :PROPERTIES:
