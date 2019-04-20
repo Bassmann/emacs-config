@@ -11,7 +11,7 @@
     - [[#garbage-collect-on-focus-out-emacs-should-feel-snappier][Garbage-collect on focus-out, Emacs /should/ feel snappier.]]
     - [[#set-coding-system][Set coding system]]
     - [[#theme][Theme]]
-    - [[#backup][Backup]]
+    - [[#no-trailing-whitespace-and-backup][No trailing whitespace and backup]]
 - [[#general-configuration][General configuration]]
     - [[#ace-windows][ACE-Windows]]
     - [[#aliases][Aliases]]
@@ -266,19 +266,25 @@ come from.
         :config
         (load-theme 'material t))
     #+end_src
-*** Backup
+*** No trailing whitespace and backup
     :LOGBOOK:
     - Note taken on [2018-04-29 So 20:40] \\
       Trying ideas from https://www.emacswiki.org/emacs/BackupDirectory
     :END:
-    Backups should be more than one and go in a dedicated directory
+I don't want to see trailing whitespace. Adding this as a general =before-save-hook= does the job
+automatically upon save. Backups should be more than one and go in a dedicated directory
     #+begin_src emacs-lisp
-    (setq
-    backup-by-copying t      ; don't clobber symlinks
-    delete-old-versions t
-    kept-new-versions 6
-    kept-old-versions 2
-    version-control t)       ; use versioned backups
+      (use-package files
+        :ensure nil
+        :hook
+        (before-save . delete-trailing-whitespace)
+        :custom
+        ;; backup settings
+        (backup-by-copying t "don't clobber symlinks")
+        (delete-old-versions t)
+        (kept-new-versions 6)
+        (kept-old-versions 2)
+        (version-control t "use versioned backups"))
     #+end_src
 * General configuration
 *** ACE-Windows
@@ -1144,8 +1150,6 @@ Settings for the time in the mode line
   From Karl Voit's .emacs
 :END:
 
-I don't want to see trailing whitespace. Adding this as a general =before-save-hook= does the job
-automatically upon save:
 
 #+BEGIN_SRC emacs-lisp
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -1535,49 +1539,49 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
     :pin MELPA)
 #+END_SRC
 ***** Org-cliplink
-      Easily insert links form the clipboard in org-mode files
+Easily insert links form the clipboard in org-mode files
       #+BEGIN_SRC emacs-lisp
       (use-package org-cliplink
       :bind ("C-c p" . org-cliplink))
       #+END_SRC
 ***** Org-Clock
-      :PROPERTIES:
+:PROPERTIES:
 :CREATED:  [2018-08-24 Fr 13:43]
 :END:
-      I started again to use clocking in Org-mode. Here are the related settings
-      #+BEGIN_SRC emacs-lisp
-        (setq org-clock-persist t
-              org-clock-in-resume t
-              org-clock-report-include-clocking-task t
-              org-clock-mode-line-total 'current
-              org-agenda-clockreport-parameter-plist '(:link t :maxlevel 3))
-        (org-clock-persistence-insinuate)
-      #+END_SRC
+I started again to use clocking in Org-mode. Here are the related settings
+#+BEGIN_SRC emacs-lisp
+  (setq org-clock-persist t
+        org-clock-in-resume t
+        org-clock-report-include-clocking-task t
+        org-clock-mode-line-total 'current
+        org-agenda-clockreport-parameter-plist '(:link t :maxlevel 3))
+  (org-clock-persistence-insinuate)
+  #+END_SRC
 ***** Additional link type for TAGS
       :LOGBOOK:
       - Note taken on [2018-05-19 Sa 18:55] \\
         From http://endlessparentheses.com/use-org-mode-links-for-absolutely-anything.html
       :END:
       The following code defines links which search your headlines for specific tags.
-      #+BEGIN_SRC emacs-lisp
-      (org-add-link-type
-      "tag" 'endless/follow-tag-link)
+#+BEGIN_SRC emacs-lisp
+  (org-add-link-type
+   "tag" 'endless/follow-tag-link)
 
-      (defun endless/follow-tag-link (tag)
-      "Display a list of TODO headlines with tag TAG.
-      With prefix argument, also display headlines without a TODO keyword."
-      (org-tags-view (null current-prefix-arg) tag))
-      #+END_SRC
+  (defun endless/follow-tag-link (tag)
+    "Display a list of TODO headlines with tag TAG.
+  With prefix argument, also display headlines without a TODO keyword."
+    (org-tags-view (null current-prefix-arg) tag))
+#+END_SRC
 
-      Then, merely write your links as =[[tag:work+phonenumber-boss][Optional Description]\]=
+Then, merely write your links as =[[tag:work+phonenumber-boss][Optional Description]\]=
 ***** Toc-Org
-     Table of contents in Org Files
-        #+BEGIN_SRC emacs-lisp
-        (use-package toc-org
-          :ensure t
-          :after org
-          :hook (org-mode . toc-org-enable))
-      #+END_SRC
+Table of contents in Org Files
+#+BEGIN_SRC emacs-lisp
+  (use-package toc-org
+    :ensure t
+    :after org
+    :hook (org-mode . toc-org-enable))
+#+END_SRC
 ***** Org Beautify
 :PROPERTIES:
 :CREATED:  [2018-08-18 Sa 22:00]
@@ -1629,7 +1633,7 @@ Settings to make org buffers look nicer
    #+END_SRC
 - Prettify src blocks
   Inspired by a comment in [[https://www.reddit.com/r/emacs/comments/9lpupc/i_use_markdown_rather_than_orgmode_for_my_notes/][i use markdown rather than org-mode for my notes : emacs]] I
-  looked at the now builtin mode =prettify-symbols-mode=.. The configuration follows the
+  I looked at the now builtin mode =prettify-symbols-mode=.. The configuration follows the
   example given in [[http://endlessparentheses.com/new-in-emacs-25-1-have-prettify-symbols-mode-reveal-the-symbol-at-point.html][New in Emacs 25.1: Have prettify-symbols-mode reveal the symbol at point · En...]].
   #+BEGIN_SRC emacs-lisp
     (setq-default prettify-symbols-alist '(("#+BEGIN_SRC" . "†")
