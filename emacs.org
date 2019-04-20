@@ -1532,8 +1532,7 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
   (use-package ox-hugo
     :demand t
     :after ox
-    :custom
-    (safe-local-variable-values (quote ((org-hugo-auto-export-on-save . t)))))
+    :pin MELPA)
 #+END_SRC
 ***** Org-cliplink
       Easily insert links form the clipboard in org-mode files
