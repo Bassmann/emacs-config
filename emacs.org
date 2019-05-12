@@ -65,6 +65,7 @@
     - [[#orgmode][Orgmode]]
     - [[#powerthesaurus][Powerthesaurus]]
     - [[#todo-txt][Todo-txt]]
+    - [[#ztree][ZTree]]
 - [[#programming][Programming]]
     - [[#js2-mode][JS2 Mode]]
     - [[#less-css][LESS-CSS]]
@@ -353,12 +354,17 @@ appt-display-interval 5)
       #+end_src
 *** Auto-save
 :LOGBOOK:
+- Note taken on [2019-05-12 So 16:43] \\
+  Changed lisp code as recommendedon no-litering site
 - Note taken on [2018-07-19 Do 18:49] \\
   Added the code for =auto-save-file-name-transforms=
 :END:
 =no-littering= seems not to include this so I'll add it here
 #+BEGIN_SRC emacs-lisp
-(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/data/auto-save/\\1" t)))
+;(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/data/auto-save/\\1" t)))
+(setq auto-save-file-name-transforms
+      `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+
 #+END_SRC
 
 [2013-05-12 So 16:50] The following code is borrowed from prelude
@@ -721,7 +727,6 @@ it seems to work. At least on ArchLabs it also requires the =s= package so I'll 
         :bind(([remap scroll-down-command] . golden-ratio-scroll-screen-down)
               ([remap scroll-up-command] . golden-ratio-scroll-screen-up)))
     #+END_SRC
-
 *** Helpful
 :PROPERTIES:
 :CREATED:  [2018-12-17 Mo 10:21]
@@ -861,7 +866,6 @@ Most of the time I don't  need the menu bar but it's useful to quickly get to it
     :bind
     ([S-f10] . menu-bar-mode))
 #+END_SRC
-
 *** Minimal
 Replace the mode-line by a single small line. Useful for distraction-free writing
 #+BEGIN_SRC emacs-lisp
@@ -1639,7 +1643,9 @@ Settings to make org buffers look nicer
     (setq-default prettify-symbols-alist '(("#+BEGIN_SRC" . "†")
                                            ("#+END_SRC" . "†")
                                            ("#+begin_src" . "†")
-                                           ("#+end_src" . "†")))
+                                           ("#+end_src" . "†")
+                                           (">=" . "≥")
+                                           ("=>" . "⇨")))
     (setq prettify-symbols-unprettify-at-point 'right-edge)
     (add-hook 'org-mode-hook 'prettify-symbols-mode)
   #+END_SRC
@@ -1754,6 +1760,14 @@ This might be cool for writing texts
     C-c C-f d       todotxt-filter-by-status
     C-c C-f p       todotxt-filter-by-project
     C-c C-f t       todotxt-filter-by-tag
+*** ZTree
+:PROPERTIES:
+:CREATED:  [2019-05-12 So 16:34]
+:END:
+A nice directory diff tool
+#+begin_src emacs-lisp
+(use-package ztree)
+#+end_src
 * Programming
 *** JS2 Mode
     :LOGBOOK:
@@ -1858,7 +1872,6 @@ version exists only on MELPA. Hence the pin.
           (list (line-beginning-position)
             (line-beginning-position 2)))))
     #+end_src
-
 *** Use Ido to open recent files
 :LOGBOOK:
 - Note taken on [2018-09-30 So 20:45] \\
@@ -1874,7 +1887,6 @@ version exists only on MELPA. Hence the pin.
 
  ;    (global-set-key "\C-x\C-r" 'ido-recentf-open)
     #+end_src
-
 *** Don't ask if a buffer visits a running process during killing emacs. =remq= removes the relevant function
     :LOGBOOK:
     - Note taken on [2013-07-13 Sa 20:11] \\
@@ -1885,7 +1897,6 @@ version exists only on MELPA. Hence the pin.
     (remq 'process-kill-buffer-query-function
     kill-buffer-query-functions))
     #+end_src
-
 *** Insert date
     :LOGBOOK:
     - Note taken on [2018-04-29 So 20:30] \\
