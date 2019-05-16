@@ -103,7 +103,7 @@
 
   The =init.el= file is where everything begins. It is loaded automatically by Emacs on
   startup, It prepares the repositories I use and the package system to load all packages
-  the further startup depends on. finally it set ups the highly useful =no-littering=
+  the further startup depends on. Finally it set ups the highly useful =no-littering=
   package.
 
  I aim to use =use-package= as much as possible because I like the clean code and the fast
@@ -224,7 +224,6 @@ come from.
               solarized-use-more-italic t)
         (load-theme 'solarized-dark t))
     #+end_src
-
     =leuven= is nice for Org-Mode
     #+BEGIN_SRC emacs-lisp
           (use-package leuven-theme
@@ -319,9 +318,10 @@ Show icons in buffers
     (use-package all-the-icons
       :demand t)
 
-    (use-package all-the-icons-dired
-      :demand t
-      :hook (dired-mode . all-the-icons-dired-mode))
+  (use-package all-the-icons-dired
+    :demand t
+    :custom-face (all-the-icons-dired-dir-face ((t (:foreground nil))))
+    :hook (dired-mode . all-the-icons-dired-mode))
 
     (use-package all-the-icons-ivy
       :ensure t
@@ -1029,16 +1029,16 @@ Settings for the time in the mode line
     (display-time-mode t))
 #+END_SRC
 *** Uniquify
-    Emacs's standard method for making buffer names unique adds <2>, <3>, etc. to the end
-    of (all but one of) the buffers. =uniquify= replaces that behavior, for buffers
-    visiting files and dired buffers, with a uniquification that adds parts of the file
-    name until the buffer names are unique.
-    #+begin_src emacs-lisp
-      (use-package uniquify
-        :config
-        (setq uniquify-buffer-name-style 'forward)
-        :ensure nil)
-    #+end_src
+Emacs's standard method for making buffer names unique adds <2>, <3>, etc. to the end
+of (all but one of) the buffers. =uniquify= replaces that behavior, for buffers
+visiting files and dired buffers, with a uniquification that adds parts of the file
+name until the buffer names are unique.
+#+begin_src emacs-lisp
+  (use-package uniquify
+    :config
+    (setq uniquify-buffer-name-style 'forward)
+    :ensure nil)
+#+end_src
 *** Visualise whitespace
     :LOGBOOK:
     - Note taken on [2018-05-13 So 21:09] \\
@@ -1055,8 +1055,8 @@ Settings for the time in the mode line
 :END:
 =which-key= provides visual hints for keybindings
 #+BEGIN_SRC emacs-lisp
-(use-package which-key)
-(which-key-mode)
+(use-package which-key
+:hook (after-init . which-key-mode))
 #+END_SRC
 * Editing related items
 *** Abbrevs
@@ -1087,8 +1087,8 @@ Settings for the time in the mode line
     backend
     #+begin_src emacs-lisp
     (use-package company-web
-    :diminish t)
-    (add-hook 'after-init-hook 'global-company-mode)
+    :diminish t
+    :hook (after-init . global-company-mode))
     #+end_src
 
     Some more config coming from
@@ -1101,14 +1101,50 @@ Settings for the time in the mode line
               company-minimum-prefix-length 2
               company-show-numbers t
               company-tooltip-align-annotations 't)
-        (global-company-mode t))
+        :hook (after-init . global-company-mode))
     #+END_SRC
     including nice GUI
     #+BEGIN_SRC emacs-lisp
       (use-package company-box
         :after company
         :diminish
-        :hook (company-mode . company-box-mode))
+        :hook (company-mode . company-box-mode)
+        :init (setq company-box-icons-alist 'company-box-icons-all-the-icons)
+      :config
+      (setq company-box-backends-colors nil)
+      (setq company-box-show-single-candidate t)
+      (setq company-box-max-candidates 50)
+      (with-eval-after-load 'all-the-icons
+        (declare-function all-the-icons-faicon 'all-the-icons)
+        (declare-function all-the-icons-material 'all-the-icons)
+        (setq company-box-icons-all-the-icons
+              `((Unknown . ,(all-the-icons-material "find_in_page" :height 0.9 :v-adjust -0.2))
+                (Text . ,(all-the-icons-faicon "text-width" :height 0.85 :v-adjust -0.05))
+                (Method . ,(all-the-icons-faicon "cube" :height 0.85 :v-adjust -0.05 :face 'all-the-icons-purple))
+                (Function . ,(all-the-icons-faicon "cube" :height 0.85 :v-adjust -0.05 :face 'all-the-icons-purple))
+                (Constructor . ,(all-the-icons-faicon "cube" :height 0.85 :v-adjust -0.05 :face 'all-the-icons-purple))
+                (Field . ,(all-the-icons-faicon "tag" :height 0.85 :v-adjust -0.05 :face 'all-the-icons-lblue))
+                (Variable . ,(all-the-icons-faicon "tag" :height 0.85 :v-adjust -0.05 :face 'all-the-icons-lblue))
+                (Class . ,(all-the-icons-material "settings_input_component" :height 0.9 :v-adjust -0.2 :face 'all-the-icons-orange))
+                (Interface . ,(all-the-icons-material "share" :height 0.9 :v-adjust -0.2 :face 'all-the-icons-lblue))
+                (Module . ,(all-the-icons-material "view_module" :height 0.9 :v-adjust -0.2 :face 'all-the-icons-lblue))
+                (Property . ,(all-the-icons-faicon "wrench" :height 0.85 :v-adjust -0.05))
+                (Unit . ,(all-the-icons-material "settings_system_daydream" :height 0.9 :v-adjust -0.2))
+                (Value . ,(all-the-icons-material "format_align_right" :height 0.9 :v-adjust -0.2 :face 'all-the-icons-lblue))
+                (Enum . ,(all-the-icons-material "storage" :height 0.9 :v-adjust -0.2 :face 'all-the-icons-orange))
+                (Keyword . ,(all-the-icons-material "filter_center_focus" :height 0.9 :v-adjust -0.2))
+                (Snippet . ,(all-the-icons-material "format_align_center" :height 0.9 :v-adjust -0.2))
+                (Color . ,(all-the-icons-material "palette" :height 0.9 :v-adjust -0.2))
+                (File . ,(all-the-icons-faicon "file-o" :height 0.9 :v-adjust -0.05))
+                (Reference . ,(all-the-icons-material "collections_bookmark" :height 0.9 :v-adjust -0.2))
+                (Folder . ,(all-the-icons-faicon "folder-open" :height 0.9 :v-adjust -0.05))
+                (EnumMember . ,(all-the-icons-material "format_align_right" :height 0.9 :v-adjust -0.2 :face 'all-the-icons-lblue))
+                (Constant . ,(all-the-icons-faicon "square-o" :height 0.9 :v-adjust -0.05))
+                (Struct . ,(all-the-icons-material "settings_input_component" :height 0.9 :v-adjust -0.2 :face 'all-the-icons-orange))
+                (Event . ,(all-the-icons-faicon "bolt" :height 0.85 :v-adjust -0.05 :face 'all-the-icons-orange))
+                (Operator . ,(all-the-icons-material "control_point" :height 0.9 :v-adjust -0.2))
+                (TypeParameter . ,(all-the-icons-faicon "arrows" :height 0.85 :v-adjust -0.05))
+                (Template . ,(all-the-icons-material "format_align_center" :height 0.9 :v-adjust -0.2))))))
     #+END_SRC
     Some additional settings mentioned on https://github.com/osv/company-web
     #+begin_src emacs-lisp
@@ -1201,10 +1237,9 @@ There are a bunch of markdown files I use regularly. So a fitting mode is approp
 =nov= is a mode to read epub files in Emacs. It looks nice so I'll try that.
  #+begin_src emacs-lisp
    (use-package nov
+     :mode ("\\.epub\\'" . nov-mode)
      :config
      (setq nov-text-width 100))
-
-   (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
  #+end_src
 *** Olivetti mode
 :PROPERTIES:
@@ -1637,7 +1672,7 @@ Settings to make org buffers look nicer
    #+END_SRC
 - Prettify src blocks
   Inspired by a comment in [[https://www.reddit.com/r/emacs/comments/9lpupc/i_use_markdown_rather_than_orgmode_for_my_notes/][i use markdown rather than org-mode for my notes : emacs]] I
-  I looked at the now builtin mode =prettify-symbols-mode=.. The configuration follows the
+  looked at the now builtin mode =prettify-symbols-mode=.. The configuration follows the
   example given in [[http://endlessparentheses.com/new-in-emacs-25-1-have-prettify-symbols-mode-reveal-the-symbol-at-point.html][New in Emacs 25.1: Have prettify-symbols-mode reveal the symbol at point · En...]].
   #+BEGIN_SRC emacs-lisp
     (setq-default prettify-symbols-alist '(("#+BEGIN_SRC" . "†")
@@ -1670,15 +1705,15 @@ Settings to make org buffers look nicer
   (use-package org-pretty-tags
     :demand t
     :config
-     (setq org-pretty-tags-global-mode t
-           org-pretty-tags-surrogate-strings
+     (setq org-pretty-tags-surrogate-strings
            (quote
-            (("imp" . "☆")
-             ("idea" . "💡")
-             ("blog" . "✍")
+            (("TOPIC" . "☆")
+             ("PROJEKT" . "💡")
+             ("SERVICE" . "✍")
              ("Blog" . "✍")
              ("music" . "♬")
-             ("security" . "🔥")))))
+             ("security" . "🔥"))))
+     (org-pretty-tags-global-mode))
 #+end_src
 - Use Fancy priorities
 #+begin_src emacs-lisp
