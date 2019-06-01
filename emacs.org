@@ -16,6 +16,7 @@
     - [[#ace-windows][ACE-Windows]]
     - [[#aliases][Aliases]]
     - [[#all-the-icons][All the icons]]
+    - [[#ansi-term][Ansi-Term]]
     - [[#appointments][Appointments]]
     - [[#auto-revert][Auto-revert]]
     - [[#auto-save][Auto-save]]
@@ -331,6 +332,22 @@ Show icons in buffers
             '(counsel-find-file counsel-file-jump counsel-recentf counsel-projectile-find-file counsel-projectile-find-dir))
       (all-the-icons-ivy-setup)
       )
+#+end_src
+*** Ansi-Term
+:PROPERTIES:
+:CREATED:  [2019-06-01 Sa 14:05]
+:END:
+I just found =ansi-term= which is a much nicer shell in Emacs. The following code from
+https://echosa.github.io/blog/2012/06/06/improving-ansi-term/ removes the buffer after
+exiting the shell.
+#+begin_src emacs-lisp
+(defadvice term-sentinel (around my-advice-term-sentinel (proc msg))
+  (if (memq (process-status proc) '(signal exit))
+      (let ((buffer (process-buffer proc)))
+        ad-do-it
+        (kill-buffer buffer))
+    ad-do-it))
+(ad-activate 'term-sentinel)
 #+end_src
 *** Appointments
 I start to use the appointment system as well, so I need to activate it. I don't want to
