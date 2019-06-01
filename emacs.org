@@ -519,6 +519,7 @@ I prefer setting things in this file rather than = custom.el=.
     (global-font-lock-mode t nil (font-lock))
     (indent-region-mode t)
     (indent-tabs-mode nil "Spaces!")
+    (tab-always-indent 'complete "smart tab behavior - indent or complete")
     (indicate-empty-lines t)
     (inhibit-startup-screen t "Don't show splash screen")
     (initial-buffer-choice t)
@@ -1363,6 +1364,14 @@ Olivetti provides a nice distraction-free environment.
 #+begin_src emacs-lisp
  (setq org-duration-format '((special . h:mm)))
 #+end_src
+- Follow links by pressing ENTER on them
+#+begin_src emacs-lisp
+(setq org-return-follows-link t)
+#+end_src
+- Adapt indentation
+#+begin_src emacs-lisp
+(setq org-adapt-indentation t)
+#+end_src
 ***** Add a created property to new entries
       :PROPERTIES:
       :CREATED:  [2018-07-09 Mo 23:26]
@@ -1593,6 +1602,7 @@ I started again to use clocking in Org-mode. Here are the related settings
         org-clock-in-resume t
         org-clock-report-include-clocking-task t
         org-clock-mode-line-total 'current
+        org-clock-out-remove-zero-time-clocks t
         org-agenda-clockreport-parameter-plist '(:link t :maxlevel 3))
   (org-clock-persistence-insinuate)
   #+END_SRC
@@ -1632,6 +1642,7 @@ Settings to make org buffers look nicer
           org-fontify-done-headline t
           org-hide-leading-stars t
           org-pretty-entities t
+          org-pretty-entities-include-sub-superscripts nil
           org-odd-levels-only t)
   #+END_SRC
 - Automatically change list bullets
