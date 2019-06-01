@@ -13,6 +13,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Source Code Pro" :foundry "outline" :slant normal :weight normal :height 113 :width normal))))
+ '(all-the-icons-dired-dir-face ((t (:foreground nil))))
  '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 3.0))))
  '(fixed-pitch ((t (:family "Consolas" :slant normal :weight normal :height 0.9 :width normal))))
  '(org-block ((t (:inherit fixed-pitch))))
