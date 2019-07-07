@@ -252,18 +252,19 @@ come from.
     =doom-nova= is my newest favorite but has issues with =org-bullets=. These have been
     resolved due to proper fontset settings.
     #+BEGIN_SRC emacs-lisp
-      (use-package doom
+      (use-package doom-themes
         :demand t
-        :disabled
         :config
         (load-theme 'doom-nova t)
-        ;(doom-themes-org-config)
-        (doom-themes-visual-bell-config))
+        (doom-themes-org-config)
+        (doom-themes-visual-bell-config)
+      )
     #+END_SRC
     Let's try =material= for a while
     #+begin_src emacs-lisp
       (use-package material-theme
         :demand t
+        :disabled
         :config
         (load-theme 'material t))
     #+end_src
@@ -417,11 +418,32 @@ Let's try tabs again
 #+begin_src emacs-lisp
   (use-package awesome-tab
     :load-path "lisp/awesome-tab"
+    :disabled
     :demand t
     :config
     (setq awesome-tab-style "rounded")
     (awesome-tab-mode t))
 #+end_src
+#+begin_src emacs-lisp
+  (use-package centaur-tabs
+    :demand
+    :config
+    (setq centaur-tabs-set-bar t
+          centaur-tabs-height 32
+          centaur-tabs-set-icons t
+          centaur-tabs-set-modified-marker t
+          centaur-tabs-style "bar")
+    (centaur-tabs-mode t)
+    :bind
+    ("C-<prior>" . centaur-tabs-backward)
+    ("C-<next>" . centaur-tabs-forward)
+    :hook
+    (dashboard-mode . centaur-tabs-local-mode)
+    (term-mode . centaur-tabs-local-mode)
+    (calendar-mode . centaur-tabs-local-mode)
+    (org-agenda-mode . centaur-tabs-local-mode)
+    (helpful-mode . centaur-tabs-local-mode))
+  #+end_src
 *** Calendar
     :LOGBOOK:
     - Note taken on [2018-05-13 So 21:44] \\
