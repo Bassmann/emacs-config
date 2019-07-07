@@ -11,7 +11,7 @@
     - [[#garbage-collect-on-focus-out-emacs-should-feel-snappier][Garbage-collect on focus-out, Emacs /should/ feel snappier.]]
     - [[#set-coding-system][Set coding system]]
     - [[#theme][Theme]]
-    - [[#no-trailing-whitespace-and-backup][No trailing whitespace and backup]]
+    - [[#backup][Backup]]
 - [[#general-configuration][General configuration]]
     - [[#ace-windows][ACE-Windows]]
     - [[#aliases][Aliases]]
@@ -268,7 +268,7 @@ come from.
         :config
         (load-theme 'material t))
     #+end_src
-*** No trailing whitespace and backup
+*** Backup
     :LOGBOOK:
     - Note taken on [2018-04-29 So 20:40] \\
       Trying ideas from https://www.emacswiki.org/emacs/BackupDirectory
@@ -316,13 +316,18 @@ automatically upon save. Backups should be more than one and go in a dedicated d
 :CREATED:  [2019-02-25 Mon 09:17]
 :END:
 Show icons in buffers
+It seems I need =font-lock+.el= for it to work on Windows.
+#+begin_src emacs-lisp
+(use-package font-lock+
+:load-path "lisp"
+:demand t)
+#+end_src
 #+begin_src emacs-lisp
     (use-package all-the-icons
       :demand t)
 
   (use-package all-the-icons-dired
     :demand t
-    :custom-face (all-the-icons-dired-dir-face ((t (:foreground nil))))
     :hook (dired-mode . all-the-icons-dired-mode))
 
     (use-package all-the-icons-ivy
@@ -430,7 +435,7 @@ Let's try tabs again
     :config
     (setq centaur-tabs-set-bar t
           centaur-tabs-height 32
-          centaur-tabs-set-icons t
+          centaur-tabs-set-icons nil
           centaur-tabs-set-modified-marker t
           centaur-tabs-style "bar")
     (centaur-tabs-mode t)
