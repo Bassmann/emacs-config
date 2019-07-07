@@ -584,18 +584,18 @@ I prefer setting things in this file rather than = custom.el=.
     #+end_src
 *** date2name
     :LOGBOOK:
+    - Note taken on [2019-07-07 So 11:59] \\
+      It's now in MELPA
 - Note taken on [2018-07-20 Fr 08:48] \\
   From Karl Voit's .emacs
 :END:
-
-    https://github.com/DerBeutlin/date2name.el provides =date2name-dired-add-date-to-name()=
-    which is an Elisp-native re-implementation of [[https://github.com/novoid/date2name][date2name]]:
+https://github.com/DerBeutlin/date2name.el provides =date2name-dired-add-date-to-name()=
+which is an Elisp-native re-implementation of [[https://github.com/novoid/date2name][date2name]]:
 
 #+BEGIN_SRC emacs-lisp
   (use-package date2name
-    :load-path "lisp/date2name.el/"
     :demand t)
-    #+END_SRC
+#+END_SRC
 *** Dimish
     :LOGBOOK:
     - Note taken on [2018-05-13 So 21:09] \\
@@ -716,6 +716,8 @@ Useful to reuse the already running instance
 #+END_SRC
 *** filetags.el
 :LOGBOOK:
+- Note taken on [2019-07-07 So 12:00] \\
+  It's now on MELPA
 - Note taken on [2018-07-20 Fr 08:47] \\
   From Karl Voit's .emacs
 :END:
@@ -731,10 +733,9 @@ it seems to work. At least on ArchLabs it also requires the =s= package so I'll 
 
 #+BEGIN_SRC emacs-lisp
   (use-package filetags
-    :load-path  "lisp/filetags.el/"
-    :demand t
-    :config
-    (setq filetags-load-controlled-vocabulary-from-file t) ;; read CV from .filetags files within same or upper directories
+      :demand t
+      :custom
+      (filetags-load-controlled-vocabulary-from-file t "read CV from .filetags files within same or upper directories")
   )
 #+END_SRC
 *** Golden ratio scrolling
