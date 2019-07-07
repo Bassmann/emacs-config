@@ -74,6 +74,7 @@
     - [[#php-mode][PHP Mode]]
     - [[#plantuml][Plantuml]]
     - [[#powershell][Powershell]]
+    - [[#python][Python]]
     - [[#rainbow-delimiters-mode][Rainbow delimiters mode]]
     - [[#web-mode][Web Mode]]
 - [[#some-useful-functions-and-advice][Some useful functions and advice]]
@@ -1925,6 +1926,33 @@ version exists only on MELPA. Hence the pin.
    (use-package powershell
      :pin "MELPA")
  #+end_src
+*** Python
+:PROPERTIES:
+:CREATED:  [2019-07-07 So 20:51]
+:END:
+I need to do some python programming so I need to have it in Emacs. The config follows [[https://realpython.com/emacs-the-best-python-editor/][400 The plain HTTP request was sent to HTTPS port]]
+#+begin_src emacs-lisp
+(use-package elpy
+  :ensure t
+  :defer t
+  :init
+  (advice-add 'python-mode :before 'elpy-enable))
+#+end_src
+I want syntax checking as well with flycheck
+#+begin_src emacs-lisp
+  (use-package flycheck
+    :config
+    (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+    :hook
+    (elpy-mode . flycheck-mode))
+#+end_src
+and PEP8 compliance
+#+begin_src emacs-lisp
+  (use-package py-autopep8
+    :hook
+    (elpy-mode . py-autopep8-enable-on-save)
+    )
+#+end_src
 *** Rainbow delimiters mode
 :LOGBOOK:
 - Note taken on [2018-09-28 Fr 18:55] \\
