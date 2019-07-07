@@ -1,9 +1,3 @@
-[submodule "lisp/date2name.el"]
-	path = lisp/date2name.el
-	url = https://github.com/DerBeutlin/date2name.el
-[submodule "lisp/filetags.el"]
-	path = lisp/filetags.el
-	url = https://github.com/DerBeutlin/filetags.el
 [submodule "lisp/minimal"]
 	path = lisp/minimal
 	url = https://github.com/dandavison/minimal.git
