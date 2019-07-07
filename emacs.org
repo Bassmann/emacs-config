@@ -1731,7 +1731,10 @@ Settings to make org buffers look nicer
                                            ("#+begin_src" . "†")
                                            ("#+end_src" . "†")
                                            (">=" . "≥")
-                                           ("=>" . "⇨")))
+                                           ("=>" . "⇨")
+                                           ("[ ]" .  "☐")
+                                           ("[X]" . "☑")
+                                           ("[-]" . "❍" )))
     (setq prettify-symbols-unprettify-at-point 'right-edge)
     (add-hook 'org-mode-hook 'prettify-symbols-mode)
   #+END_SRC
