@@ -51,6 +51,7 @@
     - [[#saveplace][Saveplace]]
     - [[#smooth-scrolling][Smooth scrolling]]
     - [[#time][Time]]
+    - [[#treemacs][Treemacs]]
     - [[#uniquify][Uniquify]]
     - [[#visualise-whitespace][Visualise whitespace]]
     - [[#which-key][Which-key]]
@@ -696,14 +697,6 @@ package, use the following code:
 This sets up the keybinds so that in dired, hitting i on a subdirectory expands it in
 place with an indented listing. You can expand sub-subdirectories in the same way, and so
 on. Hitting ; inside an expanded subdirectory collapses it.
-
-I like icons in th dired buffer from =treemacs=
-#+BEGIN_SRC emacs-lisp
-(use-package treemacs-icons-dired
-  :after treemacs dired
-  :ensure t
-  :config (treemacs-icons-dired-mode))
-#+END_SRC
 *** Display
 :PROPERTIES:
 :CREATED:  [2018-12-15 Sa 18:06]
@@ -1074,6 +1067,36 @@ Settings for the time in the mode line
                (if display-time-24hr-format "" am-pm)))))
     :config
     (display-time-mode t))
+#+END_SRC
+*** Treemacs
+:PROPERTIES:
+:CREATED:  [2019-07-21 So 21:33]
+:END:
+Treemacs makes for a nice sidebar similar to other editors
+#+begin_src emacs-lisp
+(use-package treemacs
+  :ensure t
+  :defer t
+  :init
+  :config
+    (treemacs-follow-mode t)
+    (treemacs-filewatch-mode t)
+    (treemacs-fringe-indicator-mode t)
+  :bind
+  (:map global-map
+        ("M-0"       . treemacs-select-window)
+        ("C-x t 1"   . treemacs-delete-other-windows)
+        ("C-x t t"   . treemacs)
+        ("C-x t B"   . treemacs-bookmark)
+        ("C-x t C-t" . treemacs-find-file)
+        ("C-x t M-t" . treemacs-find-tag)))
+#+end_src
+I like icons in th dired buffer from =treemacs=
+#+BEGIN_SRC emacs-lisp
+(use-package treemacs-icons-dired
+  :after treemacs dired
+  :ensure t
+  :config (treemacs-icons-dired-mode))
 #+END_SRC
 *** Uniquify
 Emacs's standard method for making buffer names unique adds <2>, <3>, etc. to the end
