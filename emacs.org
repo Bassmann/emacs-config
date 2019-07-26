@@ -1825,6 +1825,14 @@ it would appear when exporting the org file.
     :after org
     :hook (org-mode . org-num-mode))
 #+END_SRC
+***** Org-Kanban
+:PROPERTIES:
+:CREATED:  [2019-07-26 Fr 22:19]
+:END:
+Sometimes Kanban boards are useful
+#+begin_src emacs-lisp
+(use-package org-kanban)
+#+end_src
 *** Powerthesaurus
 :PROPERTIES:
 :CREATED:  [2019-02-27 Mi 21:47]
