@@ -47,6 +47,7 @@
     - [[#msb-mode][msb-Mode]]
     - [[#no-blinking-cursor][No blinking cursor]]
     - [[#no-toolbar-and-no-scrollbar][No toolbar and no scrollbar]]
+    - [[#open-with][Open-with]]
     - [[#recentf][Recentf]]
     - [[#saveplace][Saveplace]]
     - [[#smooth-scrolling][Smooth scrolling]]
@@ -993,6 +994,20 @@ Some eye candy for the modelina from [[https://github.com/tarsius/moody][GitHub 
     (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
     (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
     #+end_src
+*** Open-with
+:PROPERTIES:
+:CREATED:  [2019-08-16 Fr 18:13]
+:END:
+On Linux I prefer to open PDF externally not within =doc-view=. The easiest way seems to be using =open-with=.
+#+begin_src emacs-lisp
+
+  (cond ((eq system-type 'gnu/linux)
+         (use-package openwith
+           :config
+           (openwith-mode t)
+           (setq openwith-associations '(("\\.pdf\\'" "evince" (file)))))))
+#+end_src
+         (use-package ssh-agency)
 *** Recentf
     :LOGBOOK:
     - Note taken on [2018-08-09 Do 22:58] \\
@@ -1930,7 +1945,7 @@ at least on Windows see https://github.com/magit/magit/wiki/Pushing-with-Magit-f
   (cond ((eq system-type 'windows-nt)
          (use-package ssh-agency)
          (setenv "SSH_ASKPASS" "git-gui--askpass")))
-    #+END_SRC
+#+END_SRC
 *** PHP Mode
     #+begin_src emacs-lisp
       (use-package php-mode
