@@ -1,0 +1,12 @@
+*~
+.cache/
+data/
+el-get/
+elpa/
+emacs.el
+emacs.html
+lisp/
+local.el
+server/
+config/org/plantuml.jar
+transient/
