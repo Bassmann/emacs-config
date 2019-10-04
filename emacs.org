@@ -249,6 +249,7 @@ come from.
     #+BEGIN_SRC emacs-lisp
       (use-package doom-themes
         :demand t
+        :disabled
         :config
         (load-theme 'doom-nova t)
         (doom-themes-org-config)
@@ -259,7 +260,6 @@ come from.
     #+begin_src emacs-lisp
       (use-package material-theme
         :demand t
-        :disabled
         :config
         (load-theme 'material t))
     #+end_src
@@ -416,23 +416,16 @@ than the default 5 seconds.
 :END:
 Let's try tabs again
 #+begin_src emacs-lisp
-  (use-package awesome-tab
-    :load-path "lisp/awesome-tab"
-    :disabled
-    :demand t
-    :config
-    (setq awesome-tab-style "rounded")
-    (awesome-tab-mode t))
-#+end_src
-#+begin_src emacs-lisp
   (use-package centaur-tabs
     :demand
     :config
     (setq centaur-tabs-set-bar t
           centaur-tabs-height 32
-          centaur-tabs-set-icons nil
+          centaur-tabs-set-icons t
           centaur-tabs-set-modified-marker t
           centaur-tabs-style "bar")
+    (cond ((eq system-type 'windows-nt)
+         (setq centaur-tabs-set-icons nil)))
     (centaur-tabs-mode t)
     :bind
     ("C-<prior>" . centaur-tabs-backward)
@@ -1312,6 +1305,11 @@ Olivetti provides a nice distraction-free environment.
 #+begin_src emacs-lisp
 (setq org-adapt-indentation t)
 #+end_src
+- Fast tag and todo selection
+#+begin_src emacs-lisp
+(setq org-fast-todo-selection t
+      org-fast-tag-selection-include-todo nil)
+#+end_src
 ***** Add a created property to new entries
       :PROPERTIES:
       :CREATED:  [2018-07-09 Mo 23:26]
@@ -1362,8 +1360,6 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
    #+begin_src emacs-lisp
      (setq org-agenda-files (concat org-directory "/agenda.txt")
            org-agenda-start-on-weekday nil
-           org-fast-todo-selection t
-           org-fast-tag-selection-include-todo nil
            org-agenda-include-diary t
            org-agenda-insert-diary-extract-time t
            org-agenda-prefix-format
@@ -1374,12 +1370,19 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
              (search . "  %-12:c"))
            org-agenda-remove-tags t
            org-agenda-show-inherited-tags nil
+           org-agenda-skip-scheduled-if-deadline-is-shown t ;;don't give a warning colour to tasks with impending deadlines if they are scheduled to be done
+           org-agenda-skip-deadline-prewarning-if-scheduled (quote pre-scheduled) ;;don't show tasks that are scheduled or have deadlines in the
+           org-agenda-sorting-strategy ;;sort tasks in order of when they are due and then by priority
+           (quote
+            ((agenda habit-down deadline-up priority-down category-keep)
+             (todo priority-down category-keep)
+             (tags priority-down category-keep)
+             (search category-keep)))
            org-agenda-time-grid
            (quote
             ((daily today remove-match)
              (800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800)
              "......" "----------------")))
-
    #+end_src
 ***** Capture templates
       :LOGBOOK:
@@ -1703,6 +1706,52 @@ it would appear when exporting the org file.
 Sometimes Kanban boards are useful
 #+begin_src emacs-lisp
 (use-package org-kanban)
+#+end_src
+***** Org-Caldav
+:PROPERTIES:
+:CREATED:  [2019-10-04 Fr 10:40]
+:END:
+Let's try =org-caldav= with the configuration from https://www.reddit.com/r/orgmode/comments/8rl8ep/making_orgcaldav_useable/e0sb5j0?context=3. The actual calendar configuration is in =local.el=
+
+#+begin_src emacs-lisp
+  (use-package org-caldav
+    :ensure t
+    :init
+    ;; This is the sync on close function; it also prompts for save after syncing so
+    ;; no late changes get lost
+    (defun org-caldav-sync-at-close ()
+      (org-caldav-sync)
+      (save-some-buffers))
+
+    ;; This is the delayed sync function; it waits until emacs has been idle for
+    ;; "secs" seconds before syncing.  The delay is important because the caldav-sync
+    ;; can take five or ten seconds, which would be painful if it did that right at save.
+    ;; This way it just waits until you've been idle for a while to avoid disturbing
+    ;; the user.
+    (defvar org-caldav-sync-timer nil
+       "Timer that `org-caldav-push-timer' used to reschedule itself, or nil.")
+    (defun org-caldav-sync-with-delay (secs)
+      (when org-caldav-sync-timer
+        (cancel-timer org-caldav-sync-timer))
+      (setq org-caldav-sync-timer
+      (run-with-idle-timer
+       (* 1 secs) nil 'org-caldav-sync)))
+
+    :config
+    (setq org-icalendar-alarm-time 1)
+    ;; This makes sure to-do items as a category can show up on the calendar
+    (setq org-icalendar-include-todo t)
+    ;; This ensures all org "deadlines" show up, and show up as due dates
+    (setq org-icalendar-use-deadline '(event-if-todo event-if-not-todo todo-due))
+    ;; This ensures "scheduled" org items show up, and show up as start times
+    (setq org-icalendar-use-scheduled '(todo-start event-if-todo event-if-not-todo))
+    ;; Add the delayed save hook with a five minute idle timer
+    (add-hook 'after-save-hook
+        (lambda ()
+          (when (eq major-mode 'org-mode)
+      (org-caldav-sync-with-delay 300))))
+    ;; Add the close emacs hook
+    (add-hook 'kill-emacs-hook 'org-caldav-sync-at-close))
 #+end_src
 *** Powerthesaurus
 :PROPERTIES:
