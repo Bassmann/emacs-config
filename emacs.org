@@ -58,7 +58,6 @@
     - [[#nov][Nov]]
     - [[#olivetti-mode][Olivetti mode]]
     - [[#orgmode][Orgmode]]
-    - [[#powerthesaurus][Powerthesaurus]]
     - [[#todo-txt][Todo-txt]]
     - [[#ztree][ZTree]]
 - [[#programming][Programming]]
@@ -301,7 +300,7 @@ automatically upon save. Backups should be more than one and go in a dedicated d
     ((t (:inherit ace-jump-face-foreground :height 3.0)))))))
     #+END_SRC
 *** Aliases
-    [2013-09-03 Di 23:45] I learned from https://sites.google.com/site/steveyegge2/effective-emacs how to add
+    [2013-09-03 Di 23:45] I learned from https://sites.google.com/site/steveyegge2/effective-emacs  how to add
     aliases which seems handy. The first entry is just a sample to remind me of the syntax
     #+begin_src emacs-lisp
     (defalias 'qrr 'query-replace-regexp)
@@ -936,6 +935,7 @@ Improves the package menu via [[https://github.com/a13/emacs.d][GitHub - a13/ema
 #+BEGIN_SRC emacs-lisp
   (use-package paradox
     :defer 1
+    :disabled
     :config
     (setq  paradox-automatically-star nil)
     (paradox-enable))
@@ -1756,16 +1756,10 @@ Let's try =org-caldav= with the configuration from https://www.reddit.com/r/orgm
     ;; Add the close emacs hook
     (add-hook 'kill-emacs-hook 'org-caldav-sync-at-close))
 #+end_src
-*** Powerthesaurus
-:PROPERTIES:
-:CREATED:  [2019-02-27 Mi 21:47]
-:END:
-This might be cool for writing texts
-#+begin_src emacs-lisp
-(use-package powerthesaurus)
-#+end_src
 *** Todo-txt
     :LOGBOOK:
+    - Note taken on [2019-10-06 So 18:37] \\
+      I don't use it currently
     - Note taken on [2018-06-04 Mo 22:16] \\
       Switched from todotxt to todotxt-mode. The former didn't work as expected and
       destroyed my todo-File
@@ -1776,6 +1770,7 @@ This might be cool for writing texts
     #+begin_src emacs-lisp
       (use-package todotxt-mode
         :demand t
+        :disabled
         :config (setq todotxt-default-file (expand-file-name (concat cloud-dir "Todo/todo.txt"))
                       todotxt-default-archive-file (expand-file-name (concat cloud-dir "Todo/done.txt")))
         :bind ("C-c t" . todotxt-add-todo)
@@ -1874,7 +1869,7 @@ at least on Windows see https://github.com/magit/magit/wiki/Pushing-with-Magit-f
 :PROPERTIES:
 :CREATED:  [2019-03-19 Tue 09:06]
 :END:
-I startedto do some powerhsell scripting again. The combined file is nice but the new
+I started to do some powerhsell scripting again. The combined file is nice but the new
 version exists only on MELPA. Hence the pin.
  #+begin_src emacs-lisp
    (use-package powershell
@@ -1884,7 +1879,8 @@ version exists only on MELPA. Hence the pin.
 :PROPERTIES:
 :CREATED:  [2019-07-07 So 20:51]
 :END:
-I need to do some python programming so I need to have it in Emacs. The config follows [[https://realpython.com/emacs-the-best-python-editor/][400 The plain HTTP request was sent to HTTPS port]]
+I need to do some python programming so I need to have it in Emacs. The config follows [[https://realpython.com/emacs-the-best-python-editor/][Emacs – The Best Python Editor? – Real Python]]
+
 #+begin_src emacs-lisp
 (use-package elpy
   :ensure t
