@@ -58,7 +58,6 @@
     - [[#nov][Nov]]
     - [[#olivetti-mode][Olivetti mode]]
     - [[#orgmode][Orgmode]]
-    - [[#todo-txt][Todo-txt]]
     - [[#ztree][ZTree]]
 - [[#programming][Programming]]
     - [[#js2-mode][JS2 Mode]]
@@ -1717,7 +1716,7 @@ Sometimes Kanban boards are useful
 #+begin_src emacs-lisp
 (use-package org-kanban)
 #+end_src
-*** Todo-txt
+q** Todo-txt
     :LOGBOOK:
     - Note taken on [2019-10-06 So 18:37] \\
       I don't use it currently
