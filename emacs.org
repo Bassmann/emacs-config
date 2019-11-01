@@ -58,7 +58,7 @@
     - [[#nov][Nov]]
     - [[#olivetti-mode][Olivetti mode]]
     - [[#orgmode][Orgmode]]
-  - [[#todo-txt][Todo-txt]]
+    - [[#todo-txt][Todo-txt]]
     - [[#ztree][ZTree]]
 - [[#programming][Programming]]
     - [[#js2-mode][JS2 Mode]]
@@ -685,6 +685,14 @@ package, use the following code:
 This sets up the keybinds so that in dired, hitting i on a subdirectory expands it in
 place with an indented listing. You can expand sub-subdirectories in the same way, and so
 on. Hitting ; inside an expanded subdirectory collapses it.
+
+A nice overview for git repositories in dired
+#+begin_src emacs-lisp
+(use-package dired-git-info
+    :ensure t
+    :bind (:map dired-mode-map
+                (")" . dired-git-info-mode)))
+#+end_src
 *** Display
 :PROPERTIES:
 :CREATED:  [2018-12-15 Sa 18:06]
@@ -1717,7 +1725,10 @@ Sometimes Kanban boards are useful
 #+begin_src emacs-lisp
 (use-package org-kanban)
 #+end_src
-** Todo-txt
+*** Todo-txt
+:PROPERTIES:
+:CREATED:  [2019-11-01 Fr 12:11]
+:END:
     :LOGBOOK:
     - Note taken on [2019-10-06 So 18:37] \\
       I don't use it currently
