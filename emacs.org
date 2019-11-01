@@ -58,7 +58,6 @@
     - [[#nov][Nov]]
     - [[#olivetti-mode][Olivetti mode]]
     - [[#orgmode][Orgmode]]
-    - [[#powerthesaurus][Powerthesaurus]]
     - [[#todo-txt][Todo-txt]]
     - [[#ztree][ZTree]]
 - [[#programming][Programming]]
@@ -249,6 +248,7 @@ come from.
     #+BEGIN_SRC emacs-lisp
       (use-package doom-themes
         :demand t
+        :disabled
         :config
         (load-theme 'doom-nova t)
         (doom-themes-org-config)
@@ -259,7 +259,6 @@ come from.
     #+begin_src emacs-lisp
       (use-package material-theme
         :demand t
-        :disabled
         :config
         (load-theme 'material t))
     #+end_src
@@ -301,7 +300,7 @@ automatically upon save. Backups should be more than one and go in a dedicated d
     ((t (:inherit ace-jump-face-foreground :height 3.0)))))))
     #+END_SRC
 *** Aliases
-    [2013-09-03 Di 23:45] I learned from https://sites.google.com/site/steveyegge2/effective-emacs how to add
+    [2013-09-03 Di 23:45] I learned from https://sites.google.com/site/steveyegge2/effective-emacs  how to add
     aliases which seems handy. The first entry is just a sample to remind me of the syntax
     #+begin_src emacs-lisp
     (defalias 'qrr 'query-replace-regexp)
@@ -416,23 +415,16 @@ than the default 5 seconds.
 :END:
 Let's try tabs again
 #+begin_src emacs-lisp
-  (use-package awesome-tab
-    :load-path "lisp/awesome-tab"
-    :disabled
-    :demand t
-    :config
-    (setq awesome-tab-style "rounded")
-    (awesome-tab-mode t))
-#+end_src
-#+begin_src emacs-lisp
   (use-package centaur-tabs
     :demand
     :config
     (setq centaur-tabs-set-bar t
           centaur-tabs-height 32
-          centaur-tabs-set-icons nil
+          centaur-tabs-set-icons t
           centaur-tabs-set-modified-marker t
           centaur-tabs-style "bar")
+    (cond ((eq system-type 'windows-nt)
+         (setq centaur-tabs-set-icons nil)))
     (centaur-tabs-mode t)
     :bind
     ("C-<prior>" . centaur-tabs-backward)
@@ -504,28 +496,28 @@ Let's try tabs again
     #+end_src
     Better views of calendar from [[https://github.com/seagle0128/.emacs.d][GitHub - seagle0128/.emacs.d: Centaur Emacs - A Fancy and Fast Emacs Configur...]]
 #+begin_src emacs-lisp
-(use-package calfw
-  :commands cfw:open-calendar-buffer
-  :bind ("<C-f12>" . open-calendar)
-  :init
-  (use-package calfw-org
-    :commands (cfw:open-org-calendar cfw:org-create-source))
+  (use-package calfw
+    :commands cfw:open-calendar-buffer
+    :bind ("<C-f12>" . open-calendar)
+    :init
+    (use-package calfw-org
+      :commands (cfw:open-org-calendar cfw:org-create-source))
 
-  (use-package calfw-ical
-    :commands (cfw:open-ical-calendar cfw:ical-create-source))
+    (use-package calfw-cal
+      :commands (cfw:open-diary-calendar cfw:cal-create-source))
 
-  (defun open-calendar ()
-    "Open calendar."
-    (interactive)
-    (unless (ignore-errors
-              (cfw:open-calendar-buffer
-               :contents-sources
-               (list
-                (when org-agenda-files
-                  (cfw:org-create-source "YellowGreen"))
-                (when (bound-and-true-p centaur-ical)
-                  (cfw:ical-create-source "gcal" centaur-ical "IndianRed")))))
-      (cfw:open-calendar-buffer))))
+    (use-package calfw-ical
+      :commands (cfw:open-ical-calendar cfw:ical-create-source))
+
+    (defun open-calendar ()
+      "Open calendar."
+      (interactive)
+      (cfw:open-calendar-buffer
+                 :contents-sources
+                 (list
+                  (cfw:org-create-source "Gray") ; org source
+                  (cfw:cal-create-source "Orange") ; diary source
+                  ))))
 #+end_src
 *** Custom
 :PROPERTIES:
@@ -589,20 +581,23 @@ I prefer setting things in this file rather than = custom.el=.
     :END:
     A nice dashboard when Emacs is started.
     #+begin_src emacs-lisp
-            (use-package dashboard
-            :config
-            (dashboard-setup-startup-hook)
-            (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*"))
-                  dashboard-startup-banner 'official
-                  dashboard-banner-logo-title (message "Emacs ready in %s with %d garbage collections."
-                  (format "%.2f seconds"
-                  (float-time
-                  (time-subtract after-init-time before-init-time)))
-                  gcs-done)
-                  dashboard-items '((recents  . 10)
-                              (bookmarks . 5)
-                              (agenda . 5)))
-            :demand t)
+      (use-package dashboard
+        :config
+        (dashboard-setup-startup-hook)
+        (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*"))
+              dashboard-set-heading-icons t
+              dashboard-set-file-icons t
+              dashboard-set-init-info t
+              dashboard-startup-banner 'official
+              dashboard-banner-logo-title (message "Emacs ready in %s with %d garbage collections."
+                                                   (format "%.2f seconds"
+                                                           (float-time
+                                                            (time-subtract after-init-time before-init-time)))
+                                                   gcs-done)
+              dashboard-items '((recents  . 10)
+                                (bookmarks . 5)
+                                (agenda . 5)))
+        :demand t)
     #+end_src
 *** date2name
     :LOGBOOK:
@@ -940,6 +935,7 @@ Improves the package menu via [[https://github.com/a13/emacs.d][GitHub - a13/ema
 #+BEGIN_SRC emacs-lisp
   (use-package paradox
     :defer 1
+    :disabled
     :config
     (setq  paradox-automatically-star nil)
     (paradox-enable))
@@ -1312,6 +1308,11 @@ Olivetti provides a nice distraction-free environment.
 #+begin_src emacs-lisp
 (setq org-adapt-indentation t)
 #+end_src
+- Fast tag and todo selection
+#+begin_src emacs-lisp
+(setq org-fast-todo-selection t
+      org-fast-tag-selection-include-todo nil)
+#+end_src
 ***** Add a created property to new entries
       :PROPERTIES:
       :CREATED:  [2018-07-09 Mo 23:26]
@@ -1362,8 +1363,6 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
    #+begin_src emacs-lisp
      (setq org-agenda-files (concat org-directory "/agenda.txt")
            org-agenda-start-on-weekday nil
-           org-fast-todo-selection t
-           org-fast-tag-selection-include-todo nil
            org-agenda-include-diary t
            org-agenda-insert-diary-extract-time t
            org-agenda-prefix-format
@@ -1374,12 +1373,19 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
              (search . "  %-12:c"))
            org-agenda-remove-tags t
            org-agenda-show-inherited-tags nil
+           org-agenda-skip-scheduled-if-deadline-is-shown t ;;don't give a warning colour to tasks with impending deadlines if they are scheduled to be done
+           org-agenda-skip-deadline-prewarning-if-scheduled (quote pre-scheduled) ;;don't show tasks that are scheduled or have deadlines in the
+           org-agenda-sorting-strategy ;;sort tasks in order of when they are due and then by priority
+           (quote
+            ((agenda habit-down deadline-up priority-down category-keep)
+             (todo priority-down category-keep)
+             (tags priority-down category-keep)
+             (search category-keep)))
            org-agenda-time-grid
            (quote
             ((daily today remove-match)
              (800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800)
              "......" "----------------")))
-
    #+end_src
 ***** Capture templates
       :LOGBOOK:
@@ -1626,15 +1632,22 @@ Settings to make org buffers look nicer
   looked at the now builtin mode =prettify-symbols-mode=.. The configuration follows the
   example given in [[http://endlessparentheses.com/new-in-emacs-25-1-have-prettify-symbols-mode-reveal-the-symbol-at-point.html][New in Emacs 25.1: Have prettify-symbols-mode reveal the symbol at point · En...]].
   #+BEGIN_SRC emacs-lisp
-    (setq-default prettify-symbols-alist '(("#+BEGIN_SRC" . "†")
-                                           ("#+END_SRC" . "†")
-                                           ("#+begin_src" . "†")
-                                           ("#+end_src" . "†")
+    (setq-default prettify-symbols-alist '(("#+BEGIN_SRC" . "✎")
+                                           ("#+END_SRC" . "□")
+                                           ("#+begin_src" . "✎")
+                                           ("#+end_src" . "□")
                                            (">=" . "≥")
                                            ("=>" . "⇨")
                                            ("[ ]" .  "☐")
                                            ("[X]" . "☑")
-                                           ("[-]" . "❍" )))
+                                           ("[-]" . "?⛞" )
+                                           ("#+TITLE" . "🕮")
+                                           ("#+DATE" . "📆")
+                                           ("#+AUTHOR" . "👤")
+                                           ("#+EMAIL" . "🖂")
+                                           ("#+OPTIONS" . ?⚙)
+                                           ("#+TAGS" . ?🏷)
+                                           ("#+DESCRIPTION" . ?🗎)))
     (setq prettify-symbols-unprettify-at-point 'right-edge)
     (add-hook 'org-mode-hook 'prettify-symbols-mode)
   #+END_SRC
@@ -1704,16 +1717,10 @@ Sometimes Kanban boards are useful
 #+begin_src emacs-lisp
 (use-package org-kanban)
 #+end_src
-*** Powerthesaurus
-:PROPERTIES:
-:CREATED:  [2019-02-27 Mi 21:47]
-:END:
-This might be cool for writing texts
-#+begin_src emacs-lisp
-(use-package powerthesaurus)
-#+end_src
 *** Todo-txt
     :LOGBOOK:
+    - Note taken on [2019-10-06 So 18:37] \\
+      I don't use it currently
     - Note taken on [2018-06-04 Mo 22:16] \\
       Switched from todotxt to todotxt-mode. The former didn't work as expected and
       destroyed my todo-File
@@ -1724,6 +1731,7 @@ This might be cool for writing texts
     #+begin_src emacs-lisp
       (use-package todotxt-mode
         :demand t
+        :disabled
         :config (setq todotxt-default-file (expand-file-name (concat cloud-dir "Todo/todo.txt"))
                       todotxt-default-archive-file (expand-file-name (concat cloud-dir "Todo/done.txt")))
         :bind ("C-c t" . todotxt-add-todo)
@@ -1822,7 +1830,7 @@ at least on Windows see https://github.com/magit/magit/wiki/Pushing-with-Magit-f
 :PROPERTIES:
 :CREATED:  [2019-03-19 Tue 09:06]
 :END:
-I startedto do some powerhsell scripting again. The combined file is nice but the new
+I started to do some powerhsell scripting again. The combined file is nice but the new
 version exists only on MELPA. Hence the pin.
  #+begin_src emacs-lisp
    (use-package powershell
@@ -1832,7 +1840,8 @@ version exists only on MELPA. Hence the pin.
 :PROPERTIES:
 :CREATED:  [2019-07-07 So 20:51]
 :END:
-I need to do some python programming so I need to have it in Emacs. The config follows [[https://realpython.com/emacs-the-best-python-editor/][400 The plain HTTP request was sent to HTTPS port]]
+I need to do some python programming so I need to have it in Emacs. The config follows [[https://realpython.com/emacs-the-best-python-editor/][Emacs – The Best Python Editor? – Real Python]]
+
 #+begin_src emacs-lisp
 (use-package elpy
   :ensure t
