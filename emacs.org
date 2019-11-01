@@ -58,6 +58,7 @@
     - [[#nov][Nov]]
     - [[#olivetti-mode][Olivetti mode]]
     - [[#orgmode][Orgmode]]
+  - [[#todo-txt][Todo-txt]]
     - [[#ztree][ZTree]]
 - [[#programming][Programming]]
     - [[#js2-mode][JS2 Mode]]
@@ -1376,7 +1377,7 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
            org-agenda-skip-deadline-prewarning-if-scheduled (quote pre-scheduled) ;;don't show tasks that are scheduled or have deadlines in the
            org-agenda-sorting-strategy ;;sort tasks in order of when they are due and then by priority
            (quote
-            ((agenda habit-down deadline-up priority-down category-keep)
+            ((agenda time-up habit-down deadline-up priority-down category-keep)
              (todo priority-down category-keep)
              (tags priority-down category-keep)
              (search category-keep)))
@@ -1716,7 +1717,7 @@ Sometimes Kanban boards are useful
 #+begin_src emacs-lisp
 (use-package org-kanban)
 #+end_src
-q** Todo-txt
+** Todo-txt
     :LOGBOOK:
     - Note taken on [2019-10-06 So 18:37] \\
       I don't use it currently
