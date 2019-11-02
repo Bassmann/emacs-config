@@ -259,8 +259,27 @@ come from.
     #+begin_src emacs-lisp
       (use-package material-theme
         :demand t
+        :disabled
         :config
         (load-theme 'material t))
+    #+end_src
+
+    Again a lighter theme =parchment=
+    #+begin_src emacs-lisp
+      (use-package parchment-theme
+        :demand t
+        :disabled
+        :config
+        (load-theme 'parchment t))
+    #+end_src
+
+    Here is  another nice dark theme
+    #+begin_src emacs-lisp
+      (use-package darkplus-theme
+        :load-path "lisp"
+        :demand t
+        :config
+        (load-theme 'darkplus t))
     #+end_src
 *** Backup
     :LOGBOOK:
