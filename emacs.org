@@ -53,6 +53,7 @@
     - [[#company][Company]]
     - [[#deft][Deft]]
     - [[#delete-trailing-whitespace-before-saving][delete-trailing-whitespace before saving]]
+    - [[#grip-mode][Grip mode]]
     - [[#hippie-expand][Hippie-expand]]
     - [[#markdown-mode][Markdown mode]]
     - [[#nov][Nov]]
@@ -1153,11 +1154,14 @@ On Linux I prefer to open PDF externally not within =doc-view=. The easiest way 
 - Note taken on [2018-07-19 Do 18:39] \\
   From Karl Voit's .emacs
 :END:
-
-
 #+BEGIN_SRC emacs-lisp
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
+*** Grip mode
+#+begin_src emacs-lisp
+(use-package grip-mode
+  :ensure t)
+#+end_src
 *** Hippie-expand
     :LOGBOOK:
     - Note taken on [2018-05-13 So 21:18] \\
@@ -1257,7 +1261,8 @@ Olivetti provides a nice distraction-free environment.
       (setq  org-fast-tag-selection-single-key 'expert
              org-special-ctrl-a/e t
              org-special-ctrl-k t
-             org-use-speed-commands t)
+             org-use-speed-commands (lambda () (and (looking-at org-outline-regexp) (looking-back "^\\**"))))
+
   #+END_SRC
 - Logging and habits
   I want to log state changes and also use the =org-habit= module
@@ -1293,6 +1298,12 @@ Olivetti provides a nice distraction-free environment.
   #+BEGIN_SRC emacs-lisp
   (setq org-mobile-use-encryption t)
   #+END_SRC
+- Some alias for =org-mobile-push= and =org-mobile-pull=:
+    #+begin_src emacs-lisp
+    (defalias 'omp 'org-mobile-push)
+    (defalias 'omf 'org-mobile-pull)
+    #+end_src
+*
 - I like =visual-pitch-mode and =visual-line-mode= for org files
   #+BEGIN_SRC emacs-lisp
     (add-hook 'org-mode-hook
@@ -1428,11 +1439,11 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
                 (("m" "Meeting" entry
                   (file+olp+datetree "Journal.org")
                   "* %U - %^{Meeting}  :TIME:
-%[~/.emacs.d/config/org/meeting.txt]" :clock-in t :clock-keep t :tree-type week)
+%[~/.emacs.d/config/org/meeting.txt]" :clock-in t :clock-keep t)
                  ("j" "Journal" entry
                   (file+olp+datetree "Journal.org")
                   "* %U %?
-                         %i" :tree-type week)
+                         %i")
                  ("i" "Ideen" entry (file "Inbox.org")
                   "* %^{Title}
                          %i")
@@ -1442,15 +1453,15 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
                          %i" :immediate-finish t)
                  ("l" "Log Time" entry
                   (file+olp+datetree "Journal.org")
-                  "* %U - %^{Activity}  :TIME:" :immediate-finish t :clock-in t :clock-keep t :tree-type week)
+                  "* %U - %^{Activity}  :TIME:" :immediate-finish t :clock-in t :clock-keep t)
                  ("o" "Outcomes for today" entry
                   (file+olp+datetree "Journal.org")
                   "* %U 3 Outcomes for today [%]  :ZIELE:
-%[~/.emacs.d/config/org/.woche.txt]" :tree-type week)
+%[~/.emacs.d/config/org/.woche.txt]")
                  ("w" "Outcomes for the week" entry
                   (file+olp+datetree "Journal.org")
                   "* %U 3 Outcomes for the week [%]   :ZIELE:
-%[~/.emacs.d/config/org/.woche.txt]" :tree-type week)
+%[~/.emacs.d/config/org/.woche.txt]")
                  ("r" "Weekly Review" entry
                   (file+olp+datetree "review.org")
                   "* Weekly Review  :PERSOENLICH:
@@ -1460,7 +1471,7 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
                  ("d" "Daily Review" entry
                   (file+olp+datetree "Journal.org")
                   "* %U Daily Review
-%[~/.emacs.d/config/org/.daily_review.txt]" :tree-type week)
+%[~/.emacs.d/config/org/.daily_review.txt]")
                  ("p" "Project Planning" entry
                   (file+headline "planning.org" "Projekte")
                   "* %^{Beschreibung}
@@ -1744,10 +1755,17 @@ Sometimes Kanban boards are useful
 #+begin_src emacs-lisp
 (use-package org-kanban)
 #+end_src
+***** Org-Sidebar
+      :PROPERTIES:
+      :CREATED:  [2019-11-06 Mi 21:54]
+      :END:
+      A nice addition from [[https://github.com/alphapapa/alpha-org/][GitHub - alphapapa/alpha-org: A powerful Org configuration]]
+#+begin_src emacs-lisp
+(use-package org-sidebar
+  :custom (org-sidebar-tree-side 'left))
+
+#+end_src
 *** Todo-txt
-:PROPERTIES:
-:CREATED:  [2019-11-01 Fr 12:11]
-:END:
     :LOGBOOK:
     - Note taken on [2019-10-06 So 18:37] \\
       I don't use it currently
