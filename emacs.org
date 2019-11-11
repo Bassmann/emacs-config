@@ -4,80 +4,96 @@
 * Table of content                                                    :TOC_3:
 - [[#introduction][Introduction]]
 - [[#basics][Basics]]
-    - [[#load-the-local-file][Load the local file]]
-    - [[#move-customizations-into-their-own-file][Move customizations into their own file]]
-    - [[#set-the-default-font-and-frame-config][Set the default font and frame config]]
-    - [[#maximize-by-default][Maximize by default]]
-    - [[#garbage-collect-on-focus-out-emacs-should-feel-snappier][Garbage-collect on focus-out, Emacs /should/ feel snappier.]]
-    - [[#set-coding-system][Set coding system]]
-    - [[#theme][Theme]]
-    - [[#backup][Backup]]
+  - [[#load-the-local-file][Load the local file]]
+  - [[#move-customizations-into-their-own-file][Move customizations into their own file]]
+  - [[#set-the-default-font-and-frame-config][Set the default font and frame config]]
+  - [[#maximize-by-default][Maximize by default]]
+  - [[#garbage-collect-on-focus-out-emacs-should-feel-snappier][Garbage-collect on focus-out, Emacs /should/ feel snappier.]]
+  - [[#set-coding-system][Set coding system]]
+  - [[#theme][Theme]]
+  - [[#backup][Backup]]
 - [[#general-configuration][General configuration]]
-    - [[#ace-windows][ACE-Windows]]
-    - [[#aliases][Aliases]]
-    - [[#all-the-icons][All the icons]]
-    - [[#ansi-term][Ansi-Term]]
-    - [[#appointments][Appointments]]
-    - [[#auto-revert][Auto-revert]]
-    - [[#auto-save][Auto-save]]
-    - [[#awesome-tabs][Awesome Tabs]]
-    - [[#calendar][Calendar]]
-    - [[#custom][Custom]]
-    - [[#dashboard][Dashboard]]
-    - [[#date2name][date2name]]
-    - [[#dimish][Dimish]]
-    - [[#dired][Dired]]
-    - [[#display][Display]]
-    - [[#delete-duplicate-entries-of-the-history-of-the-minibuffer][Delete duplicate entries of the history of the minibuffer]]
-    - [[#disk-usage][Disk usage]]
-    - [[#emacs-server][Emacs Server]]
-    - [[#filetagsel][filetags.el]]
-    - [[#golden-ratio-scrolling][Golden ratio scrolling]]
-    - [[#helpful][Helpful]]
-    - [[#highlight-the-current-line][Highlight the current line]]
-    - [[#ido-mode][Ido-mode]]
-    - [[#ivy][Ivy]]
-    - [[#keyboard-settings][Keyboard settings]]
-    - [[#menu-bar][Menu bar]]
-    - [[#minimal][Minimal]]
-    - [[#minions][Minions]]
-    - [[#mode-icons---show-icons-instead-of-mode-names][mode-icons - Show icons instead of mode names]]
-    - [[#modernized-package-menu][Modernized Package Menu]]
-    - [[#moody][Moody]]
-    - [[#msb-mode][msb-Mode]]
-    - [[#no-blinking-cursor][No blinking cursor]]
-    - [[#no-toolbar-and-no-scrollbar][No toolbar and no scrollbar]]
-    - [[#open-with][Open-with]]
+  - [[#ace-windows][ACE-Windows]]
+  - [[#aliases][Aliases]]
+  - [[#all-the-icons][All the icons]]
+  - [[#ansi-term][Ansi-Term]]
+  - [[#appointments][Appointments]]
+  - [[#auto-revert][Auto-revert]]
+  - [[#auto-save][Auto-save]]
+  - [[#awesome-tabs][Awesome Tabs]]
+  - [[#calendar][Calendar]]
+  - [[#custom][Custom]]
+  - [[#dashboard][Dashboard]]
+  - [[#date2name][date2name]]
+  - [[#dimish][Dimish]]
+  - [[#dired][Dired]]
+  - [[#display][Display]]
+  - [[#delete-duplicate-entries-of-the-history-of-the-minibuffer][Delete duplicate entries of the history of the minibuffer]]
+  - [[#disk-usage][Disk usage]]
+  - [[#emacs-server][Emacs Server]]
+  - [[#filetagsel][filetags.el]]
+  - [[#golden-ratio-scrolling][Golden ratio scrolling]]
+  - [[#helpful][Helpful]]
+  - [[#highlight-the-current-line][Highlight the current line]]
+  - [[#ido-mode][Ido-mode]]
+  - [[#ivy][Ivy]]
+  - [[#keyboard-settings][Keyboard settings]]
+  - [[#menu-bar][Menu bar]]
+  - [[#minimal][Minimal]]
+  - [[#minions][Minions]]
+  - [[#mode-icons---show-icons-instead-of-mode-names][mode-icons - Show icons instead of mode names]]
+  - [[#modernized-package-menu][Modernized Package Menu]]
+  - [[#moody][Moody]]
+  - [[#msb-mode][msb-Mode]]
+  - [[#no-blinking-cursor][No blinking cursor]]
+  - [[#no-toolbar-and-no-scrollbar][No toolbar and no scrollbar]]
+  - [[#open-with][Open-with]]
 - [[#editing-related-items][Editing related items]]
-    - [[#abbrevs][Abbrevs]]
-    - [[#company][Company]]
-    - [[#deft][Deft]]
-    - [[#delete-trailing-whitespace-before-saving][delete-trailing-whitespace before saving]]
-    - [[#grip-mode][Grip mode]]
-    - [[#hippie-expand][Hippie-expand]]
-    - [[#markdown-mode][Markdown mode]]
-    - [[#nov][Nov]]
-    - [[#olivetti-mode][Olivetti mode]]
-    - [[#orgmode][Orgmode]]
-    - [[#todo-txt][Todo-txt]]
-    - [[#ztree][ZTree]]
+  - [[#abbrevs][Abbrevs]]
+  - [[#company][Company]]
+  - [[#deft][Deft]]
+  - [[#delete-trailing-whitespace-before-saving][delete-trailing-whitespace before saving]]
+  - [[#grip-mode][Grip mode]]
+  - [[#hippie-expand][Hippie-expand]]
+  - [[#markdown-mode][Markdown mode]]
+  - [[#nov][Nov]]
+  - [[#olivetti-mode][Olivetti mode]]
+  - [[#orgmode][Orgmode]]
+    - [[#general-settings][General settings]]
+    - [[#add-a-created-property-to-new-entries][Add a created property to new entries]]
+    - [[#the-usual-keybindings][The usual keybindings]]
+    - [[#adding-imenu-support][Adding =imenu= support]]
+    - [[#agenda-settings][Agenda settings]]
+    - [[#capture-templates][Capture templates]]
+    - [[#org-babel][Org-Babel]]
+    - [[#org-export][Org-Export]]
+    - [[#org-cliplink][Org-cliplink]]
+    - [[#org-clock][Org-Clock]]
+    - [[#additional-link-type-for-tags][Additional link type for TAGS]]
+    - [[#toc-org][Toc-Org]]
+    - [[#org-beautify][Org Beautify]]
+    - [[#org-outline-numbering][Org Outline numbering]]
+    - [[#org-kanban][Org-Kanban]]
+    - [[#org-sidebar][Org-Sidebar]]
+  - [[#todo-txt][Todo-txt]]
+  - [[#ztree][ZTree]]
 - [[#programming][Programming]]
-    - [[#js2-mode][JS2 Mode]]
-    - [[#less-css][LESS-CSS]]
-    - [[#magit][Magit]]
-    - [[#php-mode][PHP Mode]]
-    - [[#plantuml][Plantuml]]
-    - [[#powershell][Powershell]]
-    - [[#python][Python]]
-    - [[#rainbow-delimiters-mode][Rainbow delimiters mode]]
-    - [[#web-mode][Web Mode]]
+  - [[#js2-mode][JS2 Mode]]
+  - [[#less-css][LESS-CSS]]
+  - [[#magit][Magit]]
+  - [[#php-mode][PHP Mode]]
+  - [[#plantuml][Plantuml]]
+  - [[#powershell][Powershell]]
+  - [[#python][Python]]
+  - [[#rainbow-delimiters-mode][Rainbow delimiters mode]]
+  - [[#web-mode][Web Mode]]
 - [[#some-useful-functions-and-advice][Some useful functions and advice]]
-    - [[#advices-for-kill-ring-save-and-kill-region][Advices for =kill-ring-save= and =kill-region=]]
-    - [[#use-ido-to-open-recent-files][Use Ido to open recent files]]
-    - [[#dont-ask-if-a-buffer-visits-a-running-process-during-killing-emacs-remq-removes-the-relevant-function][Don't ask if a buffer visits a running process during killing emacs. =remq= removes the relevant function]]
-    - [[#insert-date][Insert date]]
-    - [[#unsplit-line][Unsplit-line]]
-    - [[#toggle-between-horizontal-and-vertical-window-split][Toggle between horizontal and vertical window split]]
+  - [[#advices-for-kill-ring-save-and-kill-region][Advices for =kill-ring-save= and =kill-region=]]
+  - [[#use-ido-to-open-recent-files][Use Ido to open recent files]]
+  - [[#dont-ask-if-a-buffer-visits-a-running-process-during-killing-emacs-remq-removes-the-relevant-function][Don't ask if a buffer visits a running process during killing emacs. =remq= removes the relevant function]]
+  - [[#insert-date][Insert date]]
+  - [[#unsplit-line][Unsplit-line]]
+  - [[#toggle-between-horizontal-and-vertical-window-split][Toggle between horizontal and vertical window split]]
 
 * Introduction
   :PROPERTIES:
@@ -109,7 +125,7 @@ user directory creatively called “lisp”.
 I borrowed a lot from other people’s files, but only recently started no note where things
 come from.
 * Basics
-*** Load the local file
+** Load the local file
     This file contains data that is eithersensitive so I don't want to share it and also
     everything system-dependent. Check the existence of such a file before loading so as
     not to cause errors.
@@ -119,7 +135,7 @@ come from.
 (when (file-exists-p local-file)
 (load local-file 'noerror)))
 #+END_SRC
-*** Move customizations into their own file
+** Move customizations into their own file
     Customizations go to a dedicated file. Check the existence of such a file before loading so as
     not to cause errors on a vanilla emacs installation.
    #+begin_src emacs-lisp
@@ -129,7 +145,7 @@ come from.
       (setq custom-file customization-file)
       (load custom-file 'noerror)))
    #+end_src
-*** Set the default font and frame config
+** Set the default font and frame config
     :LOGBOOK:
     - Note taken on [2018-08-21 Di 08:50] \\
       default fontset added
@@ -167,11 +183,11 @@ come from.
       (cond ((eq system-type 'windows-nt)
              (setq inhibit-compacting-font-caches t)))
     #+end_src
-*** Maximize by default
+** Maximize by default
     #+begin_src emacs-lisp
     (add-hook 'window-setup-hook 'toggle-frame-maximized t)
     #+end_src
-*** Garbage-collect on focus-out, Emacs /should/ feel snappier.
+** Garbage-collect on focus-out, Emacs /should/ feel snappier.
     :LOGBOOK:
     - Note taken on [2018-04-15 So 12:49] \\
       From Manish Parashar
@@ -179,7 +195,7 @@ come from.
     #+begin_src emacs-lisp
     (add-hook 'focus-out-hook #'garbage-collect)
     #+end_src
-*** Set coding system
+** Set coding system
     I use utf8-encoding everywhere
     #+begin_src emacs-lisp
     (prefer-coding-system       'utf-8)
@@ -193,7 +209,7 @@ come from.
       (when (member "Symbola" (font-family-list))
         (set-fontset-font t 'unicode "Symbola" nil 'prepend))
     #+END_SRC
-*** Theme
+** Theme
     :LOGBOOK:
     - Note taken on [2018-05-09 Mi 07:57] \\
       Switch to =use-package=
@@ -282,7 +298,7 @@ come from.
         :config
         (load-theme 'darkplus t))
     #+end_src
-*** Backup
+** Backup
     :LOGBOOK:
     - Note taken on [2018-04-29 So 20:40] \\
       Trying ideas from https://www.emacswiki.org/emacs/BackupDirectory
@@ -303,7 +319,7 @@ automatically upon save. Backups should be more than one and go in a dedicated d
         (version-control t "use versioned backups"))
     #+end_src
 * General configuration
-*** ACE-Windows
+** ACE-Windows
     :LOGBOOK:
     - Note taken on [2018-05-24 Do 21:22] \\
       Von https://www.suenkler.info/notes/emacs-config/
@@ -319,13 +335,13 @@ automatically upon save. Backups should be more than one and go in a dedicated d
     '(aw-leading-char-face
     ((t (:inherit ace-jump-face-foreground :height 3.0)))))))
     #+END_SRC
-*** Aliases
+** Aliases
     [2013-09-03 Di 23:45] I learned from https://sites.google.com/site/steveyegge2/effective-emacs  how to add
     aliases which seems handy. The first entry is just a sample to remind me of the syntax
     #+begin_src emacs-lisp
     (defalias 'qrr 'query-replace-regexp)
     #+end_src
-*** All the icons
+** All the icons
 :PROPERTIES:
 :CREATED:  [2019-02-25 Mon 09:17]
 :END:
@@ -353,7 +369,7 @@ It seems I need =font-lock+.el= for it to work on Windows.
     (all-the-icons-ivy-setup)
     )
 #+end_src
-*** Ansi-Term
+** Ansi-Term
 :PROPERTIES:
 :CREATED:  [2019-06-01 Sa 14:05]
 :END:
@@ -369,7 +385,7 @@ exiting the shell.
     ad-do-it))
 (ad-activate 'term-sentinel)
 #+end_src
-*** Appointments
+** Appointments
 I start to use the appointment system as well, so I need to activate it. I don't want to
 be reminded more then twice before the appointment itself. I also want the diary entries
 sorted.
@@ -379,7 +395,7 @@ sorted.
 appt-display-interval 5)
 (add-hook 'diary-list-entries-hook 'diary-sort-entries t)
 #+END_SRC
-*** Auto-revert
+** Auto-revert
       No messages for =auto-revert=
       #+begin_src emacs-lisp
         (use-package autorevert
@@ -389,7 +405,7 @@ appt-display-interval 5)
                global-auto-revert-mode t
                global-auto-revert-non-file-buffers t))
       #+end_src
-*** Auto-save
+** Auto-save
 :LOGBOOK:
 - Note taken on [2019-05-12 So 16:43] \\
   Changed lisp code as recommendedon no-litering site
@@ -429,7 +445,7 @@ than the default 5 seconds.
 (setq auto-save-visited-interval 60)
 (auto-save-visited-mode 1)
 #+END_SRC
-*** Awesome Tabs
+** Awesome Tabs
 :PROPERTIES:
 :CREATED:  [2019-03-10 So 16:25]
 :END:
@@ -456,7 +472,7 @@ Let's try tabs again
     (org-agenda-mode . centaur-tabs-local-mode)
     (helpful-mode . centaur-tabs-local-mode))
   #+end_src
-*** Calendar
+** Calendar
     :LOGBOOK:
     - Note taken on [2018-05-13 So 21:44] \\
       It seems =filter-visible-calendar-holidays= is replaced by =holiday-filter-visible-calendar=
@@ -539,7 +555,7 @@ Let's try tabs again
                   (cfw:cal-create-source "Orange") ; diary source
                   ))))
 #+end_src
-*** Custom
+** Custom
 :PROPERTIES:
 :CREATED:  [2018-12-15 Sa 18:32]
 :END:
@@ -594,7 +610,7 @@ I prefer setting things in this file rather than = custom.el=.
     :custom
     (custom-safe-themes t "Treat all themes as safe"))
 #+END_SRC
-*** Dashboard
+** Dashboard
     :LOGBOOK:
     - Note taken on [2018-05-19 Sa 18:22] \\
       Nice idea but not really useful.
@@ -619,7 +635,7 @@ I prefer setting things in this file rather than = custom.el=.
                                 (agenda . 5)))
         :demand t)
     #+end_src
-*** date2name
+** date2name
     :LOGBOOK:
     - Note taken on [2019-07-07 So 11:59] \\
       It's now in MELPA
@@ -633,7 +649,7 @@ which is an Elisp-native re-implementation of [[https://github.com/novoid/date2n
   (use-package date2name
     :demand t)
 #+END_SRC
-*** Dimish
+** Dimish
     :LOGBOOK:
     - Note taken on [2018-05-13 So 21:09] \\
     Added from http://www.star.bris.ac.uk/bjm/emacs.html
@@ -651,7 +667,7 @@ which is an Elisp-native re-implementation of [[https://github.com/novoid/date2n
       :diminish undo-tree-mode
       :diminish company-mode)
     #+end_src
-*** Dired
+** Dired
 :LOGBOOK:
 - Note taken on [2018-10-28 So 12:13] \\
   There is a new way to hide details in =dired=. Seems to be enough instead of dired-details
@@ -713,7 +729,7 @@ A nice overview for git repositories in dired
     :bind (:map dired-mode-map
                 (")" . dired-git-info-mode)))
 #+end_src
-*** Display
+** Display
 :PROPERTIES:
 :CREATED:  [2018-12-15 Sa 18:06]
 :END:
@@ -723,7 +739,7 @@ Display related settings
         global-hl-line-sticky-flag t
         global-visual-line-mode t)
 #+END_SRC
-*** Delete duplicate entries of the history of the minibuffer
+** Delete duplicate entries of the history of the minibuffer
 :LOGBOOK:
 - Note taken on [2018-07-19 Do 18:37] \\
   From Karl Voit's .emacs
@@ -735,7 +751,7 @@ http://www.gnu.org/software/emacs/manual/html_node/elisp/Minibuffer-History.html
 #+BEGIN_SRC emacs-lisp
 (setq history-delete-duplicates t)
 #+END_SRC
-*** Disk usage
+** Disk usage
 :PROPERTIES:
 :CREATED:  [2019-02-24 So 10:52]
 :END:
@@ -744,14 +760,14 @@ A nice package to show the disk usage
 (use-package disk-usage
   :ensure t)
 #+end_src
-*** Emacs Server
+** Emacs Server
 Useful to reuse the already running instance
 #+BEGIN_SRC emacs-lisp
 (unless (and (fboundp 'server-running-p)
              (server-running-p))
   (server-start))
 #+END_SRC
-*** filetags.el
+** filetags.el
 :LOGBOOK:
 - Note taken on [2019-07-07 So 12:00] \\
   It's now on MELPA
@@ -775,7 +791,7 @@ it seems to work. At least on ArchLabs it also requires the =s= package so I'll 
       (filetags-load-controlled-vocabulary-from-file t "read CV from .filetags files within same or upper directories")
   )
 #+END_SRC
-*** Golden ratio scrolling
+** Golden ratio scrolling
     Improved scrolling in larger files
     #+BEGIN_SRC emacs-lisp
       (use-package golden-ratio-scroll-screen
@@ -783,7 +799,7 @@ it seems to work. At least on ArchLabs it also requires the =s= package so I'll 
         :bind(([remap scroll-down-command] . golden-ratio-scroll-screen-down)
               ([remap scroll-up-command] . golden-ratio-scroll-screen-up)))
     #+END_SRC
-*** Helpful
+** Helpful
 :PROPERTIES:
 :CREATED:  [2018-12-17 Mo 10:21]
 :END:
@@ -795,7 +811,7 @@ Helpful is a useful replacement for the standard help buffer see [[https://githu
            ("C-h v" . helpful-variable)
            ("C-h k" . helpful-key)))
 #+END_SRC
-*** Highlight the current line
+** Highlight the current line
     :LOGBOOK:
     - Note taken on [2013-07-13 Sa 20:13] \\
       It needs to be =global-hl-line-mode= otherwise it won't work globally
@@ -805,7 +821,7 @@ Helpful is a useful replacement for the standard help buffer see [[https://githu
       (global-hl-line-mode 1)
       (setq hl-line-face 'hl-line)
     #+end_src
-*** Ido-mode
+** Ido-mode
     :LOGBOOK:
     - Note taken on [2018-10-01 Mo 21:20] \\
       Disabled I use ivy instead
@@ -825,7 +841,7 @@ Helpful is a useful replacement for the standard help buffer see [[https://githu
         (ido-mode (quote buffers))
         :ensure nil)
     #+end_src
-*** Ivy
+** Ivy
 :PROPERTIES:
 :CREATED:  [2018-07-24 Di 21:32]
 :END:
@@ -861,7 +877,7 @@ https://www.reddit.com/r/emacs/comments/910pga/tip_how_to_use_ivy_and_its_utilit
     :bind (("C-s" . swiper)
            ("C-r" . swiper)))
 #+END_SRC
-*** Keyboard settings
+** Keyboard settings
     :LOGBOOK:
     - Note taken on [2018-09-17 Mo 10:33] \\
       C-c C-r is now bound within org so the somment-region keybinding doesn't work anymore
@@ -905,7 +921,7 @@ https://www.reddit.com/r/emacs/comments/910pga/tip_how_to_use_ivy_and_its_utilit
       #+begin_src emacs-lisp
       (fset 'yes-or-no-p 'y-or-n-p)
       #+end_src
-*** Menu bar
+** Menu bar
 :PROPERTIES:
 :CREATED:  [2018-10-28 So 11:47]
 :END:
@@ -922,14 +938,14 @@ Most of the time I don't  need the menu bar but it's useful to quickly get to it
     :bind
     ([S-f10] . menu-bar-mode))
 #+END_SRC
-*** Minimal
+** Minimal
 Replace the mode-line by a single small line. Useful for distraction-free writing
 #+BEGIN_SRC emacs-lisp
   (use-package minimal
     :load-path "lisp/minimal"
     :demand t)
 #+END_SRC
-*** Minions
+** Minions
 :PROPERTIES:
 :CREATED:  [2019-02-10 So 17:35]
 :END:
@@ -939,7 +955,7 @@ Another package to reduce clutter in the mode-line from [[https://github.com/tar
      :demand t
      :config (minions-mode t))
  #+end_src
-*** mode-icons - Show icons instead of mode names
+** mode-icons - Show icons instead of mode names
 
 https://github.com/ryuslash/mode-icons
 
@@ -954,7 +970,7 @@ This enhances the style of Emacs IMHO.
   (mode-icons-mode)
 )
 #+END_SRC
-*** Modernized Package Menu
+** Modernized Package Menu
 :PROPERTIES:
 :CREATED:  [2018-10-28 So 11:38]
 :END:
@@ -968,7 +984,7 @@ Improves the package menu via [[https://github.com/a13/emacs.d][GitHub - a13/ema
     (setq  paradox-automatically-star nil)
     (paradox-enable))
 #+END_SRC
-*** Moody
+** Moody
 :PROPERTIES:
 :CREATED:  [2019-02-10 So 17:48]
 :END:
@@ -981,7 +997,7 @@ Some eye candy for the modelina from [[https://github.com/tarsius/moody][GitHub 
   (moody-replace-mode-line-buffer-identification)
   (moody-replace-vc-mode))
 #+end_src
-*** msb-Mode
+** msb-Mode
     :LOGBOOK:
     - Note taken on [2018-05-07 Mon 21:59] \\
       Added use-package rather than custom.el
@@ -998,19 +1014,19 @@ Some eye candy for the modelina from [[https://github.com/tarsius/moody][GitHub 
     (msb-mode 1)
     :ensure nil)
     #+end_src
-*** No blinking cursor
+** No blinking cursor
     I find a blinking cursor distracting.
     #+begin_src emacs-lisp
     (blink-cursor-mode 0)
     #+end_src
-*** No toolbar and no scrollbar
+** No toolbar and no scrollbar
     I don't need the big icons and prefer more screen real estate. See also
     https://sites.google.com/site/steveyegge2/effective-emacs
     #+begin_src emacs-lisp
     (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
     (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
     #+end_src
-*** Open-with
+** Open-with
 :PROPERTIES:
 :CREATED:  [2019-08-16 Fr 18:13]
 :END:
@@ -1024,7 +1040,7 @@ On Linux I prefer to open PDF externally not within =doc-view=. The easiest way 
            (setq openwith-associations '(("\\.pdf\\'" "evince" (file)))))))
 #+end_src
 * Editing related items
-*** Abbrevs
+** Abbrevs
     I use abbrevs mainly to correct common spelling errors
     #+begin_src emacs-lisp
     (setq-default abbrev-mode t)     ;; enable abbreviations
@@ -1032,7 +1048,7 @@ On Linux I prefer to open PDF externally not within =doc-view=. The easiest way 
     (if (file-exists-p abbrev-file-name)
     (quietly-read-abbrev-file))  ;; reads the abbreviations file on startup
     #+end_src
-*** Comment lines
+** Comment lines
     :LOGBOOK:
     - Note taken on [2018-05-26 Sa 19:17] \\
       From http://www.star.bris.ac.uk/bjm/emacs.html
@@ -1042,7 +1058,7 @@ On Linux I prefer to open PDF externally not within =doc-view=. The easiest way 
     (use-package comment-dwim-2
     :bind (("M-;" . comment-dwim-2)))
     #+END_SRC
-*** Company
+** Company
     :LOGBOOK:
     - Note taken on [2015-12-18 Fr 09:18] \\
       Added as a try
@@ -1118,7 +1134,7 @@ On Linux I prefer to open PDF externally not within =doc-view=. The easiest way 
     (setq company-idle-delay .3)                         ; decrease delay before autocompletion popup shows
     (setq company-begin-commands '(self-insert-command)) ; start autocompletion only after typing
     #+end_src
-*** Deft
+** Deft
     :LOGBOOK:
     - Note taken on [2018-04-29 So 21:08] \\
       Changed deft-use-filename-as-title to nil which seems to use the filter string
@@ -1149,7 +1165,7 @@ On Linux I prefer to open PDF externally not within =doc-view=. The easiest way 
           (case-fn . capitalize)))
       :bind ("C-x C-d" . deft-find-file))
     #+end_src
-*** delete-trailing-whitespace before saving
+** delete-trailing-whitespace before saving
 :LOGBOOK:
 - Note taken on [2018-07-19 Do 18:39] \\
   From Karl Voit's .emacs
@@ -1157,12 +1173,12 @@ On Linux I prefer to open PDF externally not within =doc-view=. The easiest way 
 #+BEGIN_SRC emacs-lisp
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
-*** Grip mode
+** Grip mode
 #+begin_src emacs-lisp
 (use-package grip-mode
   :ensure t)
 #+end_src
-*** Hippie-expand
+** Hippie-expand
     :LOGBOOK:
     - Note taken on [2018-05-13 So 21:18] \\
       Added from http://www.star.bris.ac.uk/bjm/emacs.html
@@ -1184,7 +1200,7 @@ On Linux I prefer to open PDF externally not within =doc-view=. The easiest way 
             hippie-expand-dabbrev-as-symbol t
             hippie-expand-dabbrev-skip-space nil)
     #+end_src
-*** Markdown mode
+** Markdown mode
 :PROPERTIES:
 :CREATED:  [2018-07-31 Di 22:38]
 :END:
@@ -1198,7 +1214,7 @@ There are a bunch of markdown files I use regularly. So a fitting mode is approp
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "pandoc --from markdown -t html5 --standalone"))
 #+END_SRC
-*** Nov
+** Nov
 :PROPERTIES:
 :CREATED:  [2019-01-01 Di 18:27]
 :END:
@@ -1209,7 +1225,7 @@ There are a bunch of markdown files I use regularly. So a fitting mode is approp
      :config
      (setq nov-text-width 100))
  #+end_src
-*** Olivetti mode
+** Olivetti mode
 :PROPERTIES:
 :CREATED:  [2018-10-01 Mo 20:45]
 :END:
@@ -1221,7 +1237,7 @@ Olivetti provides a nice distraction-free environment.
     (olivetti-hide-mode-line t)
     )
 #+END_SRC
-*** Orgmode
+** Orgmode
     :LOGBOOK:
     - Note taken on [2018-07-10 Di 07:54] \\
       Added org-expiry to get a CREATED property for new headings
@@ -1235,7 +1251,7 @@ Olivetti provides a nice distraction-free environment.
       Notes can be added in the LOGBOOK drawer with C-c C-z
     :END:
       Finally ;-)-
-***** General settings
+*** General settings
 :LOGBOOK:
 - Note taken on [2018-12-27 Do 13:56] \\
   Saving into a datetree with sufficient number of * produces a proper datetree. I added also the cookie counter to get an overview how many taks I closed on a given day per file.
@@ -1351,7 +1367,7 @@ Olivetti provides a nice distraction-free environment.
 (setq org-fast-todo-selection t
       org-fast-tag-selection-include-todo nil)
 #+end_src
-***** Add a created property to new entries
+*** Add a created property to new entries
       :PROPERTIES:
       :CREATED:  [2018-07-09 Mo 23:26]
       :END:
@@ -1367,14 +1383,14 @@ Olivetti provides a nice distraction-free environment.
       (org-back-to-heading)
       (org-expiry-insert-created))))
       #+END_SRC
-***** The usual keybindings
+*** The usual keybindings
 #+begin_src emacs-lisp
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-switchb)
 #+end_src
-***** Adding =imenu= support
+*** Adding =imenu= support
 :LOGBOOK:
 - Note taken on [2018-07-18 Mi 07:32] \\
   Added setting for =org-imenu-depth=.
@@ -1389,7 +1405,7 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
 #+BEGIN_SRC emacs-lisp
 (setq org-imenu-depth 5)
 #+END_SRC
-***** Agenda settings
+*** Agenda settings
       :LOGBOOK:
       - Note taken on [2015-11-08 So 18:54] \\
         LAPTOP as a todo removed because I don't use it any longer
@@ -1425,7 +1441,7 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
              (800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800)
              "......" "----------------")))
    #+end_src
-***** Capture templates
+*** Capture templates
       :LOGBOOK:
       - Note taken on [2018-09-27 Do 11:38] \\
         Separate the capture templates
@@ -1477,7 +1493,7 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
                   "* %^{Beschreibung}
 %[~/.emacs.d/config/org/.planning.txt]"))))
       #+END_SRC
-***** Org-Babel
+*** Org-Babel
 :LOGBOOK:
       - Note taken on [2018-07-19 Do 18:32] \\
         Set directory for plantuml fitting to no-littering
@@ -1517,7 +1533,7 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
 
       (add-hook 'org-babel-after-execute-hook 'shk-fix-inline-images)
       #+END_SRC
-***** Org-Export
+*** Org-Export
 :LOGBOOK:
 - Note taken on [2019-01-01 Di 17:46] \\
   Org 9.2 changes the structure-template semantics. So Iremevied the ox-hugo template
@@ -1570,13 +1586,13 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
     :after ox
     :pin MELPA)
 #+END_SRC
-***** Org-cliplink
+*** Org-cliplink
 Easily insert links form the clipboard in org-mode files
       #+BEGIN_SRC emacs-lisp
       (use-package org-cliplink
       :bind ("C-c p" . org-cliplink))
       #+END_SRC
-***** Org-Clock
+*** Org-Clock
 :PROPERTIES:
 :CREATED:  [2018-08-24 Fr 13:43]
 :END:
@@ -1590,7 +1606,7 @@ I started again to use clocking in Org-mode. Here are the related settings
         org-agenda-clockreport-parameter-plist '(:link t :maxlevel 3))
   (org-clock-persistence-insinuate)
   #+END_SRC
-***** Additional link type for TAGS
+*** Additional link type for TAGS
       :LOGBOOK:
       - Note taken on [2018-05-19 Sa 18:55] \\
         From http://endlessparentheses.com/use-org-mode-links-for-absolutely-anything.html
@@ -1607,7 +1623,7 @@ I started again to use clocking in Org-mode. Here are the related settings
 #+END_SRC
 
 Then, merely write your links as =[[tag:work+phonenumber-boss][Optional Description]\]=
-***** Toc-Org
+*** Toc-Org
 Table of contents in Org Files
 #+BEGIN_SRC emacs-lisp
   (use-package toc-org
@@ -1615,7 +1631,7 @@ Table of contents in Org Files
     :after org
     :hook (org-mode . toc-org-enable))
 #+END_SRC
-***** Org Beautify
+*** Org Beautify
 :PROPERTIES:
 :CREATED:  [2018-08-18 Sa 22:00]
 :END:
@@ -1624,10 +1640,8 @@ Settings to make org buffers look nicer
   #+BEGIN_SRC emacs-lisp
     (setq org-hide-emphasis-markers t
           org-fontify-done-headline t
-          org-hide-leading-stars t
           org-pretty-entities t
-          org-pretty-entities-include-sub-superscripts nil
-          org-odd-levels-only t)
+          org-pretty-entities-include-sub-superscripts nil)
   #+END_SRC
 - Automatically change list bullets
   #+begin_src emacs-lisp
@@ -1650,7 +1664,7 @@ Settings to make org buffers look nicer
   #+begin_src emacs-lisp
     (use-package org-bullets
       :custom
-      (org-bullets-bullet-list '("◉" "☯" "○" "☯" "✸" "☯" "✿" "☯" "✜" "☯" "◆" "☯" "▶"))
+      (org-bullets-bullet-list '("◉" "○" "✸" "✿" "✜" "◆" "▶"))
       (org-ellipsis "⤵")
       :hook (org-mode . org-bullets-mode))
   #+end_src
@@ -1731,7 +1745,7 @@ Settings to make org buffers look nicer
     (unless (char-displayable-p ?❗)
       (setq org-fancy-priorities-list '("HIGH" "MID" "LOW" "OPTIONAL"))))
 #+end_src
-***** Org Outline numbering
+*** Org Outline numbering
 :PROPERTIES:
 :CREATED:  [2018-10-25 Do 20:36]
 :END:
@@ -1747,7 +1761,7 @@ it would appear when exporting the org file.
     :after org
     :hook (org-mode . org-num-mode))
 #+END_SRC
-***** Org-Kanban
+*** Org-Kanban
 :PROPERTIES:
 :CREATED:  [2019-07-26 Fr 22:19]
 :END:
@@ -1755,7 +1769,7 @@ Sometimes Kanban boards are useful
 #+begin_src emacs-lisp
 (use-package org-kanban)
 #+end_src
-***** Org-Sidebar
+*** Org-Sidebar
       :PROPERTIES:
       :CREATED:  [2019-11-06 Mi 21:54]
       :END:
@@ -1765,7 +1779,7 @@ Sometimes Kanban boards are useful
   :custom (org-sidebar-tree-side 'left))
 
 #+end_src
-*** Todo-txt
+** Todo-txt
     :LOGBOOK:
     - Note taken on [2019-10-06 So 18:37] \\
       I don't use it currently
@@ -1813,7 +1827,7 @@ Sometimes Kanban boards are useful
     C-c C-f d       todotxt-filter-by-status
     C-c C-f p       todotxt-filter-by-project
     C-c C-f t       todotxt-filter-by-tag
-*** ZTree
+** ZTree
 :PROPERTIES:
 :CREATED:  [2019-05-12 So 16:34]
 :END:
@@ -1822,7 +1836,7 @@ A nice directory diff tool
 (use-package ztree)
 #+end_src
 * Programming
-*** JS2 Mode
+** JS2 Mode
     :LOGBOOK:
     - Note taken on [2015-04-12 So 16:23] \\
       Added for Javascript editing
@@ -1833,7 +1847,7 @@ A nice directory diff tool
     :config (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
     )
   #+end_src
-*** LESS-CSS
+** LESS-CSS
     :LOGBOOK:
     - Note taken on [2018-02-26 Mo 22:51] \\
         No longer needed
@@ -1842,7 +1856,7 @@ A nice directory diff tool
     #+begin_src emacs-lisp
     ;(require 'less-css-mode)
     #+end_src
-*** Magit
+** Magit
 :PROPERTIES:
 :CREATED:  [2018-09-29 Sa 17:40]
 :END:
@@ -1858,7 +1872,7 @@ at least on Windows see https://github.com/magit/magit/wiki/Pushing-with-Magit-f
          (use-package ssh-agency)
          (setenv "SSH_ASKPASS" "git-gui--askpass")))
 #+END_SRC
-*** PHP Mode
+** PHP Mode
     #+begin_src emacs-lisp
       (use-package php-mode
         :hook (php-mode . (lambda () (define-abbrev php-mode-abbrev-table "ex" "extends"))))
@@ -1867,14 +1881,14 @@ at least on Windows see https://github.com/magit/magit/wiki/Pushing-with-Magit-f
     To use abbrev-mode, add lines like this:
     (add-hook 'php-mode-hook
         '(lambda () (define-abbrev php-mode-abbrev-table "ex" "extends")))
-*** Plantuml
+** Plantuml
     Great tool to create UML and other diagrams.
     #+begin_src emacs-lisp
     (use-package plantuml-mode
     :config (setq plantuml-output-type "png")
     :mode ("\\.puml\\'" . plantuml-mode))
     #+end_src
-*** Powershell
+** Powershell
 :PROPERTIES:
 :CREATED:  [2019-03-19 Tue 09:06]
 :END:
@@ -1884,7 +1898,7 @@ version exists only on MELPA. Hence the pin.
    (use-package powershell
      :pin "MELPA")
  #+end_src
-*** Python
+** Python
 :PROPERTIES:
 :CREATED:  [2019-07-07 So 20:51]
 :END:
@@ -1912,7 +1926,7 @@ and PEP8 compliance
     (elpy-mode . py-autopep8-enable-on-save)
     )
 #+end_src
-*** Rainbow delimiters mode
+** Rainbow delimiters mode
 :LOGBOOK:
 - Note taken on [2018-09-28 Fr 18:55] \\
   rainbow-mode itself doesn't work and ins't useful for me. I removed it
@@ -1927,7 +1941,7 @@ and PEP8 compliance
         :init
         (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
     #+end_src
-*** Web Mode
+** Web Mode
     =web-mode.el= is an autonomous emacs major-mode for editing web templates:
     HTML documents embedding parts (CSS / JavaScript) and blocks (client / server side). I
     also use it for editing plain HTML files.
@@ -1937,7 +1951,7 @@ and PEP8 compliance
     )
     #+end_src
 * Some useful functions and advice
-*** Advices for =kill-ring-save= and =kill-region=
+** Advices for =kill-ring-save= and =kill-region=
     #+begin_src emacs-lisp
       (defadvice kill-ring-save (before slick-copy activate compile)
       "When called interactively with no active region, copy a single
@@ -1953,7 +1967,7 @@ and PEP8 compliance
           (list (line-beginning-position)
             (line-beginning-position 2)))))
     #+end_src
-*** Use Ido to open recent files
+** Use Ido to open recent files
 :LOGBOOK:
 - Note taken on [2018-09-30 So 20:45] \\
   I'll try ivy/counsel instead for now. The keybinding is set via use-package for counsel
@@ -1968,7 +1982,7 @@ and PEP8 compliance
 
  ;    (global-set-key "\C-x\C-r" 'ido-recentf-open)
     #+end_src
-*** Don't ask if a buffer visits a running process during killing emacs. =remq= removes the relevant function
+** Don't ask if a buffer visits a running process during killing emacs. =remq= removes the relevant function
     :LOGBOOK:
     - Note taken on [2013-07-13 Sa 20:11] \\
       Added
@@ -1978,7 +1992,7 @@ and PEP8 compliance
     (remq 'process-kill-buffer-query-function
     kill-buffer-query-functions))
     #+end_src
-*** Insert date
+** Insert date
     :LOGBOOK:
     - Note taken on [2018-04-29 So 20:30] \\
       Added and changed key C-c d from deft to insert-date
@@ -1996,7 +2010,7 @@ and PEP8 compliance
 
     (global-set-key (kbd "C-c d") 'insert-date)
     #+end_src
-*** Unsplit-line
+** Unsplit-line
 :PROPERTIES:
 :CREATED:  [2018-10-25 Do 21:17]
 :END:
@@ -2007,7 +2021,7 @@ Useful function to join lines from [[http://whattheemacsd.com/key-bindings.el-03
                   (interactive)
                   (join-line -1)))
 #+END_SRC
-*** Toggle between horizontal and vertical window split
+** Toggle between horizontal and vertical window split
 :PROPERTIES:
 :CREATED:  [2018-10-25 Do 21:19]
 :END:
