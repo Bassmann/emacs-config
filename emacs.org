@@ -168,8 +168,7 @@ come from.
               (left-fringe-width nil)
               (frame-resize-pixelwise t)
               (border-color . "black")
-              (menu-bar-lines . 1))
-		inhibit-compacting-font-caches t)
+              (menu-bar-lines . 1)))
 
       (setq-default frame-title-format
                     (list '((buffer-file-name " %f"
@@ -252,12 +251,12 @@ come from.
     #+BEGIN_SRC emacs-lisp
       (use-package poet-theme
         :demand t
-        :disabled
         :config
+            (load-theme 'poet t)
             (set-face-attribute 'default nil :family "monofur" :height 110)
             (set-face-attribute 'fixed-pitch nil :family "monofur")
             (set-face-attribute 'variable-pitch nil :family "Baskerville Old Face")
-            (load-theme 'poet t))
+)
     #+END_SRC
 
     =doom-nova= is my newest favorite but has issues with =org-bullets=. These have been
@@ -295,6 +294,7 @@ come from.
       (use-package darkplus-theme
         :load-path "lisp"
         :demand t
+        :disabled
         :config
         (load-theme 'darkplus t))
     #+end_src
@@ -1319,7 +1319,6 @@ Olivetti provides a nice distraction-free environment.
     (defalias 'omp 'org-mobile-push)
     (defalias 'omf 'org-mobile-pull)
     #+end_src
-*
 - I like =visual-pitch-mode and =visual-line-mode= for org files
   #+BEGIN_SRC emacs-lisp
     (add-hook 'org-mode-hook
@@ -1415,32 +1414,53 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
       =org-agenda-custom-commands=  are in =local.el= since they are both sensitive and
       system-dependent.
    #+begin_src emacs-lisp
-     (setq org-agenda-files (concat org-directory "/agenda.txt")
-           org-agenda-start-on-weekday nil
-           org-agenda-include-diary t
-           org-agenda-insert-diary-extract-time t
-           org-agenda-prefix-format
-           '((agenda . "  %-12c%?-12t% s")
-             (timeline . "  % s")
-             (todo . "  %-12:c")
-             (tags . "  %-12:c")
-             (search . "  %-12:c"))
-           org-agenda-remove-tags t
-           org-agenda-show-inherited-tags nil
-           org-agenda-skip-scheduled-if-deadline-is-shown t ;;don't give a warning colour to tasks with impending deadlines if they are scheduled to be done
-           org-agenda-skip-deadline-prewarning-if-scheduled (quote pre-scheduled) ;;don't show tasks that are scheduled or have deadlines in the
-           org-agenda-sorting-strategy ;;sort tasks in order of when they are due and then by priority
-           (quote
-            ((agenda time-up habit-down deadline-up priority-down category-keep)
-             (todo priority-down category-keep)
-             (tags priority-down category-keep)
-             (search category-keep)))
-           org-agenda-time-grid
-           (quote
-            ((daily today remove-match)
-             (800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800)
-             "......" "----------------")))
+          (setq org-agenda-files (concat org-directory "/agenda.txt")
+                org-agenda-date-weekend (quote (:foreground "Yellow" :weight bold))
+                org-agenda-start-on-weekday nil
+                org-agenda-include-diary t
+                org-agenda-insert-diary-extract-time t
+                org-agenda-prefix-format
+                '((agenda . "  %i %-12c%?-12t% s")
+                  (timeline . "  % s")
+                  (todo . "  %i")
+                  (tags . "  %i %-12:c")
+                  (search . "  %i %-12:c"))
+                org-agenda-remove-tags t
+                org-agenda-show-inherited-tags nil
+                org-agenda-skip-deadline-if-done t
+                org-agenda-skip-deadline-prewarning-if-scheduled (quote pre-scheduled) ;;don't show tasks that are scheduled or have deadlines in the
+                org-agenda-skip-scheduled-if-deadline-is-shown t ;;don't give a warning colour to tasks with impending deadlines if they are scheduled to be done
+                org-agenda-skip-scheduled-if-done t           org-agenda-skip-scheduled-if-deadline-is-shown t ;;don't give a warning colour to tasks with impending deadlines if they are scheduled to be done
+                org-agenda-sorting-strategy ;;sort tasks in order of when they are due and then by priority
+                (quote
+                 ((agenda time-up habit-down deadline-up priority-down category-keep)
+                  (todo priority-down category-keep)
+                  (tags priority-down category-keep)
+                  (search category-keep)))
+                org-agenda-time-grid
+                (quote
+                 ((daily today remove-match)
+                  (800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800)
+                  "......" "----------------")))
    #+end_src
+   Use icons in the agenda
+   #+begin_src emacs-lisp
+      (setq org-agenda-category-icon-alist
+         `(("Org" ,(list (all-the-icons-faicon "check-circle")) nil nil :ascent center)
+           ("regularly" ,(list (all-the-icons-faicon "cogs")) nil nil :ascent center)
+           ("buecher" ,(list (all-the-icons-faicon "book")) nil nil :ascent center)
+           ("Journal" ,(list (all-the-icons-faicon "file")) nil nil :ascent center)
+           ))
+   #+end_src
+   I just learned about agenda clockreport. It seems useful to add it to the default agenda view
+   #+begin_src emacs-lisp
+     (setq org-agenda-start-with-clockreport-mode t
+           org-clock-report-include-clocking-task t
+           org-agenda-clockreport-parameter-plist
+           (quote (:link t :maxlevel 4 :fileskip0 t :compact t :narrow 80)))
+   #+end_src
+
+   The clocking table can be hidden and shown with "R".
 *** Capture templates
       :LOGBOOK:
       - Note taken on [2018-09-27 Do 11:38] \\
@@ -1758,6 +1778,7 @@ it would appear when exporting the org file.
 #+BEGIN_SRC emacs-lisp
   (use-package org-num
     :load-path "lisp/"
+    :disabled
     :after org
     :hook (org-mode . org-num-mode))
 #+END_SRC
@@ -1775,8 +1796,9 @@ Sometimes Kanban boards are useful
       :END:
       A nice addition from [[https://github.com/alphapapa/alpha-org/][GitHub - alphapapa/alpha-org: A powerful Org configuration]]
 #+begin_src emacs-lisp
-(use-package org-sidebar
-  :custom (org-sidebar-tree-side 'left))
+  (use-package org-sidebar
+    :disabled
+    :custom (org-sidebar-tree-side 'left))
 
 #+end_src
 ** Todo-txt
