@@ -251,6 +251,7 @@ come from.
     #+BEGIN_SRC emacs-lisp
       (use-package poet-theme
         :demand t
+        :disabled
         :config
             (load-theme 'poet t)
             (set-face-attribute 'default nil :family "monofur" :height 110)
@@ -264,7 +265,6 @@ come from.
     #+BEGIN_SRC emacs-lisp
       (use-package doom-themes
         :demand t
-        :disabled
         :config
         (load-theme 'doom-nova t)
         (doom-themes-org-config)
@@ -1723,22 +1723,6 @@ Settings to make org buffers look nicer
     (setq prettify-symbols-unprettify-at-point 'right-edge)
     (add-hook 'org-mode-hook 'prettify-symbols-mode)
   #+END_SRC
-- Some font setting for fixed-pitch
-  #+BEGIN_SRC emacs-lisp
-    (custom-theme-set-faces
-     'user
-     '(variable-pitch ((t (:family "Source Sans Pro" :height 120 :weight light))))
-     '(fixed-pitch ((t ( :family "Consolas" :slant normal :weight normal :height 0.9 :width normal)))))
-
-    (custom-theme-set-faces
-     'user
-     '(org-block                 ((t (:inherit fixed-pitch))))
-     '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
-     '(org-property-value        ((t (:inherit fixed-pitch))) t)
-     '(org-special-keyword       ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-     '(org-tag                   ((t (:inherit (shadow fixed-pitch) :weight bold))))
-     '(org-verbatim              ((t (:inherit (shadow fixed-pitch))))))
-   #+END_SRC
 - Use pretty-tags
 #+begin_src emacs-lisp
   (use-package org-pretty-tags
