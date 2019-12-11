@@ -55,6 +55,7 @@
   - [[#delete-trailing-whitespace-before-saving][delete-trailing-whitespace before saving]]
   - [[#grip-mode][Grip mode]]
   - [[#hippie-expand][Hippie-expand]]
+  - [[#json-navigator][JSON-Navigator]]
   - [[#markdown-mode][Markdown mode]]
   - [[#nov][Nov]]
   - [[#olivetti-mode][Olivetti mode]]
@@ -253,11 +254,7 @@ come from.
         :demand t
         :disabled
         :config
-            (load-theme 'poet t)
-            (set-face-attribute 'default nil :family "monofur" :height 110)
-            (set-face-attribute 'fixed-pitch nil :family "monofur")
-            (set-face-attribute 'variable-pitch nil :family "Baskerville Old Face")
-)
+        (load-theme 'poet t))
     #+END_SRC
 
     =doom-nova= is my newest favorite but has issues with =org-bullets=. These have been
@@ -266,10 +263,10 @@ come from.
       (use-package doom-themes
         :demand t
         :config
-        (load-theme 'doom-nova t)
         (doom-themes-org-config)
         (doom-themes-visual-bell-config)
-      )
+        (load-theme 'doom-nova t)
+        )
     #+END_SRC
     Let's try =material= for a while
     #+begin_src emacs-lisp
@@ -277,7 +274,8 @@ come from.
         :demand t
         :disabled
         :config
-        (load-theme 'material t))
+        (load-theme 'material t)
+        )
     #+end_src
 
     Again a lighter theme =parchment=
@@ -1200,6 +1198,14 @@ On Linux I prefer to open PDF externally not within =doc-view=. The easiest way 
             hippie-expand-dabbrev-as-symbol t
             hippie-expand-dabbrev-skip-space nil)
     #+end_src
+** JSON-Navigator
+:PROPERTIES:
+:CREATED:  [2019-12-09 Mo 21:21]
+:END:
+This is a nice visual representation for JSON Files
+#+begin_src emacs-lisp
+(use-package json-navigator)
+#+end_src
 ** Markdown mode
 :PROPERTIES:
 :CREATED:  [2018-07-31 Di 22:38]
@@ -1414,34 +1420,35 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
       =org-agenda-custom-commands=  are in =local.el= since they are both sensitive and
       system-dependent.
    #+begin_src emacs-lisp
-          (setq org-agenda-files (concat org-directory "/agenda.txt")
-                org-agenda-date-weekend (quote (:foreground "Yellow" :weight bold))
-                org-agenda-start-on-weekday nil
-                org-agenda-include-diary t
-                org-agenda-insert-diary-extract-time t
-                org-agenda-prefix-format
-                '((agenda . "  %i %-12c%?-12t% s")
-                  (timeline . "  % s")
-                  (todo . "  %i")
-                  (tags . "  %i %-12:c")
-                  (search . "  %i %-12:c"))
-                org-agenda-remove-tags t
-                org-agenda-show-inherited-tags nil
-                org-agenda-skip-deadline-if-done t
-                org-agenda-skip-deadline-prewarning-if-scheduled (quote pre-scheduled) ;;don't show tasks that are scheduled or have deadlines in the
-                org-agenda-skip-scheduled-if-deadline-is-shown t ;;don't give a warning colour to tasks with impending deadlines if they are scheduled to be done
-                org-agenda-skip-scheduled-if-done t           org-agenda-skip-scheduled-if-deadline-is-shown t ;;don't give a warning colour to tasks with impending deadlines if they are scheduled to be done
-                org-agenda-sorting-strategy ;;sort tasks in order of when they are due and then by priority
-                (quote
-                 ((agenda time-up habit-down deadline-up priority-down category-keep)
-                  (todo priority-down category-keep)
-                  (tags priority-down category-keep)
-                  (search category-keep)))
-                org-agenda-time-grid
-                (quote
-                 ((daily today remove-match)
-                  (800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800)
-                  "......" "----------------")))
+     (setq org-agenda-files (concat org-directory "/agenda.txt")
+           org-agenda-date-weekend (quote (:foreground "Yellow" :weight bold))
+           org-agenda-start-on-weekday nil
+           org-agenda-include-diary t
+           org-agenda-insert-diary-extract-time t
+           org-agenda-prefix-format
+           '((agenda . "  %i %-12c%?-12t% s")
+             (timeline . "  % s")
+             (todo . "  %i")
+             (tags . "  %i %-12:c")
+             (search . "  %i %-12:c"))
+           org-agenda-remove-tags t
+           org-agenda-show-inherited-tags nil
+           org-agenda-skip-deadline-if-done t
+           org-agenda-skip-deadline-prewarning-if-scheduled (quote pre-scheduled) ;;don't show tasks that are scheduled or have deadlines in the
+           org-agenda-skip-scheduled-if-deadline-is-shown t ;;don't give a warning colour to tasks with impending deadlines if they are scheduled to be done
+           org-agenda-skip-scheduled-if-done t
+           org-agenda-skip-scheduled-if-deadline-is-shown t ;;don't give a warning colour to tasks with impending deadlines if they are scheduled to be done
+           org-agenda-sorting-strategy ;;sort tasks in order of when they are due and then by priority
+           (quote
+            ((agenda time-up habit-down deadline-up priority-down category-keep)
+             (todo priority-down category-keep)
+             (tags priority-down category-keep)
+             (search category-keep)))
+           org-agenda-time-grid
+           (quote
+            ((daily today remove-match)
+             (800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800)
+             "......" "----------------")))
    #+end_src
    Use icons in the agenda
    #+begin_src emacs-lisp
@@ -1449,7 +1456,10 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
          `(("Org" ,(list (all-the-icons-faicon "check-circle")) nil nil :ascent center)
            ("regularly" ,(list (all-the-icons-faicon "cogs")) nil nil :ascent center)
            ("buecher" ,(list (all-the-icons-faicon "book")) nil nil :ascent center)
-           ("Journal" ,(list (all-the-icons-faicon "file")) nil nil :ascent center)
+           ("Journal" ,(list (all-the-icons-faicon "leanpub")) nil nil :ascent center)
+           ("tasks" ,(list (all-the-icons-faicon "check-circle-o")) nil nil :ascent center)
+           ("work" ,(list (all-the-icons-faicon "briefcase")) nil nil :ascent center)
+           ("tree" ,(list (all-the-icons-faicon "tree")) nil nil :ascent center)
            ))
    #+end_src
    I just learned about agenda clockreport. It seems useful to add it to the default agenda view
