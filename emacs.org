@@ -254,7 +254,10 @@ come from.
         :demand t
         :disabled
         :config
-        (load-theme 'poet t))
+            (set-face-attribute 'default nil :family "monofur" :height 110)
+            (set-face-attribute 'fixed-pitch nil :family "monofur")
+            (set-face-attribute 'variable-pitch nil :family "Baskerville Old Face")
+            (load-theme 'poet t))
     #+END_SRC
 
     =doom-nova= is my newest favorite but has issues with =org-bullets=. These have been
@@ -275,6 +278,9 @@ come from.
         :disabled
         :config
         (load-theme 'material t)
+        (set-face-attribute 'default nil :family "Consolas" :height 110)
+        (set-face-attribute 'fixed-pitch nil :family "Consolas")
+        (set-face-attribute 'variable-pitch nil :family "ETBembo")
         )
     #+end_src
 
@@ -557,7 +563,7 @@ Let's try tabs again
 :PROPERTIES:
 :CREATED:  [2018-12-15 Sa 18:32]
 :END:
-I prefer setting things in this file rather than = custom.el=.
+I prefer setting things in this file rather than =custom.el=.
 #+BEGIN_SRC emacs-lisp
   (use-package system-packages
     :custom
@@ -571,7 +577,8 @@ I prefer setting things in this file rather than = custom.el=.
     (byte-compile-warnings
      (quote
       (redefine callargs free-vars unresolved obsolete noruntime interactive-only)))
-    (column-number-mode t)(compilation-message-face (quote default))
+    (column-number-mode t)
+    (compilation-message-face (quote default))
     (confirm-nonexistent-file-or-buffer nil)
     (debug-on-quit nil)
     (delete-by-moving-to-trash t)
@@ -1733,6 +1740,36 @@ Settings to make org buffers look nicer
     (setq prettify-symbols-unprettify-at-point 'right-edge)
     (add-hook 'org-mode-hook 'prettify-symbols-mode)
   #+END_SRC
+- Some font setting for fixed-pitch
+    (custom-theme-set-faces
+     'user
+     '(fixed-pitch ((t (:family "monofur" :slant normal :weight normal :height 0.9 :width normal))))
+     '(variable-pitch ((t (:family "ETBembo"))))
+     )
+
+    (custom-theme-set-faces
+     'user
+     '(org-block ((t (:inherit fixed-pitch))))
+     '(org-column ((t (:background "light gray" :strike-through nil :underline nil :slant normal :weight normal))))
+     '(org-column-title ((t (:background "gray" :underline t :weight bold))))
+     '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
+     '(org-document-title ((t (:inherit default :weight bold :height 2.0 :underline nil))))
+     '(org-headline-done ((t (:inherit variable-pitch :foreground "white" :strike-through t))))
+     '(org-indent ((t  (:inherit (org-hide fixed-pitch)))))
+     '(org-level-1 ((t (:inherit variable-pitch :weight bold :height 1.4))))
+     '(org-level-2 ((t (:inherit variable-pitch :weight bold :height 1.3))))
+     '(org-level-3 ((t (:inherit variable-pitch :weight bold :height 1.2))))
+     '(org-level-4 ((t (:inherit variable-pitch :weight bold :height 1.1))))
+     '(org-level-5 ((t (:inherit variable-pitch :weight bold))))
+     '(org-level-6 ((t (:inherit variable-pitch :weight bold))))
+     '(org-level-7 ((t (:inherit variable-pitch :weight bold))))
+     '(org-level-8 ((t (:inherit variable-pitch :weight bold))))
+     '(org-link ((t (:foreground "royal blue" :underline t))))
+     '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+     '(org-property-value        ((t (:inherit fixed-pitch))) t)
+     '(org-special-keyword       ((t (:inherit (font-lock-comment-face fixed-pitch)))))
+     '(org-tag                   ((t (:inherit (shadow fixed-pitch) :weight bold))))
+     '(org-verbatim              ((t (:inherit (shadow fixed-pitch))))))
 - Use pretty-tags
 #+begin_src emacs-lisp
   (use-package org-pretty-tags
