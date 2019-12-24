@@ -958,7 +958,9 @@ Another package to reduce clutter in the mode-line from [[https://github.com/tar
  #+begin_src emacs-lisp
    (use-package minions
      :demand t
-     :config (minions-mode t))
+     :init (minions-mode)
+     :config
+     (setq minions-mode-line-lighter "#"))
  #+end_src
 ** mode-icons - Show icons instead of mode names
 
