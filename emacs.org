@@ -1743,35 +1743,11 @@ Settings to make org buffers look nicer
     (add-hook 'org-mode-hook 'prettify-symbols-mode)
   #+END_SRC
 - Some font setting for fixed-pitch
-    (custom-theme-set-faces
-     'user
-     '(fixed-pitch ((t (:family "monofur" :slant normal :weight normal :height 0.9 :width normal))))
-     '(variable-pitch ((t (:family "ETBembo"))))
-     )
+#+begin_src emacs-lisp
+  (add-to-list 'org-emphasis-alist
+               '("*" (:weight bold)))
+#+end_src
 
-    (custom-theme-set-faces
-     'user
-     '(org-block ((t (:inherit fixed-pitch))))
-     '(org-column ((t (:background "light gray" :strike-through nil :underline nil :slant normal :weight normal))))
-     '(org-column-title ((t (:background "gray" :underline t :weight bold))))
-     '(org-document-info-keyword ((t (:inherit (shadow fixed-pitch)))))
-     '(org-document-title ((t (:inherit default :weight bold :height 2.0 :underline nil))))
-     '(org-headline-done ((t (:inherit variable-pitch :foreground "white" :strike-through t))))
-     '(org-indent ((t  (:inherit (org-hide fixed-pitch)))))
-     '(org-level-1 ((t (:inherit variable-pitch :weight bold :height 1.4))))
-     '(org-level-2 ((t (:inherit variable-pitch :weight bold :height 1.3))))
-     '(org-level-3 ((t (:inherit variable-pitch :weight bold :height 1.2))))
-     '(org-level-4 ((t (:inherit variable-pitch :weight bold :height 1.1))))
-     '(org-level-5 ((t (:inherit variable-pitch :weight bold))))
-     '(org-level-6 ((t (:inherit variable-pitch :weight bold))))
-     '(org-level-7 ((t (:inherit variable-pitch :weight bold))))
-     '(org-level-8 ((t (:inherit variable-pitch :weight bold))))
-     '(org-link ((t (:foreground "royal blue" :underline t))))
-     '(org-meta-line ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-     '(org-property-value        ((t (:inherit fixed-pitch))) t)
-     '(org-special-keyword       ((t (:inherit (font-lock-comment-face fixed-pitch)))))
-     '(org-tag                   ((t (:inherit (shadow fixed-pitch) :weight bold))))
-     '(org-verbatim              ((t (:inherit (shadow fixed-pitch))))))
 - Use pretty-tags
 #+begin_src emacs-lisp
   (use-package org-pretty-tags
