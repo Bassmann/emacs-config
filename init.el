@@ -10,12 +10,26 @@
 (setq gc-cons-threshold (* 500 1024 1024)
       gc-cons-percentage 0.6)
 
+;; Every file opened and loaded by Emacs will run through this list to check for a proper
+;; handler for the file, but during startup, it won’t need any of them.
+(defvar file-name-handler-alist-original file-name-handler-alist)
+(setq file-name-handler-alist nil)
+
 ;; After Emacs startup has been completed, set `gc-cons-threshold' to
 ;; 16 MB and reset `gc-cons-percentage' to its original value.
+;; Also reset `file-name-handler-alist'
 (add-hook 'emacs-startup-hook
           '(lambda ()
              (setq gc-cons-threshold (* 16 1024 1024)
-                   gc-cons-percentage 0.1)))
+                   gc-cons-percentage 0.1
+                   file-name-handler-alist file-name-handler-alist-original)
+             (makunbound 'file-name-handler-alist-original)))
+
+;; I don't need the big icons and prefer more screen real estate. See also
+;; https://sites.google.com/site/steveyegge2/effective-emacs
+(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
 ;; Set repositories
 (require 'package)

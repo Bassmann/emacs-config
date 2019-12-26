@@ -46,7 +46,6 @@
   - [[#moody][Moody]]
   - [[#msb-mode][msb-Mode]]
   - [[#no-blinking-cursor][No blinking cursor]]
-  - [[#no-toolbar-and-no-scrollbar][No toolbar and no scrollbar]]
   - [[#open-with][Open-with]]
 - [[#editing-related-items][Editing related items]]
   - [[#abbrevs][Abbrevs]]
@@ -1025,13 +1024,6 @@ Some eye candy for the modelina from [[https://github.com/tarsius/moody][GitHub 
     I find a blinking cursor distracting.
     #+begin_src emacs-lisp
     (blink-cursor-mode 0)
-    #+end_src
-** No toolbar and no scrollbar
-    I don't need the big icons and prefer more screen real estate. See also
-    https://sites.google.com/site/steveyegge2/effective-emacs
-    #+begin_src emacs-lisp
-    (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-    (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
     #+end_src
 ** Open-with
 :PROPERTIES:
