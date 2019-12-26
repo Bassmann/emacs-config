@@ -1,100 +1,7 @@
 ﻿#+TITLE: Martins Emacs Start
 #+OPTIONS: html-postamble:nil html-preamble:t tex:t
-#+OPTIONS: toc:3 num:nil ^:nil creator:nil timestamp:nil d:t
-* Table of content                                                    :TOC_3:
-- [[#introduction][Introduction]]
-- [[#basics][Basics]]
-  - [[#load-the-local-file][Load the local file]]
-  - [[#move-customizations-into-their-own-file][Move customizations into their own file]]
-  - [[#set-the-default-font-and-frame-config][Set the default font and frame config]]
-  - [[#maximize-by-default][Maximize by default]]
-  - [[#garbage-collect-on-focus-out-emacs-should-feel-snappier][Garbage-collect on focus-out, Emacs /should/ feel snappier.]]
-  - [[#set-coding-system][Set coding system]]
-  - [[#theme][Theme]]
-  - [[#backup][Backup]]
-- [[#general-configuration][General configuration]]
-  - [[#ace-windows][ACE-Windows]]
-  - [[#aliases][Aliases]]
-  - [[#all-the-icons][All the icons]]
-  - [[#ansi-term][Ansi-Term]]
-  - [[#appointments][Appointments]]
-  - [[#auto-revert][Auto-revert]]
-  - [[#auto-save][Auto-save]]
-  - [[#awesome-tabs][Awesome Tabs]]
-  - [[#calendar][Calendar]]
-  - [[#custom][Custom]]
-  - [[#dashboard][Dashboard]]
-  - [[#date2name][date2name]]
-  - [[#dimish][Dimish]]
-  - [[#dired][Dired]]
-  - [[#display][Display]]
-  - [[#delete-duplicate-entries-of-the-history-of-the-minibuffer][Delete duplicate entries of the history of the minibuffer]]
-  - [[#disk-usage][Disk usage]]
-  - [[#emacs-server][Emacs Server]]
-  - [[#filetagsel][filetags.el]]
-  - [[#golden-ratio-scrolling][Golden ratio scrolling]]
-  - [[#helpful][Helpful]]
-  - [[#highlight-the-current-line][Highlight the current line]]
-  - [[#ido-mode][Ido-mode]]
-  - [[#ivy][Ivy]]
-  - [[#keyboard-settings][Keyboard settings]]
-  - [[#menu-bar][Menu bar]]
-  - [[#minimal][Minimal]]
-  - [[#minions][Minions]]
-  - [[#mode-icons---show-icons-instead-of-mode-names][mode-icons - Show icons instead of mode names]]
-  - [[#modernized-package-menu][Modernized Package Menu]]
-  - [[#moody][Moody]]
-  - [[#msb-mode][msb-Mode]]
-  - [[#no-blinking-cursor][No blinking cursor]]
-  - [[#open-with][Open-with]]
-- [[#editing-related-items][Editing related items]]
-  - [[#abbrevs][Abbrevs]]
-  - [[#company][Company]]
-  - [[#deft][Deft]]
-  - [[#delete-trailing-whitespace-before-saving][delete-trailing-whitespace before saving]]
-  - [[#grip-mode][Grip mode]]
-  - [[#hippie-expand][Hippie-expand]]
-  - [[#json-navigator][JSON-Navigator]]
-  - [[#markdown-mode][Markdown mode]]
-  - [[#nov][Nov]]
-  - [[#olivetti-mode][Olivetti mode]]
-  - [[#orgmode][Orgmode]]
-    - [[#general-settings][General settings]]
-    - [[#add-a-created-property-to-new-entries][Add a created property to new entries]]
-    - [[#the-usual-keybindings][The usual keybindings]]
-    - [[#adding-imenu-support][Adding =imenu= support]]
-    - [[#agenda-settings][Agenda settings]]
-    - [[#capture-templates][Capture templates]]
-    - [[#org-babel][Org-Babel]]
-    - [[#org-export][Org-Export]]
-    - [[#org-cliplink][Org-cliplink]]
-    - [[#org-clock][Org-Clock]]
-    - [[#additional-link-type-for-tags][Additional link type for TAGS]]
-    - [[#toc-org][Toc-Org]]
-    - [[#org-beautify][Org Beautify]]
-    - [[#org-outline-numbering][Org Outline numbering]]
-    - [[#org-kanban][Org-Kanban]]
-    - [[#org-sidebar][Org-Sidebar]]
-  - [[#todo-txt][Todo-txt]]
-  - [[#ztree][ZTree]]
-- [[#programming][Programming]]
-  - [[#js2-mode][JS2 Mode]]
-  - [[#less-css][LESS-CSS]]
-  - [[#magit][Magit]]
-  - [[#php-mode][PHP Mode]]
-  - [[#plantuml][Plantuml]]
-  - [[#powershell][Powershell]]
-  - [[#python][Python]]
-  - [[#rainbow-delimiters-mode][Rainbow delimiters mode]]
-  - [[#web-mode][Web Mode]]
-- [[#some-useful-functions-and-advice][Some useful functions and advice]]
-  - [[#advices-for-kill-ring-save-and-kill-region][Advices for =kill-ring-save= and =kill-region=]]
-  - [[#use-ido-to-open-recent-files][Use Ido to open recent files]]
-  - [[#dont-ask-if-a-buffer-visits-a-running-process-during-killing-emacs-remq-removes-the-relevant-function][Don't ask if a buffer visits a running process during killing emacs. =remq= removes the relevant function]]
-  - [[#insert-date][Insert date]]
-  - [[#unsplit-line][Unsplit-line]]
-  - [[#toggle-between-horizontal-and-vertical-window-split][Toggle between horizontal and vertical window split]]
-
+#+OPTIONS: toc:3 num:nil ^:nil creator:nil timestamp:nil
+#+SETUPFILE: config/org/notes-style.org
 * Introduction
   :PROPERTIES:
   :CUSTOM_ID: introduction
@@ -1572,7 +1479,7 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
   Move seetings from =custom.el= here
 :END:
 - Some general settings. I don't need tags or todo keyword in the export and also usually
-  no toc. Only headings with certain tags shall be exorted
+  no toc. Only headings with certain tags shall be exported
 #+BEGIN_SRC emacs-lisp
   (setq org-export-exclude-tags '("NA")
         org-export-select-tags (quote ("PROJEKT" "TOPIC" "EXPORT"))
@@ -1580,6 +1487,10 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
         org-export-with-toc nil
         org-export-with-todo-keywords nil)
 #+END_SRC
+- Htmlize is required to fontify Org-export
+#+begin_src emacs-lisp
+  (use-package htmlize)
+#+end_src
 - I use =pandoc= for export to various formats
   #+begin_src emacs-lisp
     (setq org-pandoc-menu-entry
