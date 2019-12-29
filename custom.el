@@ -12,6 +12,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:family "Source Code Pro" :foundry "outline" :slant normal :weight normal :width normal))))
  '(all-the-icons-dired-dir-face ((t (:foreground nil))))
  '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 3.0))))
  '(fixed-pitch ((t (:family "Source Code Pro" :height 0.9 :slant normal :weight normal :width normal))))
