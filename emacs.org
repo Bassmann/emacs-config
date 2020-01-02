@@ -232,7 +232,9 @@ automatically upon save. Backups should be more than one and go in a dedicated d
         (delete-old-versions t)
         (kept-new-versions 6)
         (kept-old-versions 2)
-        (version-control t "use versioned backups"))
+        (version-control t "use versioned backups")
+        :config
+        (setq confirm-kill-processes nil))
     #+end_src
 * General configuration
 ** ACE-Windows
@@ -369,14 +371,16 @@ Let's try tabs again
 #+begin_src emacs-lisp
   (use-package centaur-tabs
     :demand t
+    :init (setq centaur-tabs-set-bar 'over)
     :config
+    (centaur-tabs-headline-match)
     (setq centaur-tabs-set-bar t
           centaur-tabs-height 32
           centaur-tabs-set-icons t
           centaur-tabs-set-modified-marker t
+          centaur-tabs-modified-marker " ● "
+          centaur-tabs-close-button " × "
           centaur-tabs-style "bar")
-    (cond ((eq system-type 'windows-nt)
-         (setq centaur-tabs-set-icons nil)))
     (centaur-tabs-mode t)
     :bind
     ("C-<prior>" . centaur-tabs-backward)
@@ -1315,87 +1319,81 @@ Olivetti provides a nice distraction-free environment.
   Ideas from Bernt Hansen http://doc.norang.ca/org-mode.html
 :END:
 - Where my Org files are stored
-  #+BEGIN_SRC emacs-lisp
-    (setq org-directory (concat cloud-dir "org"))
-  #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq org-directory (concat cloud-dir "org"))
+#+END_SRC
 - Archiving into a datetree
-  #+BEGIN_SRC emacs-lisp
-    (setq  org-archive-location "archive.org::datetree/*** %S [/]")
-  #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq  org-archive-location "archive.org::datetree/*** %S [/]")
+#+END_SRC
 - Deadlines and due dates are a fact or life
   By default I want to see deadlines in the agenda 30 days before the due date. The
   following setting accomplishes this:
-  #+begin_src emacs-lisp
+#+begin_src emacs-lisp
   (setq org-deadline-warning-days 30)
-  #+end_src
+#+end_src
 - Speed commands
-  #+BEGIN_SRC emacs-lisp
-      (setq  org-fast-tag-selection-single-key 'expert
-             org-special-ctrl-a/e t
-             org-special-ctrl-k t
-             org-use-speed-commands (lambda () (and (looking-at org-outline-regexp) (looking-back "^\\**"))))
+  I keep forgetting what is possible. [[http://notesyoujustmightwanttosave.blogspot.com/2011/12/org-speed-keys.html][*scratch*: Org Speed Keys]] has an overview.
+#+BEGIN_SRC emacs-lisp
+  (setq  org-fast-tag-selection-single-key 'expert
+         org-special-ctrl-a/e t
+         org-special-ctrl-k t
+         org-use-speed-commands (lambda () (and (looking-at org-outline-regexp) (looking-back "^\\**"))))
 
-  #+END_SRC
+#+END_SRC
 - Logging and habits
   I want to log state changes and also use the =org-habit= module
-  #+BEGIN_SRC emacs-lisp
-     (setq  org-habit-graph-column 60
-            org-log-done 'time
-            org-log-into-drawer t
-            org-log-redeadline 'time
-            org-log-reschedule 'time)
-  #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq  org-habit-graph-column 60
+         org-log-done 'time
+         org-log-into-drawer t
+         org-log-redeadline 'time
+         org-log-reschedule 'time)
+#+END_SRC
 - I like indented mode
-  #+BEGIN_SRC emacs-lisp
-    (setq org-startup-indented t
-          org-src-tab-acts-natively t)
-  #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq org-startup-indented t
+        org-src-tab-acts-natively t)
+#+END_SRC
 - Refiling
-  #+BEGIN_SRC emacs-lisp
-    (setq org-outline-path-complete-in-steps nil
-          org-refile-allow-creating-parent-nodes 'confirm
-          org-refile-targets '((org-agenda-files :maxlevel . 5) (nil :maxlevel . 5))
-          org-refile-use-outline-path 'file)
-  #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq org-outline-path-complete-in-steps nil
+        org-refile-allow-creating-parent-nodes 'confirm
+        org-refile-targets '((org-agenda-files :maxlevel . 5) (nil :maxlevel . 5))
+        org-refile-use-outline-path 'file)
+#+END_SRC
 - I want to be reminded of agenda items
-  #+BEGIN_SRC emacs-lisp
-    (org-agenda-to-appt)
-  #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (org-agenda-to-appt)
+#+END_SRC
 - Quickly insert a block of elisp:
-  #+BEGIN_SRC emacs-lisp
-    (add-to-list 'org-structure-template-alist
-                 '("el" . "src emacs-lisp"))
-  #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'org-structure-template-alist
+               '("el" . "src emacs-lisp"))
+#+END_SRC
 - Use MobileOrg with encryption
-  #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (setq org-mobile-use-encryption t)
-  #+END_SRC
+#+END_SRC
 - Some alias for =org-mobile-push= and =org-mobile-pull=:
-    #+begin_src emacs-lisp
-    (defalias 'omp 'org-mobile-push)
-    (defalias 'omf 'org-mobile-pull)
-    #+end_src
-- I like =visual-pitch-mode and =visual-line-mode= for org files
-  #+BEGIN_SRC emacs-lisp
-    (add-hook 'org-mode-hook
-              (lambda ()
-                (variable-pitch-mode 1)
-                visual-line-mode))
-  #+END_SRC
+#+begin_src emacs-lisp
+  (defalias 'omp 'org-mobile-push)
+  (defalias 'omf 'org-mobile-pull)
+#+end_src
 - Update cookies when killing lines (from [[http://whattheemacsd.com/setup-org.el-01.html][What the .emacs.d!?]])
 #+BEGIN_SRC emacs-lisp
-(defun myorg-update-parent-cookie ()
-  (when (equal major-mode 'org-mode)
-    (save-excursion
-      (ignore-errors
-        (org-back-to-heading)
-        (org-update-parent-todo-statistics)))))
+  (defun myorg-update-parent-cookie ()
+    (when (equal major-mode 'org-mode)
+      (save-excursion
+        (ignore-errors
+          (org-back-to-heading)
+          (org-update-parent-todo-statistics)))))
 
-(defadvice org-kill-line (after fix-cookies activate)
-  (myorg-update-parent-cookie))
+  (defadvice org-kill-line (after fix-cookies activate)
+    (myorg-update-parent-cookie))
 
-(defadvice kill-whole-line (after fix-cookies activate)
-  (myorg-update-parent-cookie))
+  (defadvice kill-whole-line (after fix-cookies activate)
+    (myorg-update-parent-cookie))
 #+END_SRC
 - Also update cookies after refiling entries (from [[https://lists.gnu.org/archive/html/emacs-orgmode/2012-01/msg00167.html][Re: {O} refiling tasks and counter cookies]])
 #+begin_src emacs-lisp
@@ -1405,7 +1403,7 @@ Olivetti provides a nice distraction-free environment.
 #+end_src
 - Always load these modules
 #+BEGIN_SRC emacs-lisp
-(setq org-modules '(org-habit org-info org-expiry))
+  (setq org-modules '(org-habit org-info org-expiry))
 #+END_SRC
 - Count todo statistics across subtrees
  #+begin_src emacs-lisp
@@ -1413,20 +1411,24 @@ Olivetti provides a nice distraction-free environment.
  #+end_src
 - I want duration in hours/minutes rather than days
 #+begin_src emacs-lisp
- (setq org-duration-format '((special . h:mm)))
+  (setq org-duration-format '((special . h:mm)))
 #+end_src
 - Follow links by pressing ENTER on them
 #+begin_src emacs-lisp
-(setq org-return-follows-link t)
+  (setq org-return-follows-link t)
 #+end_src
 - Adapt indentation
 #+begin_src emacs-lisp
-(setq org-adapt-indentation t)
+  (setq org-adapt-indentation t)
 #+end_src
 - Fast tag and todo selection
 #+begin_src emacs-lisp
-(setq org-fast-todo-selection t
-      org-fast-tag-selection-include-todo nil)
+  (setq org-fast-todo-selection t
+        org-fast-tag-selection-include-todo nil)
+#+end_src
+- Avoid accidentally editing folded regions, say by adding text after an Org “⋯”.
+#+begin_src emacs-lisp
+  (setq org-catch-invisible-edits 'show)
 #+end_src
 *** Add a created property to new entries
       :PROPERTIES:
@@ -1476,35 +1478,29 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
       =org-agenda-custom-commands=  are in =local.el= since they are both sensitive and
       system-dependent.
    #+begin_src emacs-lisp
-     (setq org-agenda-files (concat org-directory "/agenda.txt")
-           org-agenda-date-weekend (quote (:foreground "Yellow" :weight bold))
-           org-agenda-start-on-weekday nil
-           org-agenda-include-diary t
-           org-agenda-insert-diary-extract-time t
-           org-agenda-prefix-format
-           '((agenda . "  %i %-12c%?-12t% s")
-             (timeline . "  % s")
-             (todo . "  %i")
-             (tags . "  %i %-12:c")
-             (search . "  %i %-12:c"))
-           org-agenda-remove-tags t
-           org-agenda-show-inherited-tags nil
-           org-agenda-skip-deadline-if-done t
-           org-agenda-skip-deadline-prewarning-if-scheduled (quote pre-scheduled) ;;don't show tasks that are scheduled or have deadlines in the
-           org-agenda-skip-scheduled-if-deadline-is-shown t ;;don't give a warning colour to tasks with impending deadlines if they are scheduled to be done
-           org-agenda-skip-scheduled-if-done t
-           org-agenda-skip-scheduled-if-deadline-is-shown t ;;don't give a warning colour to tasks with impending deadlines if they are scheduled to be done
-           org-agenda-sorting-strategy ;;sort tasks in order of when they are due and then by priority
-           (quote
-            ((agenda time-up habit-down deadline-up priority-down category-keep)
-             (todo priority-down category-keep)
-             (tags priority-down category-keep)
-             (search category-keep)))
-           org-agenda-time-grid
-           (quote
-            ((daily today remove-match)
-             (800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800)
-             "......" "----------------")))
+      (setq org-agenda-files (concat org-directory "/agenda.txt")
+            org-agenda-date-weekend (quote (:foreground "Yellow" :weight bold))
+            org-agenda-start-on-weekday nil
+            org-agenda-block-separator 9472
+            org-agenda-include-diary t
+            org-agenda-insert-diary-extract-time t
+            org-agenda-remove-tags t
+            org-agenda-show-inherited-tags t
+            org-agenda-skip-deadline-if-done t
+            org-agenda-skip-deadline-prewarning-if-scheduled (quote pre-scheduled) ;;don't show tasks that are scheduled or have deadlines in the
+            org-agenda-skip-scheduled-if-deadline-is-shown t ;;don't give a warning colour to tasks with impending deadlines if they are scheduled to be done
+            org-agenda-skip-scheduled-if-done t           org-agenda-skip-scheduled-if-deadline-is-shown t ;;don't give a warning colour to tasks with impending deadlines if they are scheduled to be done
+            org-agenda-sorting-strategy ;;sort tasks in order of when they are due and then by priority
+            (quote
+             ((agenda time-up habit-down deadline-up priority-down category-keep)
+              (todo priority-down category-keep)
+              (tags priority-down category-keep)
+              (search category-keep)))
+            org-agenda-time-grid
+            (quote
+             ((daily today remove-match)
+              (800 900 1000 1100 1200 1300 1400 1500 1600 1700 1800)
+              "......" "----------------")))
    #+end_src
    Use icons in the agenda
    #+begin_src emacs-lisp
@@ -1733,7 +1729,14 @@ Table of contents in Org Files
 :CREATED:  [2018-08-18 Sa 22:00]
 :END:
 Settings to make org buffers look nicer
-- Odd levels, hiding stars and no emphasis markers displayed
+- I like =visual-pitch-mode and =visual-line-mode= for org files.
+  #+BEGIN_SRC emacs-lisp
+    (add-hook 'org-mode-hook
+              (lambda ()
+                (variable-pitch-mode 1)
+                visual-line-mode))
+  #+END_SRC
+- Hiding stars and no emphasis markers displayed
   #+BEGIN_SRC emacs-lisp
     (setq org-hide-emphasis-markers t
           org-fontify-done-headline t
@@ -1802,6 +1805,7 @@ Settings to make org buffers look nicer
   #+END_SRC
 - Some font setting for fixed-pitch
 #+begin_src emacs-lisp
+  (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
   (add-to-list 'org-emphasis-alist
                '("*" (:weight bold)))
 #+end_src
