@@ -172,11 +172,11 @@ come from.
     #+BEGIN_SRC emacs-lisp
       (use-package doom-themes
         :demand t
+        :disabled t
         :config
         (doom-themes-org-config)
         (doom-themes-visual-bell-config)
-        (load-theme 'doom-nova t)
-        :pin MELPA
+        (load-theme 'doom-tomorrow-day t)
       )
     #+END_SRC
     Let's try =material= for a while
@@ -192,9 +192,8 @@ come from.
 #+begin_src emacs-lisp
   (use-package color-theme-sanityinc-tomorrow
     :demand t
-    :disabled
     :config
-    (load-theme 'sanityinc-tomorrow-blue t))
+    (load-theme 'sanityinc-tomorrow-day t))
 #+end_src
     Again a lighter theme =parchment=
     #+begin_src emacs-lisp
@@ -702,7 +701,9 @@ an Elisp-native re-implementation of [[https://github.com/novoid/filetags/][file
 It requires =ivy= to work so I used =package-install= to install it from Melpa. Afterwards
 it seems to work. At least on ArchLabs it also requires the =s= package so I'll add that.
 #+BEGIN_SRC emacs-lisp
-(require 's)
+;  (use-package s
+;    :demand t)
+;  (require 's)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -770,6 +771,7 @@ Yet another completion tool. From
 https://www.reddit.com/r/emacs/comments/910pga/tip_how_to_use_ivy_and_its_utilities_in_your/
 #+BEGIN_SRC emacs-lisp
   (use-package ivy
+    :pin MELPA
     :diminish
     :bind (("C-c C-r" . ivy-resume)
            ("C-x B" . ivy-switch-buffer-other-window))
@@ -902,7 +904,6 @@ Improves the package menu via [[https://github.com/a13/emacs.d][GitHub - a13/ema
 #+BEGIN_SRC emacs-lisp
   (use-package paradox
     :defer 1
-    :disabled
     :config
     (setq  paradox-automatically-star nil)
     (paradox-enable))
@@ -1061,6 +1062,23 @@ I like icons in the dired buffer from =treemacs=
   :ensure t
   :config (treemacs-icons-dired-mode))
 #+END_SRC
+** Undo Tree
+:PROPERTIES:
+:CREATED:  [2020-01-03 Fr 20:58]
+:END:
+Allow tree-semantics for undo operations.
+#+begin_src emacs-lisp
+  (use-package undo-tree
+    :config
+    ;; Always have it on
+    (global-undo-tree-mode)
+
+    ;; Each node in the undo tree should have a timestamp.
+    (setq undo-tree-visualizer-timestamps t)
+
+    ;; Show a diff window displaying changes between undo nodes.
+    (setq undo-tree-visualizer-diff t))
+#+end_src
 ** Uniquify
     Emacs's standard method for making buffer names unique adds <2>, <3>, etc. to the end
     of (all but one of) the buffers. =uniquify= replaces that behavior, for buffers
@@ -1430,6 +1448,7 @@ Olivetti provides a nice distraction-free environment.
 #+begin_src emacs-lisp
   (setq org-catch-invisible-edits 'show)
 #+end_src
+
 *** Add a created property to new entries
       :PROPERTIES:
       :CREATED:  [2018-07-09 Mo 23:26]
@@ -1664,8 +1683,7 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
     (use-package ox-pandoc
       :after org
 ;      :config (add-to-list 'org-pandoc-options '(toc . t))
-      :demand t
-      :pin MELPA)
+      :demand t)
   #+end_src
   - I use ascii export a lot but want wider text
     #+begin_src emacs-lisp
@@ -1675,8 +1693,7 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
 #+BEGIN_SRC emacs-lisp
   (use-package ox-hugo
     :demand t
-    :after ox
-    :pin MELPA)
+    :after ox)
 #+END_SRC
 *** Org-cliplink
 Easily insert links form the clipboard in org-mode files
@@ -1985,11 +2002,13 @@ at least on Windows see https://github.com/magit/magit/wiki/Pushing-with-Magit-f
 :PROPERTIES:
 :CREATED:  [2019-03-19 Tue 09:06]
 :END:
-I started to do some powerhsell scripting again. The combined file is nice but the new
-version exists only on MELPA. Hence the pin.
+:LOGBOOK:
+- Note taken on [2020-01-25 Sa 19:33] \\
+  I removed MELPA stable. pin is no longer needed
+:END:
+I started to do some powerhsell scripting again. The combined file is nice.
  #+begin_src emacs-lisp
-   (use-package powershell
-     :pin "MELPA")
+   (use-package powershell)
  #+end_src
 ** Python
 :PROPERTIES:

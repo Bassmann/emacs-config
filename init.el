@@ -34,17 +34,14 @@
 ;; Set repositories
 (require 'package)
 (setq-default load-prefer-newer t)
-;(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
 ;; I want orgmode before melpa or gnu
 ;(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
 (setq package-archives
       '(("ORG" . "https://orgmode.org/elpa/")
         ("GNU ELPA"     . "https://elpa.gnu.org/packages/")
-        ("MELPA Stable" . "https://stable.melpa.org/packages/")
         ("MELPA"        . "https://melpa.org/packages/"))
       package-archive-priorities
-      '(("ORG" . 15)
-        ("MELPA Stable" . 10)
+      '(("ORG" . 10)
         ("GNU ELPA"     . 5)
         ("MELPA"        . 0)))
 
