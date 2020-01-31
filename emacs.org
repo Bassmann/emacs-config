@@ -1448,7 +1448,51 @@ Olivetti provides a nice distraction-free environment.
 #+begin_src emacs-lisp
   (setq org-catch-invisible-edits 'show)
 #+end_src
-
+- Hide drawers when cycling. Function found at [[https://github.com/codygman/my-emacs-everywhere/blob/master/emacs-config.org][my-emacs-everywhere/emacs-config.org at master · codygman/my-emacs-everywhere...]]
+#+begin_src emacs-lisp
+  (custom-set-faces
+   '(org-drawer ((t (:weight thin :foreground "#586e75"))))
+   )
+   ;; hide drawers when cycling
+  (defun org-cycle-hide-drawers (state)
+    "Re-hide all drawers after a visibility state change."
+    (when (and (derived-mode-p 'org-mode)
+               (not (memq state '(overview folded contents))))
+      (save-excursion
+        (let* ((globalp (memq state '(contents all)))
+               (beg (if globalp
+                        (point-min)
+                      (point)))
+               (end (if globalp
+                        (point-max)
+                      (if (eq state 'children)
+                          (save-excursion
+                            (outline-next-heading)
+                            (point))
+                        (org-end-of-subtree t)))))
+          (goto-char beg)
+          (while (re-search-forward org-drawer-regexp end t)
+            (save-excursion
+              (beginning-of-line 1)
+              (when (looking-at org-drawer-regexp)
+                (let* ((start (1- (match-beginning 0)))
+                       (limit
+                        (save-excursion
+                          (outline-next-heading)
+                          (point)))
+                       (msg (format
+                             (concat
+                              "org-cycle-hide-drawers:  "
+                              "`:END:`"
+                              " line missing at position %s")
+                             (1+ start))))
+                  (if (re-search-forward "^[ \t]*:END:" limit t)
+                      (outline-flag-region start (point-at-eol) t)
+                    (user-error msg))))))))))
+  (add-hook 'org-cycle-hook 'org-cycle-hide-drawers)
+  (add-hook 'org-mode-hook (lambda ()
+                             (local-set-key (kbd "C-c s") 'org-show-subtree)))
+#+end_src
 *** Add a created property to new entries
       :PROPERTIES:
       :CREATED:  [2018-07-09 Mo 23:26]
@@ -1781,7 +1825,7 @@ Settings to make org buffers look nicer
   #+begin_src emacs-lisp
     (use-package org-bullets
       :custom
-      (org-bullets-bullet-list '("◉" "○" "✸" "✿" "✜" "◆" "▶"))
+      (org-bullets-bullet-list '("◉" "◎" "○" "►" "◇"))
       (org-ellipsis "⤵")
       :hook (org-mode . org-bullets-mode))
   #+end_src
@@ -1820,6 +1864,18 @@ Settings to make org buffers look nicer
     (setq prettify-symbols-unprettify-at-point 'right-edge)
     (add-hook 'org-mode-hook 'prettify-symbols-mode)
   #+END_SRC
+- Strike through done checkboxes is also nice copied from [[https://jft.rocks/emacs/use-unicode-symbol-to-display-org-mode-checkboxes][JFT&#x27;s Notes - Use unicode symbol to display org-mode checkboxes]]
+#+begin_src emacs-lisp
+(defface org-checkbox-done-text
+  '((t (:foreground "#71696A" :strike-through t)))
+  "Face for the text part of a checked org-mode checkbox.")
+
+(font-lock-add-keywords
+ 'org-mode
+ `(("^[ \t]*\\(?:[-+*]\\|[0-9]+[).]\\)[ \t]+\\(\\(?:\\[@\\(?:start:\\)?[0-9]+\\][ \t]*\\)?\\[\\(?:X\\|\\([0-9]+\\)/\\2\\)\\][^\n]*\n\\)"
+    1 'org-checkbox-done-text prepend))
+ 'append)
+#+end_src
 - Some font setting for fixed-pitch
 #+begin_src emacs-lisp
   (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
