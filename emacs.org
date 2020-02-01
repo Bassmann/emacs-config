@@ -535,12 +535,13 @@ I prefer setting things in this file rather than =custom.el=.
     - Note taken on [2018-05-19 Sa 18:22] \\
       Nice idea but not really useful.
     :END:
-    A nice dashboard when Emacs is started.
+    A nice dashboard when Emacs is started. Parts of the config taken from https://github.com/michaeltd/.emacs.d
     #+begin_src emacs-lisp
       (use-package dashboard
         :config
         (dashboard-setup-startup-hook)
         (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*"))
+              dashboard-center-content t
               dashboard-set-heading-icons t
               dashboard-set-file-icons t
               dashboard-set-init-info t
@@ -550,9 +551,16 @@ I prefer setting things in this file rather than =custom.el=.
                                                            (float-time
                                                             (time-subtract after-init-time before-init-time)))
                                                    gcs-done)
+              dashboard-footer-icon (all-the-icons-octicon "dashboard"
+                                                           :height 1.1
+                                                           :v-adjust -0.05
+                                                           :face 'font-lock-keyword-face)
               dashboard-items '((recents  . 10)
                                 (bookmarks . 5)
-                                (agenda . 5)))
+                                (agenda . 5))
+              show-week-agenda-p t)
+        (dashboard-modify-heading-icons '((recents . "file-text")
+                                          (bookmarks . "book")))
         :demand t)
     #+end_src
 ** date2name
