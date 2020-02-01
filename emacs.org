@@ -888,6 +888,17 @@ Another package to reduce clutter in the mode-line from [[https://github.com/tar
      :config
      (setq minions-mode-line-lighter "#"))
  #+end_src
+** Mixed-pitch
+:PROPERTIES:
+:CREATED:  [2020-02-01 Sa 21:38]
+:END:
+This mode makes it easier to have both variable-pitch and fixed-pitch in a buffer
+#+begin_src emacs-lisp
+(use-package mixed-pitch
+  :hook
+  ;; If you want it in all text modes:
+  (text-mode . mixed-pitch-mode))
+#+end_src
 ** mode-icons - Show icons instead of mode names
 
 https://github.com/ryuslash/mode-icons
