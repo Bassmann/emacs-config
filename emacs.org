@@ -1593,6 +1593,7 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
            ("tasks" ,(list (all-the-icons-faicon "check-circle-o")) nil nil :ascent center)
            ("work" ,(list (all-the-icons-faicon "briefcase")) nil nil :ascent center)
            ("tree" ,(list (all-the-icons-faicon "tree")) nil nil :ascent center)
+           ("team" ,(list (all-the-icons-faicon "users")) nil nil :ascent center)
            ))
    #+end_src
    I just learned about agenda clockreport. It seems useful to add it to the default agenda view
@@ -1728,16 +1729,6 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
           '(
             (?x "to docx and open." org-pandoc-export-to-docx-and-open)
             (?X "to docx." org-pandoc-export-to-docx)
-            (?o "to odt and open." org-pandoc-export-to-odt-and-open)
-            (?O "to odt." org-pandoc-export-to-odt)
-            (?8 "to opendocument and open." org-pandoc-export-to-opendocument-and-open)
-            (?8 "to opendocument." org-pandoc-export-to-opendocument)
-            (?k "to markdown and open." org-pandoc-export-to-markdown-and-open)
-            (?K "as markdown." org-pandoc-export-as-markdown)
-            (?m "to markdown_mmd and open." org-pandoc-export-to-markdown_mmd-and-open)
-            (?M "as markdown_mmd." org-pandoc-export-as-markdown_mmd)
-            (?s "to markdown_strict & open" org-pandoc-export-to-markdown_strict-and-open)
-            (?S "as markdown_strict." org-pandoc-export-as-markdown_strict)
             (?p "to plain and open." org-pandoc-export-to-plain-and-open)
             (?P "as plain." org-pandoc-export-as-plain)
             (?h "to html5 and open." org-pandoc-export-to-html5-and-open)
@@ -1943,8 +1934,7 @@ Display an outline numbering as overlays on Org mode headlines. The numbering ma
 it would appear when exporting the org file.
 #+BEGIN_SRC emacs-lisp
   (use-package org-num
-    :load-path "lisp/"
-    :disabled
+    :ensure nil
     :after org
     :hook (org-mode . org-num-mode))
 #+END_SRC
@@ -1966,6 +1956,25 @@ Sometimes Kanban boards are useful
     :disabled
     :custom (org-sidebar-tree-side 'left))
 
+#+end_src
+*** Org-Noter
+:PROPERTIES:
+:CREATED:  [2020-01-14 Tue 17:44]
+:END:
+This package makes it easy to add annotations and comments to PDF files.
+#+begin_src emacs-lisp
+(use-package org-noter)
+#+end_src
+** PDF Tools
+:PROPERTIES:
+:CREATED:  [2020-01-14 Tue 17:43]
+:END:
+This is an awesome package to read an annotate PDF files. Now it even works on Windows.
+#+begin_src emacs-lisp
+(use-package pdf-tools
+  :pin MELPA
+  :config
+  (pdf-tools-install :no-query))
 #+end_src
 ** Todo-txt
     :LOGBOOK:
