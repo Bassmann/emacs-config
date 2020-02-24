@@ -209,7 +209,6 @@ come from.
       (use-package darkplus-theme
         :load-path "lisp"
         :demand t
-        :disabled
         :config
         (load-theme 'darkplus t))
     #+end_src
@@ -1876,9 +1875,13 @@ Settings to make org buffers look nicer
                                            ("#+TITLE" . "🕮")
                                            ("#+DATE" . "📆")
                                            ("#+AUTHOR" . "👤")
+                                           ("#+COLUMNS" . "▓")
                                            ("#+EMAIL" . "🖂")
                                            ("#+OPTIONS" . ?⚙)
+                                           ("#+TYP_TODO" . "☑")
                                            ("#+TAGS" . ?🏷)
+                                           ("#+EXPORT_SELECT_TAGS" . ?🏷)
+                                           ("#+EXPORT_EXCLUDE_TAGS" . ?🏷)
                                            ("#+DESCRIPTION" . ?🗎)))
     (setq prettify-symbols-unprettify-at-point 'right-edge)
     (add-hook 'org-mode-hook 'prettify-symbols-mode)
