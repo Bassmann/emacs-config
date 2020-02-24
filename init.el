@@ -3,11 +3,10 @@
 ;; This file loads Org-mode and then loads the rest of our Emacs initialization from Emacs lisp
 ;; embedded in literate Org-mode files.
 
-;; Avoid garbage collection during startup. The GC eats up quite a bit
-;; of time, easily doubling the startup time. The trick is to turn up
-;; the memory threshold (500 MB should be sufficient) in order to
+;; Avoid garbage collection during startup. The GC eats up quite a bit of time, easily
+;; doubling the startup time. The trick is to turn up the memory threshold in order to
 ;; prevent it from running during startup.
-(setq gc-cons-threshold (* 500 1024 1024)
+(setq gc-cons-threshold most-positive-fixnum ; 2^61 bytes
       gc-cons-percentage 0.6)
 
 ;; Every file opened and loaded by Emacs will run through this list to check for a proper
@@ -25,6 +24,20 @@
                    file-name-handler-alist file-name-handler-alist-original)
              (makunbound 'file-name-handler-alist-original)))
 
+;; It may also be wise to raise gc-cons-threshold while the minibuffer is active, so the
+;; GC doesn’t slow down expensive commands (or completion frameworks, like helm and ivy).
+(defun doom-defer-garbage-collection-h ()
+  (setq gc-cons-threshold most-positive-fixnum))
+
+(defun doom-restore-garbage-collection-h ()
+  ;; Defer it so that commands launched immediately after will enjoy the
+  ;; benefits.
+  (run-at-time
+   1 nil (lambda () (setq gc-cons-threshold (* 16 1024 1024)))))
+
+(add-hook 'minibuffer-setup-hook #'doom-defer-garbage-collection-h)
+(add-hook 'minibuffer-exit-hook #'doom-restore-garbage-collection-h)
+
 ;; I don't need the big icons and prefer more screen real estate. See also
 ;; https://sites.google.com/site/steveyegge2/effective-emacs
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
@@ -35,7 +48,6 @@
 (require 'package)
 (setq-default load-prefer-newer t)
 ;; I want orgmode before melpa or gnu
-;(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
 (setq package-archives
       '(("ORG" . "https://orgmode.org/elpa/")
         ("GNU ELPA"     . "https://elpa.gnu.org/packages/")
