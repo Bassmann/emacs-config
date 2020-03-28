@@ -3,19 +3,22 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ediff-diff-options "--binary -w")
+ '(ediff-split-window-function 'split-window-horizontally)
+ '(ediff-window-setup-function 'ediff-setup-windows-plain)
  '(org-export-backends '(ascii html md))
  '(package-selected-packages
-   '(org-recent-headings mixed-pitch color-theme-sanityinc-tomorrow arjen-grey-theme json-navigator hc-zenburn-mode hc-zenburn paper-theme grip-mode org-sidebar powershell plantuml-mode php-mode moody minions helpful dired-git-info parchment-theme calfw-cal material-theme system-packages org-kanban openwith py-autopep8 elpy centaur-tabs filetags date2name ztree org-fancy-priorities calfw-ical calfw-org calfw org-pretty-tags all-the-icons-ivy disk-usage nov treemacs-icons-dired swiper use-package-ensure-system-package visual-fill diredfl dired-hide-dotfiles dired-toggle paradox org-outline-numbering delight bind-key org-plus-contrib olivetti ssh-agency ox-hugo-auto-export ox-hugo org-wiki org-mind-map org-index dired-filetype-face org-preview-html outline-toc company-box ivy-rich counsel flymd doom-themes web-mode comment-dwim-2 rainbow-mode magit markdown org2jekyll s ivy mode-icons poet-theme toc-org org-expiry neotree all-the-icons-dired all-the-icons dired-sidebar dired-subtree golden-ratio-scroll-screen solarized-theme ace-window which-key todotxt-mode org-brain org-cliplink link-hint default-text-scale dashboard rainbow-delimiters diminish auto-revert htmlize powerline uniquify deft ox-pandoc ac-html ac-html-bootstrap company-web zenburn-theme undo-tree smex smart-mode-line scss-mode powershell-mode php-extras org-bullets org-ac markdown-mode less-css-mode js2-mode ido-ubiquitous hl-line+ hc-zenburn-theme flycheck feature-mode f exec-path-from-shell esxml dired-details company use-package no-littering)))
+   '(modus-vivendi-theme modus-operandi-theme org-noter pdf-tools org-recent-headings mixed-pitch color-theme-sanityinc-tomorrow arjen-grey-theme json-navigator hc-zenburn-mode hc-zenburn paper-theme grip-mode org-sidebar powershell plantuml-mode php-mode moody minions helpful dired-git-info parchment-theme calfw-cal material-theme system-packages org-kanban openwith py-autopep8 elpy centaur-tabs filetags date2name ztree org-fancy-priorities calfw-ical calfw-org calfw org-pretty-tags all-the-icons-ivy disk-usage nov treemacs-icons-dired swiper use-package-ensure-system-package visual-fill diredfl dired-hide-dotfiles dired-toggle paradox org-outline-numbering delight bind-key org-plus-contrib olivetti ssh-agency ox-hugo-auto-export ox-hugo org-wiki org-mind-map org-index dired-filetype-face org-preview-html outline-toc company-box ivy-rich counsel flymd doom-themes web-mode comment-dwim-2 rainbow-mode magit markdown org2jekyll s ivy mode-icons poet-theme toc-org org-expiry neotree all-the-icons-dired all-the-icons dired-sidebar dired-subtree golden-ratio-scroll-screen solarized-theme ace-window which-key todotxt-mode org-brain org-cliplink link-hint default-text-scale dashboard rainbow-delimiters diminish auto-revert htmlize powerline uniquify deft ox-pandoc ac-html ac-html-bootstrap company-web zenburn-theme undo-tree smex smart-mode-line scss-mode powershell-mode php-extras org-bullets org-ac markdown-mode less-css-mode js2-mode ido-ubiquitous hl-line+ hc-zenburn-theme flycheck feature-mode f exec-path-from-shell esxml dired-details company use-package no-littering)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Consolas" :slant normal :weight normal :width normal))))
+ '(default ((t (:family "Consolas" :foundry "outline" :slant normal :weight normal :width normal))))
  '(all-the-icons-dired-dir-face ((t (:foreground nil))))
  '(aw-leading-char-face ((t (:inherit ace-jump-face-foreground :height 3.0))))
- '(fixed-pitch ((t (:family "Consolas" :slant normal :weight normal :width normal))))
+ '(fixed-pitch ((t (:family "Consolas" :height 0.9 :slant normal :weight normal :width normal))))
  '(org-block ((t (:inherit fixed-pitch))))
  '(org-column ((t (:background "light gray" :strike-through nil :underline nil :slant normal :weight normal))))
  '(org-column-title ((t (:background "gray" :underline t :weight bold))))
@@ -23,7 +26,7 @@
  '(org-document-title ((t (:inherit default :weight bold :height 2.0 :underline nil))))
  '(org-drawer ((t (:weight thin :foreground "#586e75"))))
  '(org-headline-done ((t (:inherit variable-pitch :strike-through t))))
- '(org-indent ((t (:inherit (org-hide fixed-pitch)))))
+ '(org-indent ((t (:inherit (org-hide)))))
  '(org-level-1 ((t (:inherit variable-pitch :weight bold :height 1.4))))
  '(org-level-2 ((t (:inherit variable-pitch :weight bold :height 1.3))))
  '(org-level-3 ((t (:inherit variable-pitch :weight bold :height 1.2))))
