@@ -192,6 +192,7 @@ come from.
 #+begin_src emacs-lisp
   (use-package color-theme-sanityinc-tomorrow
     :demand t
+    :disabled
     :config
     (load-theme 'sanityinc-tomorrow-day t))
 #+end_src
@@ -209,9 +210,21 @@ come from.
       (use-package darkplus-theme
         :load-path "lisp"
         :demand t
+        :disabled
         :config
         (load-theme 'darkplus t))
     #+end_src
+
+Many people recommend the modus theme. Let'S try it
+#+begin_src emacs-lisp
+  (use-package modus-operandi-theme
+    :demand t
+  :custom
+  (modus-operandi-theme-proportional-fonts t)
+  (modus-operandi-theme-scale-headings t)
+    :config
+    (load-theme 'modus-operandi t))
+#+end_src
 ** Backup
     :LOGBOOK:
     - Note taken on [2018-04-29 So 20:40] \\
@@ -1253,6 +1266,34 @@ Allow tree-semantics for undo operations.
           (case-fn . capitalize)))
       :bind ("C-x C-d" . deft-find-file))
     #+end_src
+
+Some ideas from [[http://pragmaticemacs.com/category/deft/][deft | Pragmatic Emacs]]
+- make deft behave similar to =org-capture=.
+  advise deft to save window config
+  #+begin_src emacs-lisp
+    (defun bjm-deft-save-windows (orig-fun &rest args)
+      (setq bjm-pre-deft-window-config (current-window-configuration))
+      (apply orig-fun args)
+      )
+
+    (advice-add 'deft :around #'bjm-deft-save-windows)
+  #+end_src
+  function to quit a deft edit cleanly back to pre deft window
+ #+begin_src emacs-lisp
+   (defun bjm-quit-deft ()
+     "Save buffer, kill buffer, kill deft buffer, and restore window config to the way it was before deft was invoked"
+     (interactive)
+     (save-buffer)
+     (kill-this-buffer)
+     (switch-to-buffer "*Deft*")
+     (kill-this-buffer)
+     (when (window-configuration-p bjm-pre-deft-window-config)
+       (set-window-configuration bjm-pre-deft-window-config)
+       )
+     )
+
+   (global-set-key (kbd "C-c q") 'bjm-quit-deft)
+  #+end_src
 ** delete-trailing-whitespace before saving
 :LOGBOOK:
 - Note taken on [2018-07-19 Do 18:39] \\
