@@ -145,14 +145,14 @@ come from.
     #+end_src
     =leuven= is nice for Org-Mode
     #+BEGIN_SRC emacs-lisp
-          (use-package leuven-theme
-            :demand t
-            :disabled
-            :config
-            (setq leuven-scale-outline-headlines nil
-                  leuven-scale-org-agenda-structure nil)
-            (load-theme 'leuven t)
-            )
+      (use-package leuven-theme
+        :demand t
+        :disabled
+        :config
+        (setq leuven-scale-outline-headlines nil
+              leuven-scale-org-agenda-structure nil)
+        (load-theme 'leuven t)
+        )
     #+END_SRC
 
     =poet= is also nice but required changing the faces for =org-column= and =org-column-header= to be useful
@@ -161,10 +161,10 @@ come from.
         :demand t
         :disabled
         :config
-            (set-face-attribute 'default nil :family "monofur" :height 110)
-            (set-face-attribute 'fixed-pitch nil :family "monofur")
-            (set-face-attribute 'variable-pitch nil :family "Baskerville Old Face")
-            (load-theme 'poet t))
+        (set-face-attribute 'default nil :family "monofur" :height 110)
+        (set-face-attribute 'fixed-pitch nil :family "monofur")
+        (set-face-attribute 'variable-pitch nil :family "Baskerville Old Face")
+        (load-theme 'poet t))
     #+END_SRC
 
     =doom-nova= is my newest favorite but has issues with =org-bullets=. These have been
@@ -1660,49 +1660,76 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
         I moved several settings form =custom.el= here to use the variables from
         =local.el=
       :END:
+      Let's try =doct=.
+     #+begin_src emacs-lisp
+       (use-package doct
+         :ensure t
+         ;;recommended: defer until calling doct
+         :commands (doct))
+      #+end_src
       #+BEGIN_SRC emacs-lisp
-        (setq  org-capture-templates
-               (quote
-                (("m" "Meeting" entry
-                  (file+olp+datetree "Journal.org")
-                  "* %U - %^{Meeting}  :TIME:
-%[~/.emacs.d/config/org/meeting.txt]" :clock-in t :clock-keep t)
-                 ("j" "Journal" entry
-                  (file+olp+datetree "Journal.org")
-                  "* %U %?
-                         %i")
-                 ("i" "Ideen" entry (file "Inbox.org")
-                  "* %^{Title}
-                         %i")
-                 ("t" "Neue Tasks" entry
-                  (file+headline "tasks.org" "Inbox:")
-                  "* TODO %^{Task}
-                         %i" :immediate-finish t)
-                 ("l" "Log Time" entry
-                  (file+olp+datetree "Journal.org")
-                  "* %U - %^{Activity}  :TIME:" :immediate-finish t :clock-in t :clock-keep t)
-                 ("o" "Outcomes for today" entry
-                  (file+olp+datetree "Journal.org")
-                  "* %U 3 Outcomes for today [%]  :ZIELE:
-%[~/.emacs.d/config/org/.woche.txt]")
-                 ("w" "Outcomes for the week" entry
-                  (file+olp+datetree "Journal.org")
-                  "* %U 3 Outcomes for the week [%]   :ZIELE:
-%[~/.emacs.d/config/org/.woche.txt]")
-                 ("r" "Weekly Review" entry
-                  (file+olp+datetree "review.org")
-                  "* Weekly Review  :PERSOENLICH:
-%[~/.emacs.d/config/org/.weeklyreview.txt]")
-                 ("c" "Cliplink capture task" entry (file "Inbox.org")
-                  "* %(org-cliplink-capture)" :empty-lines 1)
-                 ("d" "Daily Review" entry
-                  (file+olp+datetree "Journal.org")
-                  "* %U Daily Review
-%[~/.emacs.d/config/org/.daily_review.txt]")
-                 ("p" "Project Planning" entry
-                  (file+headline "planning.org" "Projekte")
-                  "* %^{Beschreibung}
-%[~/.emacs.d/config/org/.planning.txt]"))))
+        (setq org-capture-templates
+              (doct `(
+                      (,(format "%s\tCliplink capture task" (all-the-icons-faicon "globe" :face 'all-the-icons-blue :v-adjust 0.01))
+                       :keys "c"
+                       :file "Inbox.org"
+                       :type entry
+                       :template ("* %(org-cliplink-capture)")
+                       :empty-lines 1)
+                      (,(format "%s\tIdeen" (all-the-icons-octicon "file-text" :face 'all-the-icons-cyan :v-adjust 0.01))
+                       :keys "i"
+                       :file "Inbox.org"
+                       :type entry
+                       :template ("* %^{Title}
+          %i"))
+                      (,(format "%s\tJournal" (all-the-icons-faicon "sticky-note-o" :face 'all-the-icons-green :v-adjust 0.01))
+                       :keys "j"
+                       :file "Journal.org"
+                       :datetree t
+                       :type entry
+                       :template ("* %U %?
+          %i"))
+                      (,(format "%s\tLog Time" (all-the-icons-material "timer" :face 'all-the-icons-green :v-adjust 0.01))
+                       :keys "l"
+                       :file "Journal.org"
+                       :datetree t
+                       :type entry
+                       :template ("* %U - %^{Activity}  :TIME:")
+                       :immediate-finish t
+                       :clock-in t
+                       :clock-keep t)
+                      (,(format "%s\tOutcomes for today" (all-the-icons-material "today" :face 'all-the-icons-yellow :v-adjust 0.01))
+                       :keys "o"
+                       :file "Journal.org"
+                       :datetree t
+                       :type entry
+                       :template ("* %U 3 Outcomes for today [%]   :ZIELE:
+%[~/.emacs.d/config/org/.woche.txt]"))
+                      (,(format "%s\tWeekly Review" (all-the-icons-octicon "inbox" :face 'all-the-icons-yellow :v-adjust 0.01))
+                       :keys "r"
+                       :file "Journal.org"
+                       :datetree t
+                       :type entry
+                       :template ("* Weekly Review  :PERSOENLICH:
+%[~/.emacs.d/config/org/.weeklyreview.txt]"))
+                      (,(format "%s\tTasks" (all-the-icons-octicon "checklist" :face 'all-the-icons-yellow :v-adjust 0.01))
+                       :keys "t"
+                       :file "tasks.org"
+                       :headline "Inbox"
+                       :type entry
+                       :template ("* TODO %^{Task}
+          %i")
+                       :immediate-finish t)
+                      (,(format "%s\tOutcomes for the week" (all-the-icons-faicon "calendar-check-o" :face 'all-the-icons-yellow :v-adjust 0.01))
+                       :keys "w"
+                       :file "Journal.org"
+                       :datetree t
+                       :type entry
+                       :template ("* %U 3 Outcomes for the week [%]   :ZIELE:
+%[~/.emacs.d/config/org/.woche.txt]"))
+                      )
+                    )
+              )
       #+END_SRC
 *** Org-Babel
 :LOGBOOK:
