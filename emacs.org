@@ -215,7 +215,7 @@ come from.
         (load-theme 'darkplus t))
     #+end_src
 
-Many people recommend the modus theme. Let'S try it
+Many people recommend the modus theme. Let's try it
 #+begin_src emacs-lisp
   (use-package modus-operandi-theme
     :demand t
@@ -1302,6 +1302,16 @@ Some ideas from [[http://pragmaticemacs.com/category/deft/][deft | Pragmatic Ema
 #+BEGIN_SRC emacs-lisp
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
+** Ediff
+:PROPERTIES:
+:CREATED:  [2020-05-01 Fr 21:23]
+:END:
+Some settings that make it more convenient to use =ediff=: split windows horicontally not vertically
+#+begin_src emacs-lisp
+  (setq ediff-diff-options "--binary -w"
+        ediff-split-window-function 'split-window-horizontally
+        ediff-window-setup-function 'ediff-setup-windows-plain)
+#+end_src
 ** Grip mode
 #+begin_src emacs-lisp
 (use-package grip-mode
@@ -1828,7 +1838,7 @@ Easily insert links form the clipboard in org-mode files
 :END:
 I started again to use clocking in Org-mode. Here are the related settings
 #+BEGIN_SRC emacs-lisp
-  (setq org-clock-persist t
+  (setq org-clock-persist 'clock
         org-clock-in-resume t
         org-clock-report-include-clocking-task t
         org-clock-mode-line-total 'current
@@ -1881,7 +1891,7 @@ Settings to make org buffers look nicer
           org-pretty-entities t
           org-pretty-entities-include-sub-superscripts nil)
   #+END_SRC
-- Automatically change list bullets
+- Automatically change list bullets and indent
   #+begin_src emacs-lisp
     (setq org-list-demote-modify-bullet
           (quote (("+" . "-")
@@ -1896,7 +1906,8 @@ Settings to make org buffers look nicer
                   ("A." . "-")
                   ("B." . "-")
                   ("a." . "-")
-                  ("b." . "-"))))
+                  ("b." . "-")))
+          org-list-indent-offset 2)
    #+end_src
 - Nice looking bullets
   #+begin_src emacs-lisp
