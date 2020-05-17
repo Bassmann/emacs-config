@@ -1891,7 +1891,20 @@ similar to clocktable, but grouped by tagSee: ht...]]
   (let ((tags (plist-get params :tags)))
     (mapcar (lambda (tag)
               (clocktable-by-tag/insert-tag (plist-put (plist-put params :match tag) :tags tag)))
-            tags)))#+end_src
+            tags)))
+#+end_src
+*** Org-Download
+:PROPERTIES:
+:CREATED:  [2020-05-17 So 13:42]
+:END:
+Allows to insert images for mthe Web in Org-buffers
+#+begin_src emacs-lisp
+  (use-package org-download
+    :bind ("C-c i" . org-download-yank)
+    :hook (org-mode . org-download-enable)
+    :config (setq org-download-method 'attach)
+  )
+#+end_src
 *** Additional link type for TAGS
       :LOGBOOK:
       - Note taken on [2018-05-19 Sa 18:55] \\
