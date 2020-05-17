@@ -1892,18 +1892,18 @@ similar to clocktable, but grouped by tagSee: ht...]]
     (mapcar (lambda (tag)
               (clocktable-by-tag/insert-tag (plist-put (plist-put params :match tag) :tags tag)))
             tags)))
-#+end_src
+  #+end_src
 *** Org-Download
 :PROPERTIES:
-:CREATED:  [2020-05-17 So 13:42]
+:CREATED:  [2020-05-17 So 13:29]
 :END:
-Allows to insert images for mthe Web in Org-buffers
+Allows to download and insert images in org-buffers
 #+begin_src emacs-lisp
-  (use-package org-download
-    :bind ("C-c i" . org-download-yank)
-    :hook (org-mode . org-download-enable)
-    :config (setq org-download-method 'attach)
-  )
+(use-package org-download
+  :bind ("C-c i" . org-download-yank)
+  :hook (org-mode . org-download-enable)
+  :config
+  (setq org-download-method 'attach))
 #+end_src
 *** Additional link type for TAGS
       :LOGBOOK:
@@ -1923,7 +1923,9 @@ Allows to insert images for mthe Web in Org-buffers
 
 Then, merely write your links as =[[tag:work+phonenumber-boss][Optional Description]\]=
 *** Toc-Org
-Table of contents in Org Files
+Table of contents in Org Files. After the installation, every time I'm saving an org
+file, the first headline with a :TOC: tag will be updated with the current table of
+contents.
 #+BEGIN_SRC emacs-lisp
   (use-package toc-org
     :ensure t
