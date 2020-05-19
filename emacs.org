@@ -1781,6 +1781,47 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
 
       (add-hook 'org-babel-after-execute-hook 'shk-fix-inline-images)
       #+END_SRC
+*** Org-Book
+It's a nice interface to keep my reading list in Org-Mode. I added code to grab input from Manning since I read a lot of their books.
+#+begin_src emacs-lisp
+  (use-package org-books
+    :custom
+     (org-books-url-patterns
+     (quote
+      ((amazon . "^\\(www\\.\\)?amazon\\.")
+       (goodreads . "^\\(www\\.\\)?goodreads\\.com")
+       (isbn . "openlibrary\\.org")
+       (manning . "^\\(www\\.\\)?manning\\."))))
+    :config
+    (setq org-books-file (concat cloud-dir "org/books.org"))
+
+    (defun org-books-get-details-manning (url)
+      "Get book details from Manning URL."
+      (let* ((page-node (enlive-fetch url))
+             (title (org-books--clean-str (s-join " " (org-books-get-details-manning-title page-node))))
+             (author (org-books--clean-str (nth 2 (org-books-get-details-manning-authors page-node)))))
+        (list title author `(("Manning" . ,url)))))
+
+    (defun org-books-get-details-manning-authors (page-node)
+      "Return author names for Manning PAGE-NODE.
+  PAGE-NODE is the return value of `enlive-fetch' on the page url."
+      (mapcar #'enlive-text (enlive-query page-node [.product-authorship])))
+
+    (defun org-books-get-details-manning-title (page-node)
+      "return titles for Manning PAGE_NODE.
+  PAGE-NODE is the return value of `enlive-fetch' on the page url."
+      (mapcar #'enlive-text (enlive-query page-node [.product-title])))
+
+    (defun org-books-get-details (url url-type)
+      "Fetch book details from given URL and its URL-TYPE.
+  Return a list of three items: title (string), author (string) and
+  an alist of properties to be applied to the org entry."
+      (cl-case url-type
+        (amazon (org-books-get-details-amazon url))
+        (goodreads (org-books-get-details-goodreads url))
+        (isbn (org-books-get-details-isbn url))
+        (manning (org-books-get-details-manning url)))))
+#+end_src
 *** Org-Export
 :LOGBOOK:
 - Note taken on [2019-01-01 Di 17:46] \\
