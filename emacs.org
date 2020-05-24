@@ -88,7 +88,8 @@ come from.
                           (font-spec :size 20 :name "Symbola")))
 
       (cond ((eq system-type 'windows-nt)
-             (setq inhibit-compacting-font-caches t)))
+             (setq inhibit-compacting-font-caches t
+                   w32-use-native-image-API)))
     #+end_src
 ** Maximize by default
     #+begin_src emacs-lisp
@@ -172,11 +173,10 @@ come from.
     #+BEGIN_SRC emacs-lisp
       (use-package doom-themes
         :demand t
-        :disabled t
         :config
         (doom-themes-org-config)
         (doom-themes-visual-bell-config)
-        (load-theme 'doom-tomorrow-day t)
+        (load-theme 'doom-solarized-dark t)
       )
     #+END_SRC
     Let's try =material= for a while
@@ -219,9 +219,10 @@ Many people recommend the modus theme. Let's try it
 #+begin_src emacs-lisp
   (use-package modus-operandi-theme
     :demand t
-  :custom
-  (modus-operandi-theme-proportional-fonts t)
-  (modus-operandi-theme-scale-headings t)
+    :disabled t
+    :custom
+    (modus-operandi-theme-proportional-fonts t)
+    (modus-operandi-theme-scale-headings t)
     :config
     (load-theme 'modus-operandi t))
 #+end_src
@@ -1490,7 +1491,7 @@ Olivetti provides a nice distraction-free environment.
 #+end_src
 - Always load these modules
 #+BEGIN_SRC emacs-lisp
-  (setq org-modules '(org-habit org-info org-expiry))
+  (setq org-modules '(org-habit ol-info org-expiry))
 #+END_SRC
 - Count todo statistics across subtrees
  #+begin_src emacs-lisp
