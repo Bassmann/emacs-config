@@ -89,7 +89,7 @@ come from.
 
       (cond ((eq system-type 'windows-nt)
              (setq inhibit-compacting-font-caches t
-                   w32-use-native-image-API)))
+                   w32-use-native-image-API t)))
     #+end_src
 ** Maximize by default
     #+begin_src emacs-lisp
@@ -465,6 +465,7 @@ Let's try tabs again
     Better views of calendar from [[https://github.com/seagle0128/.emacs.d][GitHub - seagle0128/.emacs.d: Centaur Emacs - A Fancy and Fast Emacs Configur...]]
 #+begin_src emacs-lisp
   (use-package calfw
+    :disabled
     :commands cfw:open-calendar-buffer
     :bind ("<C-f12>" . open-calendar)
     :init
