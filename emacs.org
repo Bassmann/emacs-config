@@ -128,6 +128,24 @@ come from.
     :END:
     I switch themes regularly. Unused ones can simple be marked as disabled.
 
+    From [[http://www.greghendershott.com/2017/02/emacs-themes.html][Emacs Themes]] some code to make switching easier
+    #+begin_src emacs-lisp
+
+      (defun ms/disable-all-themes ()
+        (interactive)
+        (mapc #'disable-theme custom-enabled-themes))
+
+      (defun ms/load-theme-advice (f theme-id &optional no-confirm no-enable &rest args)
+              "Enhances `load-theme' to disable enabled themes for a clean slate."
+              (unless no-enable
+                (ms/disable-all-themes))
+              (prog1
+                  (apply f theme-id no-confirm no-enable args)))
+
+      (advice-add 'load-theme
+                  :around
+                  #'ms/load-theme-advice)
+#+end_src
     =solarized-dark= with some customization:
     - make the modeline high contrast
     - make the fringe stand out from the background
@@ -135,8 +153,9 @@ come from.
     #+begin_src emacs-lisp
       (use-package solarized-theme
         :demand t
-        :disabled
         :config
+        (set-face-attribute 'font-lock-constant-face nil :weight 'normal)
+        (set-face-attribute 'font-lock-function-name-face nil :weight 'bold)
         (set-face-attribute 'font-lock-comment-face nil :italic t)
         (set-face-attribute 'font-lock-doc-face nil :italic t)
         (setq solarized-high-contrast-mode-line nil
@@ -173,6 +192,7 @@ come from.
     #+BEGIN_SRC emacs-lisp
       (use-package doom-themes
         :demand t
+        :disabled
         :config
         (doom-themes-org-config)
         (doom-themes-visual-bell-config)
