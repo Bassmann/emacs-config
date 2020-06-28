@@ -160,7 +160,9 @@ come from.
         (set-face-attribute 'font-lock-doc-face nil :italic t)
         (setq solarized-high-contrast-mode-line nil
               solarized-distinct-fringe-background t
-              solarized-use-more-italic t)
+              solarized-use-more-italic t
+              solarized-use-less-bold nil
+              solarized-distinct-doc-face t)
         (load-theme 'solarized-dark t))
     #+end_src
     =leuven= is nice for Org-Mode
@@ -1955,7 +1957,7 @@ similar to clocktable, but grouped by tagSee: ht...]]
     (mapcar (lambda (tag)
               (clocktable-by-tag/insert-tag (plist-put (plist-put params :match tag) :tags tag)))
             tags)))
-  #+end_src
+#+end_src
 *** Org-Download
 :PROPERTIES:
 :CREATED:  [2020-05-17 So 13:29]
@@ -2155,9 +2157,8 @@ Sometimes Kanban boards are useful
       A nice addition from [[https://github.com/alphapapa/alpha-org/][GitHub - alphapapa/alpha-org: A powerful Org configuration]]
 #+begin_src emacs-lisp
   (use-package org-sidebar
-    :disabled
-    :custom (org-sidebar-tree-side 'left))
-
+    :custom (org-sidebar-tree-side 'left)
+    (org-sidebar-tree-jump-fn 'org-sidebar-tree-jump-source))
 #+end_src
 *** Org-Noter
 :PROPERTIES:
@@ -2175,19 +2176,26 @@ It's supposed to ease note-taking and relations between notes. Let's try and see
 requires sqlite3. On Windows I installed it via mingw64 and added the path to =exec-path= to
 make it work.
 #+begin_src emacs-lisp
-(use-package org-roam
+    (use-package org-roam
       :hook
       (after-init . org-roam-mode)
       :custom
       (org-roam-directory (concat cloud-dir "org/"))
       :bind (:map org-roam-mode-map
-              (("C-c n l" . org-roam)
-               ("C-c n f" . org-roam-find-file)
-               ("C-c n j" . org-roam-jump-to-index)
-               ("C-c n b" . org-roam-switch-to-buffer)
-               ("C-c n g" . org-roam-graph))
-              :map org-mode-map
-              (("C-c n i" . org-roam-insert))))
+      (("C-c n l" . org-roam)
+       ("C-c n f" . org-roam-find-file)
+       ("C-c n j" . org-roam-jump-to-index)
+       ("C-c n b" . org-roam-switch-to-buffer)
+       ("C-c n g" . org-roam-graph))
+      :map org-mode-map
+      (("C-c n i" . org-roam-insert)))
+      :config
+      (setq org-roam-buffer-position 'left
+            org-roam-buffer-width 0.25
+            org-roam-index-file "index.org"
+            org-roam-graph-extra-config '(("overlap" . "false"))
+            org-roam-graph-exclude-matcher '("archive" "Beruf" "blog" "books" "init" "Journal" "regularly" "tasks" "work")
+            org-roam-completion-system 'ivy))
 #+end_src
 =company-org-roam= provides completion for the links
 #+begin_src emacs-lisp
@@ -2195,6 +2203,21 @@ make it work.
   :after company
   :config
   (push 'company-org-roam company-backends))
+#+end_src
+=org-roam-server= will start a web server on http://127.0.0.1:8080/ to see the nodes and their linking
+#+begin_src emacs-lisp
+(use-package org-roam-server
+  :ensure t
+  :config
+  (setq org-roam-server-host "127.0.0.1"
+        org-roam-server-port 8080
+        org-roam-server-export-inline-images t
+        org-roam-server-authenticate nil
+        org-roam-server-network-poll t
+        org-roam-server-network-arrows nil
+        org-roam-server-network-label-truncate t
+        org-roam-server-network-label-truncate-length 60
+        org-roam-server-network-label-wrap-length 20))
 #+end_src
 ** PDF Tools
 :PROPERTIES:
