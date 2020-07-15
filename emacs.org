@@ -693,6 +693,16 @@ A nice overview for git repositories in dired
     :bind (:map dired-mode-map
                 (")" . dired-git-info-mode)))
 #+end_src
+
+From [[http://pragmaticemacs.com/emacs/dynamically-filter-directory-listing-with-dired-narrow/][Dynamically filter directory listing with dired-narrow | Pragmatic Emacs]] a useful
+addition to narrow dired to match filter
+
+#+begin_src emacs-lisp
+(use-package dired-narrow
+  :ensure t
+  :bind (:map dired-mode-map
+              ("/" . dired-narrow)))
+#+end_src
 ** Display
 :PROPERTIES:
 :CREATED:  [2018-12-15 Sa 18:06]
@@ -1749,7 +1759,7 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
                       (,(format "%s\tTasks" (all-the-icons-octicon "checklist" :face 'all-the-icons-yellow :v-adjust 0.01))
                        :keys "t"
                        :file "tasks.org"
-                       :headline "Inbox"
+                       :headline "Inbox:"
                        :type entry
                        :template ("* TODO %^{Task}
           %i")
