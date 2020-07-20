@@ -2178,6 +2178,22 @@ This package makes it easy to add annotations and comments to PDF files.
 #+begin_src emacs-lisp
 (use-package org-noter)
 #+end_src
+*** Org-Protocol
+I want to use =org-protocol= with =org-roam= amd ran into issues on Windows because there's
+additional / that breaks things. [[https://gchristensen.github.io/posts/dynamic-org-capture-templates/][Create dynamic capture templates to use with
+org-protocol. In Windows! – T/PO...]] has a advice for fixing this.
+#+begin_src emacs-lisp
+  (cond ((eq system-type 'windows-nt)
+         (defun advice-org-protocol-check-filename (orig-fun &rest args)
+           (let ((fname (car args)))
+             (let ((correct-url
+                    (replace-regexp-in-string (regexp-quote "/?")
+                                              "?" fname nil 'literal)))
+               (apply orig-fun (cons correct-url (cdr args))))))
+
+         (advice-add 'org-protocol-check-filename-for-protocol
+                     :around #'advice-org-protocol-check-filename)))
+#+end_src
 *** Org-Roam
 :PROPERTIES:
 :CREATED:  [2020-06-02 Di 22:05]
@@ -2186,26 +2202,31 @@ It's supposed to ease note-taking and relations between notes. Let's try and see
 requires sqlite3. On Windows I installed it via mingw64 and added the path to =exec-path= to
 make it work.
 #+begin_src emacs-lisp
-    (use-package org-roam
-      :hook
-      (after-init . org-roam-mode)
-      :custom
-      (org-roam-directory (concat cloud-dir "org/"))
-      :bind (:map org-roam-mode-map
-      (("C-c n l" . org-roam)
-       ("C-c n f" . org-roam-find-file)
-       ("C-c n j" . org-roam-jump-to-index)
-       ("C-c n b" . org-roam-switch-to-buffer)
-       ("C-c n g" . org-roam-graph))
+  (use-package org-roam
+    :hook
+    (after-init . org-roam-mode)
+    :custom
+    (org-roam-directory (concat cloud-dir "org/"))
+    :bind (:map org-roam-mode-map
+                (("C-c n l" . org-roam)
+                 ("C-c n f" . org-roam-find-file)
+                 ("C-c n j" . org-roam-jump-to-index)
+                 ("C-c n b" . org-roam-switch-to-buffer)
+                 ("C-c n g" . org-roam-graph))
       :map org-mode-map
       (("C-c n i" . org-roam-insert)))
-      :config
-      (setq org-roam-buffer-position 'left
-            org-roam-buffer-width 0.25
-            org-roam-index-file "index.org"
-            org-roam-graph-extra-config '(("overlap" . "false"))
-            org-roam-graph-exclude-matcher '("archive" "Beruf" "blog" "books" "init" "Journal" "regularly" "tasks" "work")
-            org-roam-completion-system 'ivy))
+    :config
+    (setq org-roam-buffer-position 'left
+          org-roam-buffer-width 0.25
+          org-roam-index-file "index.org"
+          org-roam-graph-extra-config '(("overlap" . "false"))
+          org-roam-graph-exclude-matcher '("archive" "Beruf" "blog" "books" "init" "Journal" "regularly" "tasks" "work")
+          org-roam-completion-system 'ivy))
+
+  (cond ((eq system-type 'windows-nt)
+         (setq org-roam-graph-viewer "c:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe")))
+
+  (require 'org-roam-protocol)
 #+end_src
 =company-org-roam= provides completion for the links
 #+begin_src emacs-lisp
