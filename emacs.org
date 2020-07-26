@@ -1487,6 +1487,13 @@ Olivetti provides a nice distraction-free environment.
         org-refile-targets '((org-agenda-files :maxlevel . 5) (nil :maxlevel . 5))
         org-refile-use-outline-path 'file)
 #+END_SRC
+- Exclude DONE state tasks from refile targets. Idea from Nasy's  [[https://emacs.nasy.moe/#orgd0483d2][Emacs Configuration]]
+#+begin_src emacs-lisp
+  (defun verify-refile-target ()
+    "Exclude todo keywords with a done state from refile targets."
+    (not (member (nth 2 (org-heading-components)) org-done-keywords)))
+  (setq org-refile-target-verify-function 'verify-refile-target)
+#+end_src
 - I want to be reminded of agenda items
 #+BEGIN_SRC emacs-lisp
   (org-agenda-to-appt)
@@ -2224,7 +2231,7 @@ make it work.
           org-roam-buffer-width 0.25
           org-roam-index-file "index.org"
           org-roam-graph-extra-config '(("overlap" . "false"))
-          org-roam-graph-exclude-matcher '("archive" "Beruf" "blog" "books" "init" "Journal" "regularly" "tasks" "work")
+          org-roam-graph-exclude-matcher '("archive" "Beruf" "blog" "books" "init" "Journal" "regularly" "tasks" "work" "Einkaufen")
           org-roam-completion-system 'ivy))
 
   (cond ((eq system-type 'windows-nt)
