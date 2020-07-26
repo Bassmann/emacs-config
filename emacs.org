@@ -1417,6 +1417,10 @@ Olivetti provides a nice distraction-free environment.
     (olivetti-body-width 0.8)
     (olivetti-hide-mode-line t)
     )
+
+(add-hook
+ 'text-mode-hook
+ 'olivetti-mode)
 #+END_SRC
 ** Orgmode
     :LOGBOOK:
