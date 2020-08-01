@@ -366,30 +366,10 @@ appt-display-interval 5)
 :END:
 =no-littering= seems not to include this so I'll add it here
 #+BEGIN_SRC emacs-lisp
-;(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/data/auto-save/\\1" t)))
 (setq auto-save-file-name-transforms
       `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 
 #+END_SRC
-
-[2013-05-12 So 16:50] The following code is borrowed from prelude
-(http://github.com/bbatsov/prelude) to automatically save files on buffer or
-window-switching. It doesn't work reliably and I'll use now the builtin config below.
-  (defun martin/auto-save-command ()
-    "Save the current buffer on buffer or window-switching."
-    (when (and buffer-file-name
-               (buffer-modified-p (current-buffer))
-               (file-writable-p buffer-file-name))
-      (message "Saving %s" buffer-file-name)
-      (save-buffer)))
-
-    (defadvice switch-to-buffer (before save-buffer-now activate)
-    "Invoke `martin/auto-save-command' before `switch-to-window'."
-    (martin/auto-save-command))
-
-    (defadvice other-window (before other-window-now activate)
-    "Invoke `martin/auto-save-command' before `other-window'."
-    (martin/auto-save-command))
 
 Emacs 26.1 has builtin auto-save. I'll use that now with auto-saving once a minute rather
 than the default 5 seconds.
@@ -1418,9 +1398,6 @@ Olivetti provides a nice distraction-free environment.
     (olivetti-hide-mode-line t)
     )
 
-(add-hook
- 'text-mode-hook
- 'olivetti-mode)
 #+END_SRC
 ** Orgmode
     :LOGBOOK:
