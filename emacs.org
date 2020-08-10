@@ -153,6 +153,7 @@ come from.
     #+begin_src emacs-lisp
       (use-package solarized-theme
         :demand t
+      :disabled
         :config
         (set-face-attribute 'font-lock-constant-face nil :weight 'normal)
         (set-face-attribute 'font-lock-function-name-face nil :weight 'bold)
@@ -165,6 +166,7 @@ come from.
               solarized-distinct-doc-face t)
         (load-theme 'solarized-dark t))
     #+end_src
+
     =leuven= is nice for Org-Mode
     #+BEGIN_SRC emacs-lisp
       (use-package leuven-theme
@@ -173,8 +175,7 @@ come from.
         :config
         (setq leuven-scale-outline-headlines nil
               leuven-scale-org-agenda-structure nil)
-        (load-theme 'leuven t)
-        )
+     (load-theme 'leuven t))
     #+END_SRC
 
     =poet= is also nice but required changing the faces for =org-column= and =org-column-header= to be useful
@@ -194,7 +195,6 @@ come from.
     #+BEGIN_SRC emacs-lisp
       (use-package doom-themes
         :demand t
-        :disabled
         :config
         (doom-themes-org-config)
         (doom-themes-visual-bell-config)
