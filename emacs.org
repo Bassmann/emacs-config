@@ -2011,15 +2011,15 @@ Settings to make org buffers look nicer
   #+BEGIN_SRC emacs-lisp
     (setq org-hide-emphasis-markers t
           org-fontify-done-headline t
+          org-ellipsis "⤵"
           org-pretty-entities t
           org-pretty-entities-include-sub-superscripts nil)
   #+END_SRC
 - Automatically change list bullets and indent
   #+begin_src emacs-lisp
     (setq org-list-demote-modify-bullet
-          (quote (("+" . "-")
-                  ("-" . "+")
-                  ("*" . "-")
+          (quote (("-" . "+")
+                  ("+" . "*")
                   ("1." . "-")
                   ("1)" . "-")
                   ("A)" . "-")
@@ -2034,23 +2034,16 @@ Settings to make org buffers look nicer
    #+end_src
 - Nice looking bullets
   #+begin_src emacs-lisp
-    (use-package org-bullets
+  (use-package org-superstar
       :custom
-      (org-bullets-bullet-list '("◉" "◎" "○" "►" "◇"))
-      (org-ellipsis "⤵")
-      :hook (org-mode . org-bullets-mode))
-  #+end_src
-- Some Unicode tricks
-  From https://zzamboni.org/post/beautifying-org-mode-in-emacs/
-  #+BEGIN_SRC emacs-lisp
-    (setq org-hide-emphasis-markers t)
-    (font-lock-add-keywords 'org-mode
-                            '(("^ *\\([-]\\) "
-                               (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-    (font-lock-add-keywords 'org-mode
-                            '(("^ *\\([+]\\) "
-                               (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "◦"))))))
-   #+END_SRC
+    (org-superstar-headline-bullets-list '("◉" "◎" "○" "►" "◇"))
+    (org-superstar-item-bullet-alist '((?- . ?•) (?+ . ?➤) (?* . ?◦)))
+  :config
+  (setq org-superstar-cycle-headline-bullets t
+        org-superstar-special-todo-items nil
+        org-superstar-prettify-item-bullets t)
+  :hook (org-mode . org-superstar-mode))
+#+end_src
 - Prettify src blocks
   Inspired by a comment in [[https://www.reddit.com/r/emacs/comments/9lpupc/i_use_markdown_rather_than_orgmode_for_my_notes/][i use markdown rather than org-mode for my notes : emacs]] I
   looked at the now builtin mode =prettify-symbols-mode=.. The configuration follows the
