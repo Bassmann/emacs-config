@@ -1051,6 +1051,33 @@ An idea from https://blog.d46.us/advanced-emacs-startup/ to reduce emacs startup
            scroll-conservatively 10000
            scroll-preserve-screen-position 1)
    #+end_src
+** Split Windows
+:PROPERTIES:
+:CREATED:  [2021-03-04 Do 21:50]
+:END:
+An improved version to split windows hierarchcially and vertically from [[https://github.com/sje30/emacs][GitHub - sje30/emacs: my notes about emacs]]
+#+begin_src emacs-lisp
+(defun my/split-below-last-buffer (prefix)
+"Split the window above/below and display the previous buffer.
+If prefix arg is provided, show current buffer twice."
+(interactive "p")
+(split-window-below)
+(other-window 1 nil)
+(if (= prefix 1)
+(switch-to-next-buffer)))
+
+(defun my/split-right-last-buffer (prefix)
+"Split the window left/right and display the previous buffer
+If prefix arg is provided, show current buffer twice."
+(interactive "p")
+(split-window-right)
+(other-window 1 nil)
+(if (= prefix 1) (switch-to-next-buffer)))
+
+(global-set-key (kbd "C-x 2")  'my/split-below-last-buffer)
+(global-set-key (kbd "C-x 3")  'my/split-right-last-buffer)
+(setq switch-to-prev-buffer-skip 'this)
+#+end_src
 ** Time
 :PROPERTIES:
 :CREATED:  [2018-12-15 Sa 18:31]
