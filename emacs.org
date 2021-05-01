@@ -150,51 +150,52 @@ come from.
     - make the modeline high contrast
     - make the fringe stand out from the background
     - use more italic
-    #+begin_src emacs-lisp
-      (use-package solarized-theme
-        :demand t
+  #+begin_src emacs-lisp
+    (use-package solarized-theme
+      :demand t
       :disabled
-        :config
-        (set-face-attribute 'font-lock-constant-face nil :weight 'normal)
-        (set-face-attribute 'font-lock-function-name-face nil :weight 'bold)
-        (set-face-attribute 'font-lock-comment-face nil :italic t)
-        (set-face-attribute 'font-lock-doc-face nil :italic t)
-        (setq solarized-high-contrast-mode-line nil
-              solarized-distinct-fringe-background t
-              solarized-use-more-italic t
-              solarized-use-less-bold nil
-              solarized-distinct-doc-face t)
-        (load-theme 'solarized-dark t))
+      :config
+      (set-face-attribute 'font-lock-constant-face nil :weight 'normal)
+      (set-face-attribute 'font-lock-function-name-face nil :weight 'bold)
+      (set-face-attribute 'font-lock-comment-face nil :italic t)
+      (set-face-attribute 'font-lock-doc-face nil :italic t)
+      (setq solarized-high-contrast-mode-line nil
+            solarized-distinct-fringe-background t
+            solarized-use-more-italic t
+            solarized-use-less-bold nil
+            solarized-distinct-doc-face t)
+      (load-theme 'solarized-zenburn t))
     #+end_src
 
-    =leuven= is nice for Org-Mode
-    #+BEGIN_SRC emacs-lisp
-      (use-package leuven-theme
-        :demand t
-        :disabled
-        :config
-        (setq leuven-scale-outline-headlines nil
-              leuven-scale-org-agenda-structure nil)
+  =leuven= is nice for Org-Mode
+ #+BEGIN_SRC emacs-lisp
+   (use-package leuven-theme
+     :demand t
+     :disabled
+     :config
+     (setq leuven-scale-outline-headlines nil
+           leuven-scale-org-agenda-structure nil)
      (load-theme 'leuven t))
-    #+END_SRC
+  #+END_SRC
 
-    =poet= is also nice but required changing the faces for =org-column= and =org-column-header= to be useful
-    #+BEGIN_SRC emacs-lisp
-      (use-package poet-theme
-        :demand t
-        :disabled
-        :config
-        (set-face-attribute 'default nil :family "monofur" :height 110)
-        (set-face-attribute 'fixed-pitch nil :family "monofur")
-        (set-face-attribute 'variable-pitch nil :family "Baskerville Old Face")
-        (load-theme 'poet t))
-    #+END_SRC
+  =poet= is also nice but required changing the faces for =org-column= and =org-column-header= to be useful
+ #+BEGIN_SRC emacs-lisp
+   (use-package poet-theme
+     :demand t
+     :disabled
+     :config
+     (set-face-attribute 'default nil :family "monofur" :height 110)
+     (set-face-attribute 'fixed-pitch nil :family "monofur")
+     (set-face-attribute 'variable-pitch nil :family "Baskerville Old Face")
+     (load-theme 'poet t))
+  #+END_SRC
 
-    =doom-nova= is my newest favorite but has issues with =org-bullets=. These have been
-    resolved due to proper fontset settings.
+ =doom-nova= is my newest favorite but has issues with =org-bullets=. These have been
+ resolved due to proper fontset settings.
     #+BEGIN_SRC emacs-lisp
       (use-package doom-themes
         :demand t
+        :disabled
         :config
         (doom-themes-org-config)
         (doom-themes-visual-bell-config)
@@ -247,6 +248,13 @@ Many people recommend the modus theme. Let's try it
     (modus-operandi-theme-scale-headings t)
     :config
     (load-theme 'modus-operandi t))
+#+end_src
+I'm using =nord= now elsewhere so let's use it in Emacs as well
+#+begin_src emacs-lisp
+  (use-package nord-theme
+  :demand t
+  :config
+  (load-theme 'nord t))
 #+end_src
 ** Backup
     :LOGBOOK:
@@ -348,15 +356,15 @@ appt-display-interval 5)
 (add-hook 'diary-list-entries-hook 'diary-sort-entries t)
 #+END_SRC
 ** Auto-revert
-      No messages for =auto-revert=
-      #+begin_src emacs-lisp
-        (use-package autorevert
-        :ensure nil
-        :config
-         (setq auto-revert-verbose nil
-               global-auto-revert-mode t
-               global-auto-revert-non-file-buffers t))
-      #+end_src
+No messages for =auto-revert=
+#+begin_src emacs-lisp
+  (use-package autorevert
+  :ensure nil
+  :config
+   (setq auto-revert-verbose nil
+         global-auto-revert-mode t
+         global-auto-revert-non-file-buffers t))
+#+end_src
 ** Auto-save
 :LOGBOOK:
 - Note taken on [2019-05-12 So 16:43] \\
@@ -1833,43 +1841,44 @@ By default only 2 headings deep are shown which isn't enough when using odd leve
 *** Org-Book
 It's a nice interface to keep my reading list in Org-Mode. I added code to grab input from Manning since I read a lot of their books.
 #+begin_src emacs-lisp
-  (use-package org-books
-    :custom
-     (org-books-url-patterns
-     (quote
-      ((amazon . "^\\(www\\.\\)?amazon\\.")
-       (goodreads . "^\\(www\\.\\)?goodreads\\.com")
-       (isbn . "openlibrary\\.org")
-       (manning . "^\\(www\\.\\)?manning\\."))))
-    :config
-    (setq org-books-file (concat cloud-dir "org/books.org"))
+      (use-package org-books
+        :custom
+         (org-books-url-patterns
+         (quote
+          ((amazon . "^\\(www\\.\\)?amazon\\.")
+           (goodreads . "^\\(www\\.\\)?goodreads\\.com")
+           (isbn . "openlibrary\\.org")
+           (manning . "^\\(www\\.\\)?manning\\."))))
+        :config
+        (setq org-books-file (concat cloud-dir "org/books.org"))
+    )
+  #+end_src
+        (defun org-books-get-details-manning (url)
+          "Get book details from Manning URL."
+          (let* ((page-node (enlive-fetch url))
+                 (title (org-books--clean-str (s-join " " (org-books-get-details-manning-title page-node))))
+                 (author (org-books--clean-str (nth 2 (org-books-get-details-manning-authors page-node)))))
+            (list title author `(("Manning" . ,url)))))
 
-    (defun org-books-get-details-manning (url)
-      "Get book details from Manning URL."
-      (let* ((page-node (enlive-fetch url))
-             (title (org-books--clean-str (s-join " " (org-books-get-details-manning-title page-node))))
-             (author (org-books--clean-str (nth 2 (org-books-get-details-manning-authors page-node)))))
-        (list title author `(("Manning" . ,url)))))
+        (defun org-books-get-details-manning-authors (page-node)
+          "Return author names for Manning PAGE-NODE.
+      PAGE-NODE is the return value of `enlive-fetch' on the page url."
+          (mapcar #'enlive-text (enlive-query page-node [.product-authorship])))
 
-    (defun org-books-get-details-manning-authors (page-node)
-      "Return author names for Manning PAGE-NODE.
-  PAGE-NODE is the return value of `enlive-fetch' on the page url."
-      (mapcar #'enlive-text (enlive-query page-node [.product-authorship])))
+        (defun org-books-get-details-manning-title (page-node)
+          "return titles for Manning PAGE_NODE.
+      PAGE-NODE is the return value of `enlive-fetch' on the page url."
+          (mapcar #'enlive-text (enlive-query page-node [.product-title])))
 
-    (defun org-books-get-details-manning-title (page-node)
-      "return titles for Manning PAGE_NODE.
-  PAGE-NODE is the return value of `enlive-fetch' on the page url."
-      (mapcar #'enlive-text (enlive-query page-node [.product-title])))
-
-    (defun org-books-get-details (url url-type)
-      "Fetch book details from given URL and its URL-TYPE.
-  Return a list of three items: title (string), author (string) and
-  an alist of properties to be applied to the org entry."
-      (cl-case url-type
-        (amazon (org-books-get-details-amazon url))
-        (goodreads (org-books-get-details-goodreads url))
-        (isbn (org-books-get-details-isbn url))
-        (manning (org-books-get-details-manning url)))))
+        (defun org-books-get-details (url url-type)
+          "Fetch book details from given URL and its URL-TYPE.
+      Return a list of three items: title (string), author (string) and
+      an alist of properties to be applied to the org entry."
+          (cl-case url-type
+            (amazon (org-books-get-details-amazon url))
+            (goodreads (org-books-get-details-goodreads url))
+            (isbn (org-books-get-details-isbn url))
+            (manning (org-books-get-details-manning url)))))
 #+end_src
 *** Org-Export
 :LOGBOOK:
@@ -2011,7 +2020,7 @@ Allows to download and insert images in org-buffers
     (org-tags-view (null current-prefix-arg) tag))
 #+END_SRC
 
-Then, merely write your links as =[[tag:work+phonenumber-boss][Optional Description]\]=
+Then, merely write your links as =[[tag:work+phonenumber-boss][Optional Description]\]=q
 *** Toc-Org
 Table of contents in Org Files. After the installation, every time I'm saving an org
 file, the first headline with a :TOC: tag will be updated with the current table of
@@ -2060,9 +2069,9 @@ Settings to make org buffers look nicer
           org-list-indent-offset 2)
    #+end_src
 - Nice looking bullets
-  #+begin_src emacs-lisp
+#+begin_src emacs-lisp
   (use-package org-superstar
-      :custom
+    :custom
     (org-superstar-headline-bullets-list '("◉" "◎" "○" "►" "◇"))
     (org-superstar-item-bullet-alist '((?- . ?•) (?+ . ?➤) (?* . ?◦)))
   :config
