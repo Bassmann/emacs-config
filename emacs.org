@@ -2186,77 +2186,24 @@ This package makes it easy to add annotations and comments to PDF files.
 #+begin_src emacs-lisp
 (use-package org-noter)
 #+end_src
-*** Org-Protocol
-I want to use =org-protocol= with =org-roam= amd ran into issues on Windows because there's
-additional / that breaks things. [[https://gchristensen.github.io/posts/dynamic-org-capture-templates/][Create dynamic capture templates to use with
-org-protocol. In Windows! – T/PO...]] has a advice for fixing this.
-#+begin_src emacs-lisp
-  (cond ((eq system-type 'windows-nt)
-         (defun advice-org-protocol-check-filename (orig-fun &rest args)
-           (let ((fname (car args)))
-             (let ((correct-url
-                    (replace-regexp-in-string (regexp-quote "/?")
-                                              "?" fname nil 'literal)))
-               (apply orig-fun (cons correct-url (cdr args))))))
-
-         (advice-add 'org-protocol-check-filename-for-protocol
-                     :around #'advice-org-protocol-check-filename)))
-#+end_src
-*** Org-Roam
+** PDF Tools
 :PROPERTIES:
-:CREATED:  [2020-06-02 Di 22:05]
+:CREATED:  [2020-01-14 Tue 17:43]
 :END:
-It's supposed to ease note-taking and relations between notes. Let's try and see. It
-requires sqlite3. On Windows I installed it via mingw64 and added the path to =exec-path= to
-make it work.
+This is an awesome package to read an annotate PDF files. Now it even works on Windows.
 #+begin_src emacs-lisp
-  (use-package org-roam
-    :hook
-    (after-init . org-roam-mode)
-    :custom
-    (org-roam-directory (concat cloud-dir "org/"))
-    :bind (:map org-roam-mode-map
-                (("C-c n l" . org-roam)
-                 ("C-c n f" . org-roam-find-file)
-                 ("C-c n j" . org-roam-jump-to-index)
-                 ("C-c n b" . org-roam-switch-to-buffer)
-                 ("C-c n g" . org-roam-graph))
-      :map org-mode-map
-      (("C-c n i" . org-roam-insert)))
-    :config
-    (setq org-roam-buffer-position 'left
-          org-roam-buffer-width 0.25
-          org-roam-index-file "index.org"
-          org-roam-graph-extra-config '(("overlap" . "false"))
-          org-roam-graph-exclude-matcher '("archive" "Beruf" "blog" "books" "init" "Journal" "regularly" "tasks" "work" "Einkaufen")
-          org-roam-completion-system 'ivy))
-
-  (cond ((eq system-type 'windows-nt)
-         (setq org-roam-graph-viewer "c:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe")))
-
-  (require 'org-roam-protocol)
-#+end_src
-=company-org-roam= provides completion for the links
-#+begin_src emacs-lisp
-(use-package company-org-roam
-  :after company
+(use-package pdf-tools
+  :pin MELPA
   :config
-  (push 'company-org-roam company-backends))
+  (pdf-tools-install :no-query))
 #+end_src
-=org-roam-server= will start a web server on http://127.0.0.1:8080/ to see the nodes and their linking
+*** Org-Noter
+:PROPERTIES:
+:CREATED:  [2020-01-14 Tue 17:44]
+:END:
+This package makes it easy to add annotations and comments to PDF files.
 #+begin_src emacs-lisp
-(use-package org-roam-server
-  :ensure t
-  :config
-  (setq org-roam-server-host "127.0.0.1"
-        org-roam-server-port 8080
-        org-roam-server-export-inline-images t
-        org-roam-server-authenticate nil
-        org-roam-server-network-poll t
-        org-roam-server-network-arrows nil
-        org-roam-server-network-label-truncate t
-        org-roam-server-network-label-truncate-length 60
-        org-roam-server-network-label-wrap-length 20))
+(use-package org-noter)
 #+end_src
 ** PDF Tools
 :PROPERTIES:
