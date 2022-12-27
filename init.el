@@ -49,12 +49,12 @@
 (setq-default load-prefer-newer t)
 ;; I want orgmode before melpa or gnu
 (setq package-archives
-      '(("ORG" . "https://orgmode.org/elpa/")
-        ("GNU ELPA"     . "https://elpa.gnu.org/packages/")
-        ("MELPA"        . "https://melpa.org/packages/"))
+      '(("GNU ELPA"     . "https://elpa.gnu.org/packages/")
+        ("MELPA"        . "https://melpa.org/packages/")
+        ("NONGNU"       . "https://elpa.nongnu.org/nongnu/"))
       package-archive-priorities
-      '(("ORG" . 10)
-        ("GNU ELPA"     . 5)
+      '(("GNU ELPA"     . 5)
+        ("NONGNU"       . 3)
         ("MELPA"        . 0)))
 
 (when (version< emacs-version "27.0") (package-initialize))
@@ -74,10 +74,8 @@
 
 ;; Use latest Org and pin
 (use-package org
-  :ensure org-plus-contrib
   :custom
-  (org-export-backends '(ascii html md))
-  :pin ORG)
+  (org-export-backends '(ascii html md)))
 
 ;; no-littering is useful to de-clutter my /.emacs.d directory
 (setq no-littering-etc-directory
